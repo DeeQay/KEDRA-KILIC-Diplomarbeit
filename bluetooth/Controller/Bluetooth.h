@@ -19,7 +19,7 @@ public:
   static const unsigned int MAX_MESSAGE_LENGTH = 5;
 
 private:
-  int message_pos = 0;
+  int messagePos = 0;
   int incomingMessage[MAX_MESSAGE_LENGTH] = {};
 
   unsigned long pingTimerMax = 0;
@@ -28,10 +28,10 @@ private:
 
 public:
   enum Message {
-    END = 1,
-    NEXT = 2,
-    JOYSTICK = 3,
-    LIDAR = 4,
+    END = '\0',
+    NEXT = '\n',
+    JOYSTICK,
+    LIDAR,
   };
   void Setup();
   bool HandleIncomingMessage(int* outMessage, int sizeofOutMessage);  // returns true, when a whole message has been received
