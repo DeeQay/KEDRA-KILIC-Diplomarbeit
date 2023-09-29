@@ -40,7 +40,7 @@ bool Bluetooth::HandleIncomingMessage(int* outMessage, int sizeofOutMessage) {
     } else {
       if (messagePos < MAX_MESSAGE_LENGTH) {
         if (isdigit(receivedValue)) {
-          // `incomingMessage[messagePos] * 10`  ->  Nuller am Ende hizufügen
+          // `incomingMessage[messagePos] * 10`  ->  Eine Null am Ende hizufügen
           // `receivedValue - '0'`  ->  char in int umwandeln 
           incomingMessage[messagePos] = incomingMessage[messagePos] * 10 + (receivedValue - '0'); 
         }
@@ -61,7 +61,7 @@ void Bluetooth::SendMessage(int message[MAX_MESSAGE_LENGTH]) {
     int digitPos = 0;
     int tmpMessage = message[i];
 
-    // integer Nachricht als einzelne Ziffer speichern
+    // Integer Nachricht als einzelne Ziffern speichern
     while (tmpMessage > 0) {
       int digit = tmpMessage % 10;
       digits[digitPos++] = digit;
