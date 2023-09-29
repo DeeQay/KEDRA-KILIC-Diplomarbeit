@@ -5,7 +5,7 @@
 SoftwareSerial BTSerial(RX_PIN, TX_PIN);
 
 void Bluetooth::Setup() {
-  BTSerial.begin(9600);
+  BTSerial.begin(38400);
 
   pinMode(BT_STATE, INPUT);
 
@@ -18,14 +18,14 @@ bool Bluetooth::HandleIncomingMessage(int* outMessage, int sizeofOutMessage) {
     return;
   }
   while (BTSerial.available() > 0) {
-    int receivedValue = BTSerial.read();
+    char receivedValue = BTSerial.read();
 
     if (receivedValue == Message::NEXT) {
       // next value of the message
-      message_pos++;
+      messagePos++;
     } else if (receivedValue == Message::END) {
       // full message received
-      if (message_pos >= MAX_MESSAGE_LENGTH) {
+      if (messagePos >= MAX_MESSAGE_LENGTH) {
         // too long message
         Serial.println(F("ERROR: Incoming message length is longer than the set MAX_MESSAGE_LENGTH! Message is being skipped."));
         ClearIncomingMessage();
@@ -37,8 +37,10 @@ bool Bluetooth::HandleIncomingMessage(int* outMessage, int sizeofOutMessage) {
         return true;
       }
     } else {
-      if (message_pos < MAX_MESSAGE_LENGTH) {
-        incomingMessage[message_pos] = receivedValue;
+      if (messagePos < MAX_MESSAGE_LENGTH) {
+        if (isdigit(receivedValue)) {
+          incomingMessage[messagePos] = incomingMessage[messagePos] * 10 + (receivedValue - '0');
+        }
       }
     }
   }
@@ -47,24 +49,31 @@ bool Bluetooth::HandleIncomingMessage(int* outMessage, int sizeofOutMessage) {
 
 void Bluetooth::ClearIncomingMessage() {
   memset(incomingMessage, 0, sizeof(incomingMessage));  // clear message array
-  message_pos = 0;                                      // reset message position
+  messagePos = 0;                                       // reset message position
 }
 
 void Bluetooth::SendMessage(int message[MAX_MESSAGE_LENGTH]) {
-  Serial.print(F("BT_Send: "));
-
   for (int i = 0; i < MAX_MESSAGE_LENGTH; i++) {
-    if (message[i] != 0) {
-      BTSerial.write(message[i]);
-      Serial.print(message[i]);
+    int digits[10];
+    int digitPos = 0;
+    int tmpMessage = message[i];
+
+    while (tmpMessage > 0) {
+      int digit = tmpMessage % 10;
+      digits[digitPos++] = digit;
+      tmpMessage /= 10;
     }
-    if (i < MAX_MESSAGE_LENGTH - 1 && message[i + 1] != 0) {
+    // digits in correct order:
+    for (int j = digitPos - 1; j >= 0; j--) {
+      char digitAsAscii = '0' + digits[j];
+      BTSerial.write(digitAsAscii);
+    }
+
+    if (i != MAX_MESSAGE_LENGTH - 1 && message[i + 1] != 0) {
       BTSerial.write(Message::NEXT);
-      Serial.print(", ");
     }
   }
   BTSerial.write(Message::END);
-  Serial.println();
 }
 
 void Bluetooth::SendMessage(int message) {
