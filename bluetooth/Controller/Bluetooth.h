@@ -1,4 +1,5 @@
 // Made by David KEDRA
+// Klasse zum Kommunizieren zwischen zwei Bluetooth Geräten
 
 #ifndef BLUETOOTH_H
 #define BLUETOOTH_H
@@ -6,17 +7,18 @@
 #include <Arduino.h>
 #include <SoftwareSerial.h>
 
-// PINS
-#define TX_PIN 2    // connect with HC-05 TX
-#define RX_PIN 3    // connect with HC-05 RX
-#define BT_STATE 4  // connect with HC-05 STATE
+// Pins
+const int RX_PIN = 2;    // Verbinden mit: HC-05 TX
+const int TX_PIN = 3;    // Verbinden mit: HC-05 RX
+const int BT_STATE = 4;  // Verbinden mit: HC-05 STATE
 
-#define PING_INTERVAL 1000  // interval of checking if the other bluetooth device is connected in milliseconds
+// Timer
+const int PING_INTERVAL = 1000;  // Intervall der Überprüfung, ob das andere Bluetooth-Gerät verbunden ist; in Millisekunden
 
 
 class Bluetooth {
 public:
-  static const unsigned int MAX_MESSAGE_LENGTH = 5;
+  static const unsigned int MAX_MESSAGE_LENGTH = 5; // Maximale Anzahl der Werte innerhalb einer Nachricht
 
 private:
   int messagePos = 0;
@@ -28,17 +30,15 @@ private:
 
 public:
   enum Message {
-    END = '\0',
-    NEXT = '\n',
+    END = '\0', // Ende einer Nachricht
+    NEXT = '\n', // Nächster Wert einer Nachricht
     JOYSTICK,
     LIDAR,
   };
-  void Setup();
-  bool HandleIncomingMessage(int* outMessage, int sizeofOutMessage);  // returns true, when a whole message has been received
+  void Setup(); // Im Arduino `setup()` aufrufen
+  bool HandleIncomingMessage(int* outMessage, int sizeofOutMessage);  // returned true, wenn eine ganze Nachricht empfangen wurde. Empfangene Nachricht wird in `outMessage` gespeichert.
   void SendMessage(int message[]);
-  void SendMessage(int message);
-  bool Connected();  // call this in the loop function
+  bool Connected(); // returned true, wenn mit einem Bluetooth Gerät verbunden
 };
-
 
 #endif
