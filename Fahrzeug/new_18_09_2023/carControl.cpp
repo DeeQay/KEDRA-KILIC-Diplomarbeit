@@ -20,10 +20,10 @@ void carInit()
      analogWrite(driver_2_en2,255);
    while(1);*/
 }
-void carLoop()
+void carLoop(int16_t joystickX,int16_t joystickY )
 {
-   int16_t adcX = joystick.xAxis();
-  int16_t adcY = joystick.yAxis();
+   int16_t adcX = joystickX;
+  int16_t adcY = joystickY;
   Serial.println("ADC X: " + String(adcX));
   Serial.println("ADC Y: " + String(adcY));
   Serial.println("////////////////////////");
