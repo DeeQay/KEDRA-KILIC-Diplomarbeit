@@ -6,7 +6,7 @@
 SoftwareSerial BTSerial(RX_PIN, TX_PIN);
 
 void Bluetooth::Setup() {
-  BTSerial.begin(38400);
+  BTSerial.begin(115200);
 
   pinMode(BT_STATE, INPUT);
 

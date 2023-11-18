@@ -3,10 +3,8 @@
 
 #include "Bluetooth.h"
 
-SoftwareSerial BTSerial(RX_PIN, TX_PIN);
-
 void Bluetooth::Setup() {
-  BTSerial.begin(38400);
+  Serial.begin(115200);
 
   pinMode(BT_STATE, INPUT);
 
@@ -18,8 +16,8 @@ bool Bluetooth::HandleIncomingMessage(int* outMessage, int sizeofOutMessage) {
     Serial.println(F("ERROR: Die Größe von `outMessage` stimmt nicht mit der eingestellten Bluetooth-Nachrichtengröße überein!\nVerwenden Sie \"Bluetooth::MAX_MESSAGE_LENGTH\" als Größe für Ihr Char-Array."));
     return false;
   }
-  while (BTSerial.available() > 0) {
-    char receivedValue = BTSerial.read();
+  while (Serial.available() > 0) {
+    char receivedValue = Serial.read();
 
     if (receivedValue == Message::NEXT) {
       // nächster Wert der Nachricht
@@ -70,14 +68,14 @@ void Bluetooth::SendMessage(int message[MAX_MESSAGE_LENGTH]) {
     // Ziffer in richtige Reihenfolge setzen (Array umkehren):
     for (int j = digitPos - 1; j >= 0; j--) {
       char digitAsAscii = '0' + digits[j];
-      BTSerial.write(digitAsAscii); // Ziffern einzeln senden
+      Serial.write(digitAsAscii); // Ziffern einzeln senden
     }
     
     if (i != MAX_MESSAGE_LENGTH - 1 && message[i + 1] != 0) {
-      BTSerial.write(Message::NEXT);
+      Serial.write(Message::NEXT);
     }
   }
-  BTSerial.write(Message::END);
+  Serial.write(Message::END);
 }
 
 bool Bluetooth::Connected() {
