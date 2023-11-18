@@ -1,7 +1,9 @@
 // Made by David KEDRA
 
 #include "Bluetooth.h"
+#include "joystick.h"
 
+Joystick joystick(A2, A3);
 Bluetooth BT;
 
 int message[BT.MAX_MESSAGE_LENGTH];
@@ -10,15 +12,15 @@ int receivedMessage[BT.MAX_MESSAGE_LENGTH];
 void setup() {
   Serial.begin(9600);
   BT.Setup();
+  joystick.init();
 }
 
 void loop() {
   while (!BT.Connected()) {}
 
   HandleBluetoothReceive();
-
-  delay(1000);
-  SendJoystick(111, 222);
+  
+  SendJoystick(joystick.xAxis(), joystick.yAxis());
 }
 
 void HandleBluetoothReceive() {
@@ -46,6 +48,9 @@ void SendJoystick(int x, int y) {
   message[2] = y;
 
   BT.SendMessage(message);
+  Serial.print(message[1]);
+  Serial.print(", ");
+  Serial.println(message[2]);
   memset(message, 0, sizeof(message));
 }
 
