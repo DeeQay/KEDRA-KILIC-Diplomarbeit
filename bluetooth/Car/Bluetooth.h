@@ -7,8 +7,8 @@
 #include <Arduino.h>
 
 // Pins
-const int RX_PIN = 3;    // Verbinden mit: HC-05 TX
-const int TX_PIN = 1;    // Verbinden mit: HC-05 RX
+const int RX_PIN = 16;    // Verbinden mit: HC-05 TX
+const int TX_PIN = 17;    // Verbinden mit: HC-05 RX
 const int BT_STATE = 12;  // Verbinden mit: HC-05 STATE
 
 // Timer
@@ -31,8 +31,8 @@ public:
   enum Message {
     END = '\0', // Ende einer Nachricht
     NEXT = '\n', // Nächster Wert einer Nachricht
-    JOYSTICK,
-    LIDAR,
+    JOYSTICK = 0,
+    LIDAR = 1,
   };
   void Setup(); // Im Arduino `setup()` aufrufen
   bool HandleIncomingMessage(int* outMessage, int sizeofOutMessage);  // returned true, wenn eine ganze Nachricht empfangen wurde. Empfangene Nachricht wird in `outMessage` gespeichert.
