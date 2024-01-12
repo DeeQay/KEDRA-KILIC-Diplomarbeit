@@ -44,8 +44,9 @@ void HandleBluetoothReceive() {
 
 void SendJoystick(int x, int y) {
   message[0] = BT.JOYSTICK;
-  message[1] = x;
-  message[2] = y;
+  // Wert "0" wird auf "1" umgewandelt und nach dem Senden wieder auf "0" gesetzt, weil beim Senden vom Wert "0" Probleme auftreten.
+  x == 0 ? message[1] = 1 : message[1] = x; 
+  y == 0 ? message[2] = 1 : message[2] = y;
 
   BT.SendMessage(message);
   Serial.print(message[1]);

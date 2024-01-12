@@ -32,8 +32,8 @@ public:
   enum Message {
     END = '\0', // Ende einer Nachricht
     NEXT = '\n', // Nächster Wert einer Nachricht
-    JOYSTICK,
-    LIDAR,
+    JOYSTICK = 0,
+    LIDAR = 1,
   };
   void Setup(); // Im Arduino `setup()` aufrufen
   bool HandleIncomingMessage(int* outMessage, int sizeofOutMessage);  // returned true, wenn eine ganze Nachricht empfangen wurde. Empfangene Nachricht wird in `outMessage` gespeichert.
