@@ -8,8 +8,8 @@ class Joystick
     public:
       Joystick(int8_t xPin, int8_t yPin);
       void init();
-      int16_t xAxis();
-      int16_t yAxis();
+      int xAxis();
+      int yAxis();
     private:
       int8_t _xPin;
       int8_t _yPin;

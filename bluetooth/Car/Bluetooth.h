@@ -5,11 +5,12 @@
 #define BLUETOOTH_H
 
 #include <Arduino.h>
+#include "BluetoothSerial.h"
 
 // Pins
 const int RX_PIN = 16;    // Verbinden mit: HC-05 TX
 const int TX_PIN = 17;    // Verbinden mit: HC-05 RX
-const int BT_STATE = 12;  // Verbinden mit: HC-05 STATE
+const int BT_STATE = 19;  // Verbinden mit: HC-05 STATE
 
 // Timer
 const int PING_INTERVAL = 1000;  // Intervall der Überprüfung, ob das andere Bluetooth-Gerät verbunden ist; in Millisekunden

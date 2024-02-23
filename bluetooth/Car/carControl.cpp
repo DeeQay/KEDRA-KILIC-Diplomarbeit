@@ -1,7 +1,10 @@
 #include <Arduino.h>
 #include "pins.h"
 #include "L298.h"
+#include "carControl.h"
 L298 motordrive;
+
+bool carIsIdle = false;
 
 void carInit()
 {
@@ -14,19 +17,19 @@ void carInit()
      analogWrite(driver_2_en2,255);
    while(1);*/
 }
-void carLoop(int16_t joystickX,int16_t joystickY )
+void carLoop(int joystickX,int joystickY )
 {
-   int16_t X = joystickX;
-  int16_t Y = joystickY;
+   int X = joystickX;
+  int Y = joystickY;
   Serial.println("ADC X: " + String(X));
   Serial.println("ADC Y: " + String(Y));
   Serial.println("////////////////////////");
- if( X>520 )
+ if( X>2000 )
   {
       Serial.println("forward");
       int pwm = 0;
       //Based on X axis adc value set pwm value.
-      pwm = map(X,520,1023,0,255);
+      pwm = map(X,2000,4095,0,255);
       if(pwm <0)
       {
         pwm = 0;
@@ -48,10 +51,10 @@ void carLoop(int16_t joystickX,int16_t joystickY )
   //    Serial.println("Direction:Forward, ADC X:" + String(X) + "," + "ADC Y:" + String(Y) + "," + "Pwm:" + String(pwm));
   
   }
-  else if( X <490  )
+  else if( X <1900  )
   {
       int pwm = 0;
-      pwm = map(X,499,0,0,255);
+      pwm = map(X,1900,0,0,255);
       if(pwm <0)
       {
         pwm = 0;
@@ -69,10 +72,10 @@ void carLoop(int16_t joystickX,int16_t joystickY )
         // Serial.println("backward");
      // Serial.println("Direction:Backward, ADC X:" + String(X) + "," + "ADC Y:" + String(Y) + "," + "Pwm:" + String(pwm));
   }
-  if( Y>510 )
+  if( Y>2000 )
   {
       int pwm =0;
-      pwm = map(Y,520,1023,0,255);
+      pwm = map(Y,2000,4095,0,255);
       motordrive.right();
       Serial.println("right");
         if(pwm <0)
@@ -90,10 +93,10 @@ void carLoop(int16_t joystickX,int16_t joystickY )
     //  Serial.println("Direction:Right, ADC X:" + String(X) + "," + "ADC Y:" + String(Y) + "," + "Pwm:" + String(pwm));
   }
   //&& X>500
-  else if(  Y<480 )
+  else if(  Y<1900 )
   {
       int pwm =0;
-      pwm = map(Y,480,0,0,255);
+      pwm = map(Y,1900,0,0,255);
      motordrive.left();
     Serial.println("left");
       if(pwm <0)
@@ -112,7 +115,7 @@ void carLoop(int16_t joystickX,int16_t joystickY )
     //  Serial.println("Direction:Left, ADC X:" + String(X) + "," + "ADC Y:" + String(Y) + "," + "Pwm:" + String(pwm));
   }
 
-  if( (X > 490 && X <520) && (Y>480 &&  Y<510) )
+  if( !carIsIdle && (X > 1900 && X <2000) && (Y>1900 &&  Y<2000) )
   {
      int pwm = 0;
       motordrive.disableAllMotors();
@@ -121,6 +124,8 @@ void carLoop(int16_t joystickX,int16_t joystickY )
       analogWrite(driver_1_en2,pwm);
       analogWrite(driver_2_en1,pwm);
       analogWrite(driver_2_en2,pwm);
-     // Serial.println("Direction:Stop, ADC X:" + String(X) + "," + "ADC Y:" + String(Y) + "," + "Pwm:" + String(pwm));
+     carIsIdle = true;
+  } else {
+    carIsIdle = false;
   }
 }

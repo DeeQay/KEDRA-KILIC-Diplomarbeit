@@ -98,4 +98,5 @@ bool Bluetooth::Connected() {
       return false;
     }
   }
+  return false;
 }

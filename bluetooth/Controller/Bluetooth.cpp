@@ -3,11 +3,9 @@
 
 #include "Bluetooth.h"
 
-SoftwareSerial BTSerial(RX_PIN, TX_PIN);
-
 void Bluetooth::Setup() {
-  BTSerial.begin(115200);
-
+  Serial.begin(115200);
+  Serial2.begin(115200);
   pinMode(BT_STATE, INPUT);
 
   ClearIncomingMessage();
@@ -18,8 +16,8 @@ bool Bluetooth::HandleIncomingMessage(int* outMessage, int sizeofOutMessage) {
     Serial.println(F("ERROR: Die Größe von `outMessage` stimmt nicht mit der eingestellten Bluetooth-Nachrichtengröße überein!\nVerwenden Sie \"Bluetooth::MAX_MESSAGE_LENGTH\" als Größe für Ihr Char-Array."));
     return false;
   }
-  while (BTSerial.available() > 0) {
-    char receivedValue = BTSerial.read();
+  while (Serial2.available() > 0) {
+    char receivedValue = Serial2.read();
 
     if (receivedValue == Message::NEXT) {
       // nächster Wert der Nachricht
@@ -33,7 +31,7 @@ bool Bluetooth::HandleIncomingMessage(int* outMessage, int sizeofOutMessage) {
         return false;
       } else {
         // korrekte vollständige Nachricht erhalten
-        memcpy(outMessage, incomingMessage, sizeof(incomingMessage)); // Nachricht speichern
+        memcpy(outMessage, incomingMessage, sizeof(incomingMessage));  // Nachricht speichern
         ClearIncomingMessage();
         return true;
       }
@@ -41,9 +39,10 @@ bool Bluetooth::HandleIncomingMessage(int* outMessage, int sizeofOutMessage) {
       if (messagePos < MAX_MESSAGE_LENGTH) {
         if (isdigit(receivedValue)) {
           // `incomingMessage[messagePos] * 10`  ->  Nuller am Ende hizufügen
-          // `receivedValue - '0'`  ->  char in int umwandeln 
-          incomingMessage[messagePos] = incomingMessage[messagePos] * 10 + (receivedValue - '0'); 
+          // `receivedValue - '0'`  ->  char in int umwandeln
+          incomingMessage[messagePos] = incomingMessage[messagePos] * 10 + (receivedValue - '0');
         }
+        // incomingMessage[messagePos] = receivedValue;
       }
     }
   }
@@ -70,27 +69,30 @@ void Bluetooth::SendMessage(int message[MAX_MESSAGE_LENGTH]) {
     // Ziffer in richtige Reihenfolge setzen (Array umkehren):
     for (int j = digitPos - 1; j >= 0; j--) {
       char digitAsAscii = '0' + digits[j];
-      BTSerial.write(digitAsAscii); // Ziffern einzeln senden
+      Serial2.write(digitAsAscii);  // Ziffern einzeln senden
     }
-    
+
     if (i != MAX_MESSAGE_LENGTH - 1 && message[i + 1] != 0) {
-      BTSerial.write(Message::NEXT);
+      Serial2.write(Message::NEXT);
     }
   }
-  BTSerial.write(Message::END);
+  Serial2.write(Message::END);
 }
 
 bool Bluetooth::Connected() {
+  static bool isConnected = false;
+
   if (millis() > pingTimerMax) {
     pingTimerMax = millis() + PING_INTERVAL;
 
     if (digitalRead(BT_STATE) == 1) {
       // bluetooth verbunden
-      return true;
+      isConnected = true;
     } else {
       // bluetooth nicht verbunden
       Serial.println(F("Bluetooth nicht verbunden"));
-      return false;
+      isConnected = false;
     }
   }
+  return isConnected;
 }

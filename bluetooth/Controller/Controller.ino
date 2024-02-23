@@ -3,14 +3,14 @@
 #include "Bluetooth.h"
 #include "joystick.h"
 
-Joystick joystick(A2, A3);
+Joystick joystick(2, 4);
 Bluetooth BT;
 
 int message[BT.MAX_MESSAGE_LENGTH];
 int receivedMessage[BT.MAX_MESSAGE_LENGTH];
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   BT.Setup();
   joystick.init();
 }

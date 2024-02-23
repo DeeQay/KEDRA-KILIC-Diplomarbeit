@@ -11,9 +11,10 @@ void Joystick::init()
     pinMode(_yPin,INPUT);
     Serial.println("Joystick init done");
 }
-int16_t Joystick::xAxis()
+int Joystick::xAxis()
 {
-    int16_t temp = 0;
+  //Serial.println(analogRead(_xPin));
+    int temp = 0;
     for(int i =0;i<10;i++)
     {
         temp += analogRead(_xPin); 
@@ -21,9 +22,10 @@ int16_t Joystick::xAxis()
     temp = temp/10;
     return temp;
 }
-int16_t Joystick::yAxis()
+int Joystick::yAxis()
 {
-    int16_t temp = 0;
+    //Serial.println(analogRead(_xPin));
+    int temp = 0;
     for(int i =0;i<10;i++)
     {
         temp += analogRead(_yPin); 
