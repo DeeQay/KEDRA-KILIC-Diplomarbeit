@@ -1,24 +1,42 @@
 // Made by David KEDRA
 // Klasse zum Kommunizieren zwischen zwei Bluetooth Geräten
+// Typ: Slave
 
 #include "Bluetooth.h"
 
+bool Bluetooth::isConnected = false;
+
 void Bluetooth::Setup() {
   Serial.begin(115200);
-  Serial2.begin(115200);
-  pinMode(BT_STATE, INPUT);
 
+  SerialBT.register_callback(Bt_Status);
+  SerialBT.begin(deviceName, false);  // Bluetooth-Kommunikation starten als Slave
+  
   ClearIncomingMessage();
 }
 
+void Bluetooth::Bt_Status(esp_spp_cb_event_t event, esp_spp_cb_param_t* param) {
+  if (event == ESP_SPP_SRV_OPEN_EVT) {  // Bluetooth-Verbindung hergestellt
+    Serial.println(F("Bluetooth verbunden"));
+    isConnected = true;
+  } else if (event == ESP_SPP_CLOSE_EVT) {  // Bluetooth-Verbindung getrennt
+    Serial.println(F("Bluetooth getrennt"));
+    isConnected = false;
+  }
+}
+
 bool Bluetooth::HandleIncomingMessage(int* outMessage, int sizeofOutMessage) {
-  if (sizeofOutMessage != sizeof(incomingMessage))
-  {
+  if (!isConnected) {
+    Serial.println(F("ERROR: Bluetooth ist nicht verbunden. HandleIncomingMessage() wird nicht ausgeführt."));
+    return false;
+  }
+  if (sizeofOutMessage != sizeof(incomingMessage)) {
     Serial.println(F("ERROR: Die Größe von `outMessage` stimmt nicht mit der eingestellten Bluetooth-Nachrichtengröße überein!\nVerwenden Sie \"Bluetooth::MAX_MESSAGE_LENGTH\" als Größe für Ihr Char-Array."));
     return false;
   }
-  while (Serial2.available() > 0) {
-    char receivedValue = Serial2.read();
+
+  while (SerialBT.available() > 0) {
+    char receivedValue = SerialBT.read();
 
     if (receivedValue == Message::NEXT) {
       // nächster Wert der Nachricht
@@ -32,24 +50,14 @@ bool Bluetooth::HandleIncomingMessage(int* outMessage, int sizeofOutMessage) {
         return false;
       } else {
         // korrekte vollständige Nachricht erhalten
-        memcpy(outMessage, incomingMessage, sizeof(incomingMessage)); // Nachricht speichern
+        memcpy(outMessage, incomingMessage, sizeof(incomingMessage));  // Nachricht speichern
         ClearIncomingMessage();
         return true;
       }
-    }
-    else
-    {
-      if (messagePos < MAX_MESSAGE_LENGTH)
-      {
-        if (isdigit(receivedValue))
-        {
-          // `incomingMessage[messagePos] * 10`  ->  Nuller am Ende hizufügen
-          // `receivedValue - '0'`  ->  char in int umwandeln
-          incomingMessage[messagePos] = incomingMessage[messagePos] * 10 + (receivedValue - '0');
-
-        }
-        // incomingMessage[messagePos] = receivedValue;
-      }
+    } else if (messagePos < MAX_MESSAGE_LENGTH && isdigit(receivedValue)) {
+      // `incomingMessage[messagePos] * 10`  ->  Nuller am Ende hizufügen
+      // `receivedValue - '0'`  ->  char in int umwandeln
+      incomingMessage[messagePos] = incomingMessage[messagePos] * 10 + (receivedValue - '0');
     }
   }
   return false;
@@ -75,28 +83,21 @@ void Bluetooth::SendMessage(int message[MAX_MESSAGE_LENGTH]) {
     // Ziffer in richtige Reihenfolge setzen (Array umkehren):
     for (int j = digitPos - 1; j >= 0; j--) {
       char digitAsAscii = '0' + digits[j];
-      Serial2.write(digitAsAscii); // Ziffern einzeln senden
+      SerialBT.write(digitAsAscii);  // Ziffern einzeln senden
     }
 
     if (i != MAX_MESSAGE_LENGTH - 1 && message[i + 1] != 0) {
-      Serial2.write(Message::NEXT);
+      SerialBT.write(Message::NEXT);
     }
   }
-  Serial2.write(Message::END);
+  SerialBT.write(Message::END);
 }
 
-bool Bluetooth::Connected() {
-  if (millis() > pingTimerMax) {
+bool Bluetooth::IsConnected() {
+  if (!isConnected && millis() > pingTimerMax) {
     pingTimerMax = millis() + PING_INTERVAL;
-
-    if (digitalRead(BT_STATE) == 1) {
-      // bluetooth verbunden
-      return true;
-    } else {
-      // bluetooth nicht verbunden
-      Serial.println(F("Bluetooth nicht verbunden"));
-      return false;
-    }
+    Serial.println("Warten auf Bluetooth verbindung...");
+    return false;
   }
-  return false;
+  return true;
 }

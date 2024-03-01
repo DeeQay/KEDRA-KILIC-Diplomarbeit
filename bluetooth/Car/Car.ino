@@ -15,7 +15,7 @@ void setup() {
 }
 
 void loop() {
-  while (!BT.Connected()) {}
+  while (!BT.IsConnected()) {}
 
   HandleBluetoothReceive();
 }
