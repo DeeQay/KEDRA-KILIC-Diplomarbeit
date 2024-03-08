@@ -22,17 +22,17 @@ void setup() {
   pinMode(LED_BT_BLUE, OUTPUT);
   Serial.begin(115200);
   SerialBT.register_callback(Bt_Status);
-  SerialBT.begin(myName, true);
+  SerialBT.begin(deviceName, true);
   SlaveConnect();
   digitalWrite(LED_BT_BLUE, LOW);
 }
 
 void loop() {
-  if (!slaveConnected) {
+  if (!isConnected) {
     if (millis() - previousMillisReconnect >= 10000) {
       previousMillisReconnect = millis();
       SerialBT.end();
-      SerialBT.begin(myName, true);
+      SerialBT.begin(deviceName, true);
       SlaveConnect();
     }
   } else {

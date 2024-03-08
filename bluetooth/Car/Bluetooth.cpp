@@ -99,5 +99,5 @@ bool Bluetooth::IsConnected() {
     Serial.println("Warten auf Bluetooth verbindung...");
     return false;
   }
-  return true;
+  return isConnected;
 }

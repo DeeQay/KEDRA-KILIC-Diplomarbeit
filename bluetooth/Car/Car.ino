@@ -48,10 +48,10 @@ void ReceivedJoystickInput() {
   // Wert "1" wird auf "0" gesetzt, da vor dem Senden der Wert "0" auf "1" umgewandelt wurde, weil beim Senden vom Wert "0" Probleme auftreten.
   if (JoystickX == 1) JoystickX = 0;
   if (JoystickY == 1) JoystickY = 0;
-  /*Serial.print( JoystickY  );
-    Serial.print(',');
-    Serial.print( JoystickX );
-    Serial.println();*/
+  Serial.print( JoystickX  );
+  Serial.print(',');
+  Serial.print( JoystickY );
+  Serial.println();
   carLoop(JoystickX, JoystickY);
 }
 

@@ -3,7 +3,7 @@
 #include "Bluetooth.h"
 #include "joystick.h"
 
-Joystick joystick(2, 4);
+Joystick joystick(34, 35);
 Bluetooth BT;
 
 int message[BT.MAX_MESSAGE_LENGTH];
@@ -19,7 +19,7 @@ void loop() {
   while (!BT.IsConnected()) {}
 
   HandleBluetoothReceive();
-  
+  delay(10);
   SendJoystick(joystick.xAxis(), joystick.yAxis());
 }
 
@@ -44,14 +44,16 @@ void HandleBluetoothReceive() {
 
 void SendJoystick(int x, int y) {
   message[0] = BT.JOYSTICK;
+
   // Wert "0" wird auf "1" umgewandelt und nach dem Senden wieder auf "0" gesetzt, weil beim Senden vom Wert "0" Probleme auftreten.
   x == 0 ? message[1] = 1 : message[1] = x; 
   y == 0 ? message[2] = 1 : message[2] = y;
-
-  BT.SendMessage(message);
+  
   Serial.print(message[1]);
   Serial.print(", ");
   Serial.println(message[2]);
+
+  BT.SendMessage(message);
   memset(message, 0, sizeof(message));
 }
 
