@@ -1,7 +1,7 @@
 #include <ILI9486_SPI.h>
 #include <U8g2_for_Adafruit_GFX.h>
 
-ILI9486_SPI tft(/*CS=10*/ SS, /*DC=*/8, /*RST=*/9);
+ILI9486_SPI tft(/*CS=15 FIXED*/ 15, /*DC=*/26 /*RST=*/27);
 
 U8G2_FOR_ADAFRUIT_GFX u8g2Fonts;
 
