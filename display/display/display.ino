@@ -1,7 +1,11 @@
 #include <ILI9486_SPI.h>
 #include <U8g2_for_Adafruit_GFX.h>
 
-ILI9486_SPI tft(/*CS=15 FIXED*/ 15, /*DC=*/26 /*RST=*/27);
+#define TFT_CS 5 // fix für VSPI
+#define TFT_DC 26
+#define TFT_RST 27
+
+ILI9486_SPI tft(TFT_CS, TFT_DC, TFT_RST);
 
 U8G2_FOR_ADAFRUIT_GFX u8g2Fonts;
 
@@ -18,20 +22,22 @@ U8G2_FOR_ADAFRUIT_GFX u8g2Fonts;
 #define WHITE 0xFFFF
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
 
   tft.setSpiKludge(false);
   tft.init();
 
-  tft.fillScreen(WHITE);
+  tft.fillScreen(BLACK);
   tft.setRotation(1);
 
-  tft.setCursor(365, 312);
+  tft.setCursor(10, 100);
   tft.setTextColor(WHITE);
-  tft.setTextSize(1);
+  tft.setTextSize(4);
   tft.println("MADE BY DAVID KEDRA");
 
-  //tft.fillCircle(/*x*/55, /*y*/55, /*radius*/40, MAGENTA);
+  delay(2000);
+
+tft.fillScreen(WHITE);
   const unsigned int radius = 6;
   for (int column = 0;; column++) {
     int x = radius * (1 + 2 * column);
@@ -59,11 +65,20 @@ void setup() {
   }
   delay(3000);
   tft.fillScreen(WHITE);
+  tft.fillScreen(BLACK);
+  tft.fillScreen(BLUE);
+  tft.fillScreen(RED);
+  tft.fillScreen(GREEN);
+  tft.fillScreen(MAGENTA);
+  tft.fillScreen(YELLOW);
+  tft.fillScreen(CYAN);
+  tft.fillScreen(WHITE);
+  
   tft.setCursor(80, 100);
   tft.setTextColor(BLACK);
   tft.setTextSize(5);
   tft.println("David KEDRA");
-  tft.println(" Berdan KILIC");
+  tft.println("Berdan KILIC");
 }
 
 void loop() {
