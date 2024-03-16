@@ -1,5 +1,5 @@
 // Made by David KEDRA
-// Klasse zum Kommunizieren zwischen zwei Bluetooth Geräten3
+// Klasse zum Kommunizieren zwischen zwei Bluetooth Geräten
 // Typ: Master
 
 #ifndef BLUETOOTH_H
