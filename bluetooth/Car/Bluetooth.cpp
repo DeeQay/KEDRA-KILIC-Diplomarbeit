@@ -16,7 +16,7 @@ void Bluetooth::Setup() {
 }
 
 void Bluetooth::Bt_Status(esp_spp_cb_event_t event, esp_spp_cb_param_t* param) {
-  if (event == ESP_SPP_SRV_OPEN_EVT) {  // Bluetooth-Verbindung hergestellt
+  if (event == ESP_SPP_SRV_OPEN_EVT) {  // Bluetooth-Verbindung hergestellt (als Slave)
     Serial.println(F("Bluetooth verbunden"));
     isConnected = true;
   } else if (event == ESP_SPP_CLOSE_EVT) {  // Bluetooth-Verbindung getrennt
@@ -96,7 +96,7 @@ void Bluetooth::SendMessage(int message[MAX_MESSAGE_LENGTH]) {
 bool Bluetooth::IsConnected() {
   if (!isConnected && millis() > pingTimerMax) {
     pingTimerMax = millis() + PING_INTERVAL;
-    Serial.println("Warten auf Bluetooth verbindung...");
+    Serial.println(F("Warten auf Bluetooth verbindung..."));
     return false;
   }
   return isConnected;
