@@ -17,7 +17,7 @@ void Bluetooth::Setup() {
 }
 
 void Bluetooth::Bt_Status(esp_spp_cb_event_t event, esp_spp_cb_param_t *param) {
-  if (event == ESP_SPP_OPEN_EVT) { // Bluetooth-Verbindung hergestellt
+  if (event == ESP_SPP_OPEN_EVT) { // Bluetooth-Verbindung hergestellt (als Master)
     Serial.println(F("Bluetooth verbunden"));
     isConnected = true;
   } else if (event == ESP_SPP_CLOSE_EVT) {  // Bluetooth-Verbindung getrennt
@@ -102,8 +102,8 @@ bool Bluetooth::IsConnected() {
     SerialBT.begin(deviceName, true);
     SerialBT.connect(slaveName);
 
-    Serial.println("Versuche Bluetooth-Verbindung herzustellen...");
+    Serial.println(F("Versuche Bluetooth-Verbindung herzustellen..."));
     return false;
   }
-  return true;
+  return isConnected;
 }
