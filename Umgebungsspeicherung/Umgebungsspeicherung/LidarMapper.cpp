@@ -4,77 +4,63 @@
 
 using namespace std;
 
+// zum Optimieren wird es nur ein Mal berechnet anstatt jedes Mal
+float halfMaxPosX = 0.5 * MAX_POSITION_X / MAX_DISTANCE;
+float halfMaxPosY = 0.5 * MAX_POSITION_Y / MAX_DISTANCE;
+
 LidarMapper::LidarMapper() {
-    position = vector<vector<PositionState>>(MAX_POSITION_X, vector<PositionState>(MAX_POSITION_Y, UNKNOWN));
-    previousPosition = vector<vector<PositionState>>(MAX_POSITION_X, vector<PositionState>(MAX_POSITION_Y, UNKNOWN));
+  map = vector<vector<PositionState>>(MAX_POSITION_X, vector<PositionState>(MAX_POSITION_Y, UNKNOWN));
+
+  int stepSize_x = 2 * MAX_DISTANCE / MAX_POSITION_X;
+  int stepSize_y = 2 * MAX_DISTANCE / MAX_POSITION_Y;
+  stepSize = min(stepSize_x, stepSize_y);
 }
 
-int LidarMapper::mapRange(int x, int in_min, int in_max, int out_min, int out_max) {
-    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+Position LidarMapper::calcPosition(int distance, float angle) {
+  // Erstellung der Variablen, um Rechenaufwand zu minimieren
+  static float previousAngle = -1;
+  static float cosAngle = -1;
+  static float sinAngle = -1;
+
+  Position pos;
+
+  if (angle != previousAngle) {
+    // von Polarform in kartesische Form
+    float angleInRadians = angle * PI / 180;
+    cosAngle = cos(angleInRadians);
+    sinAngle = sin(angleInRadians);
+    previousAngle = angle;
+  }
+  float xFloat = distance * cosAngle;
+  float yFloat = distance * sinAngle;
+
+  // pos.x und pos.y aus dem Bereich Zentimeter in den Bereich von Position zuordnen und Nullpunkt in die Mitte setzten (Vereinfachte Formel)
+  pos.x = (xFloat * halfMaxPosX + 0.5) * MAX_POSITION_X;
+  pos.y = (yFloat * halfMaxPosY + 0.5) * MAX_POSITION_Y;
+  return pos;
 }
 
-Position LidarMapper::calcPosition(int distance, double angle) {
-    Position pos;
-    pos.x = distance * cos(angle * PI / 180);
-    pos.y = distance * sin(angle * PI / 180);
-    pos.x = mapRange(pos.x, 0, MAX_DISTANCE, 0, MAX_POSITION_X / 2);
-    pos.y = mapRange(pos.y, 0, MAX_DISTANCE, 0, MAX_POSITION_Y / 2);
-    pos.x += MAX_POSITION_X / 2;
-    pos.y += MAX_POSITION_Y / 2;
-    return pos;
-}
+void LidarMapper::calcObjectAndUpdateMap(int distance, float angle) {
+  Position pos = calcPosition(distance, angle);
 
-void LidarMapper::printMap() {
-    Serial.println("");
-    for (int k = 0; k < (MAX_POSITION_Y + 1) * 2; k++) {
-        Serial.print("-");
-    }
-    Serial.println("");
+  if (pos.x >= 0 && pos.x < MAX_POSITION_X && pos.y >= 0 && pos.y < MAX_POSITION_Y) {
+    map[pos.x][pos.y] = OBJECT;
+  }
 
-    for (int i = 0; i < MAX_POSITION_X; i++) {
-        Serial.print("|");
-        for (int j = 0; j < MAX_POSITION_Y; j++) {
-            if (i == MAX_POSITION_X / 2 && j == MAX_POSITION_Y / 2) {
-                Serial.print(" ●");
-            } else if (position[i][j] == OBJECT) {
-                Serial.print(" X");
-            } else if (position[i][j] == AIR) {
-                Serial.print("  ");
-            } else if (position[i][j] == UNKNOWN) {
-                Serial.print(" ·");
-            }
-        }
-        Serial.println("|");
-    }
+  distance -= stepSize;
 
-    for (int k = 0; k < (MAX_POSITION_Y + 1) * 2; k++) {
-        Serial.print("-");
-    }
-    Serial.println("");
-}
-
-void LidarMapper::calcObjectAndUpdateMap(int distance, double angle) {
-    Position pos = calcPosition(distance, angle);
+  while (distance > 0) {
+    pos = calcPosition(distance, angle);
 
     if (pos.x >= 0 && pos.x < MAX_POSITION_X && pos.y >= 0 && pos.y < MAX_POSITION_Y) {
-        position[pos.x][pos.y] = OBJECT;
+      if (map[pos.x][pos.y] == UNKNOWN || map[pos.x][pos.y] == OBJECT) {
+        map[pos.x][pos.y] = AIR;
+      }
     }
-
-    int stepSize_x = 2 * MAX_DISTANCE / (MAX_POSITION_X - 1);
-    int stepSize_y = 2 * MAX_DISTANCE / (MAX_POSITION_Y - 1);
-    int stepSize = min(stepSize_x, stepSize_y);
     distance -= stepSize;
-    while (distance > 0) {
-        Position pos = calcPosition(distance, angle);
-        if (pos.x >= 0 && pos.x < MAX_POSITION_X &&
-            pos.y >= 0 && pos.y < MAX_POSITION_Y &&
-            (position[pos.x][pos.y] == UNKNOWN || position[pos.x][pos.y] == OBJECT)) {
-            position[pos.x][pos.y] = AIR;
-        }
-        distance -= stepSize;
-    }
+  }
 }
 
-vector<vector<PositionState>> LidarMapper::getPosition() {   
-  return position;
+vector<vector<PositionState>> LidarMapper::getMap() {
+  return map;
 }

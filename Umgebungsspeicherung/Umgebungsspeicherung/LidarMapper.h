@@ -6,33 +6,32 @@
 using namespace std;
 
 #define MAX_DISTANCE 5000
-#define MAX_POSITION_X 40
-#define MAX_POSITION_Y 40
-#define TFT_HEIGHT 320
+#define MAX_POSITION_X 120
+#define MAX_POSITION_Y 80
 #define TFT_WIDTH 480
+#define TFT_HEIGHT 320
 
 struct Position {
-    int x;
-    int y;
+  int x;
+  int y;
 };
 
 enum PositionState {
-    AIR,
-    OBJECT,
-    UNKNOWN
+  AIR,
+  OBJECT,
+  UNKNOWN
 };
 
 class LidarMapper {
 public:
-    LidarMapper(); // Constructor
-    void calcObjectAndUpdateMap(int distance, double angle);
-    void printMap();
-    vector<vector<PositionState>> getPosition();
+  LidarMapper();  // Constructor
+  void calcObjectAndUpdateMap(int distance, float angle);
+  vector<vector<PositionState>> getMap();
+
 private:
-    vector<vector<PositionState>> position;
-    vector<vector<PositionState>> previousPosition;
-    int mapRange(int x, int in_min, int in_max, int out_min, int out_max);
-    Position calcPosition(int distance, double angle);
+  vector<vector<PositionState>> map;
+  Position calcPosition(int distance, float angle);
+  int stepSize;
 };
 
 #endif
