@@ -25,12 +25,11 @@ Position LidarMapper::calcPosition(int distance, float angle) {
   Position pos;
 
   if (angle != previousAngle) {
-    // von Polarform in kartesische Form
-    float angleInRadians = angle * PI / 180;
-    cosAngle = cos(angleInRadians);
-    sinAngle = sin(angleInRadians);
+    cosAngle = cos(angle * PI / 180);
+    sinAngle = sin(angle * PI / 180);
     previousAngle = angle;
   }
+  // von Polarform in kartesische Form
   float xFloat = distance * cosAngle;
   float yFloat = distance * sinAngle;
 
