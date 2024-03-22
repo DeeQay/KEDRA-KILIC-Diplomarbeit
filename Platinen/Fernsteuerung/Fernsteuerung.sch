@@ -595,6 +595,267 @@ http://www.lcdwiki.com/3.5inch_SPI_Module_ILI9488_SKU:MSP3520</description>
 </deviceset>
 </devicesets>
 </library>
+<library name="joystick COM-09032">
+<packages>
+<package name="XDCR_COM-09032">
+<wire x1="5.45" y1="14.3" x2="-5.45" y2="14.3" width="0.127" layer="51"/>
+<wire x1="4.85" y1="-11.1" x2="-4.85" y2="-11.1" width="0.127" layer="51"/>
+<wire x1="4.85" y1="-11.1" x2="4.85" y2="-7.9" width="0.127" layer="51"/>
+<wire x1="-4.85" y1="-11.1" x2="-4.85" y2="-7.9" width="0.127" layer="51"/>
+<wire x1="4.85" y1="-7.9" x2="7.95" y2="-7.9" width="0.127" layer="51"/>
+<wire x1="-4.85" y1="-7.9" x2="-7.95" y2="-7.9" width="0.127" layer="51"/>
+<wire x1="9.5" y1="4.1" x2="9.5" y2="-4" width="0.127" layer="51"/>
+<wire x1="7.95" y1="4.1" x2="7.95" y2="8" width="0.127" layer="51"/>
+<wire x1="7.95" y1="-4" x2="7.95" y2="-7.9" width="0.127" layer="51"/>
+<wire x1="7.95" y1="4.1" x2="9.5" y2="4.1" width="0.127" layer="51"/>
+<wire x1="7.95" y1="-4" x2="9.5" y2="-4" width="0.127" layer="51"/>
+<wire x1="7.95" y1="8" x2="5.45" y2="8" width="0.127" layer="51"/>
+<wire x1="-5.45" y1="8" x2="-7.95" y2="8" width="0.127" layer="51"/>
+<wire x1="5.45" y1="14.3" x2="5.45" y2="8" width="0.127" layer="51"/>
+<wire x1="-5.45" y1="14.3" x2="-5.45" y2="8" width="0.127" layer="51"/>
+<wire x1="-7.95" y1="4.9" x2="-11.1" y2="4.9" width="0.127" layer="51"/>
+<wire x1="-7.95" y1="-4.9" x2="-11.1" y2="-4.9" width="0.127" layer="51"/>
+<wire x1="-11.1" y1="4.9" x2="-11.1" y2="-4.9" width="0.127" layer="51"/>
+<wire x1="-7.95" y1="4.9" x2="-7.95" y2="8" width="0.127" layer="51"/>
+<wire x1="-7.95" y1="-4.9" x2="-7.95" y2="-7.9" width="0.127" layer="51"/>
+<wire x1="-5.45" y1="12.15" x2="5.45" y2="12.15" width="0.127" layer="51" curve="311.462"/>
+<wire x1="-6.07" y1="8" x2="-5.45" y2="8" width="0.127" layer="21"/>
+<wire x1="-5.45" y1="8" x2="-5.45" y2="14.3" width="0.127" layer="21"/>
+<wire x1="-5.45" y1="14.3" x2="5.45" y2="14.3" width="0.127" layer="21"/>
+<wire x1="5.45" y1="14.3" x2="5.45" y2="8" width="0.127" layer="21"/>
+<wire x1="5.45" y1="8" x2="6.08" y2="8" width="0.127" layer="21"/>
+<wire x1="7.95" y1="4.1" x2="9.5" y2="4.1" width="0.127" layer="21"/>
+<wire x1="9.5" y1="4.1" x2="9.5" y2="-4" width="0.127" layer="21"/>
+<wire x1="9.5" y1="-4" x2="7.95" y2="-4" width="0.127" layer="21"/>
+<wire x1="7.95" y1="-4" x2="7.95" y2="-5.12" width="0.127" layer="21"/>
+<wire x1="6.08" y1="-7.9" x2="4.85" y2="-7.9" width="0.127" layer="21"/>
+<wire x1="4.85" y1="-7.9" x2="4.85" y2="-11.1" width="0.127" layer="21"/>
+<wire x1="-4.85" y1="-11.1" x2="-4.85" y2="-7.9" width="0.127" layer="21"/>
+<wire x1="-4.85" y1="-7.9" x2="-6.07" y2="-7.9" width="0.127" layer="21"/>
+<wire x1="-7.95" y1="-5.17" x2="-7.95" y2="-4.9" width="0.127" layer="21"/>
+<wire x1="-7.95" y1="-4.9" x2="-11.1" y2="-4.9" width="0.127" layer="21"/>
+<wire x1="-11.1" y1="-4.9" x2="-11.1" y2="4.9" width="0.127" layer="21"/>
+<wire x1="-11.1" y1="4.9" x2="-7.95" y2="4.9" width="0.127" layer="21"/>
+<wire x1="-5.8" y1="12.35" x2="-5.8" y2="14.6" width="0.05" layer="39"/>
+<wire x1="-5.8" y1="14.6" x2="5.7" y2="14.6" width="0.05" layer="39"/>
+<wire x1="5.7" y1="14.6" x2="5.7" y2="12.35" width="0.05" layer="39"/>
+<wire x1="5.7" y1="12.35" x2="-5.8" y2="12.35" width="0.05" layer="39" curve="-309.72"/>
+<circle x="-6.05" y="13.35" radius="0.1" width="0.2" layer="51"/>
+<circle x="-6.05" y="13.35" radius="0.1" width="0.2" layer="21"/>
+<text x="-5.8" y="14.6" size="1.27" layer="25">&gt;NAME</text>
+<text x="-5.8" y="-14.9" size="1.27" layer="27">&gt;VALUE</text>
+<pad name="B1A" x="-3.175" y="12.7" drill="0.9" diameter="1.778"/>
+<pad name="B1B" x="3.175" y="12.7" drill="0.9" diameter="1.778"/>
+<pad name="B2A" x="-3.175" y="7.62" drill="0.9" diameter="1.778"/>
+<pad name="B2B" x="3.175" y="7.62" drill="0.9" diameter="1.778"/>
+<pad name="H1" x="-2.54" y="-10.16" drill="0.889" diameter="1.778"/>
+<pad name="H2" x="0" y="-10.16" drill="0.889" diameter="1.778"/>
+<pad name="H3" x="2.54" y="-10.16" drill="0.889" diameter="1.778"/>
+<pad name="S1" x="-7.62" y="6.6675" drill="1.397" diameter="2.286"/>
+<pad name="S2" x="-7.62" y="-6.6675" drill="1.397" diameter="2.286"/>
+<pad name="S3" x="7.62" y="-6.6675" drill="1.397" diameter="2.286"/>
+<pad name="S4" x="7.62" y="6.6675" drill="1.397" diameter="2.286"/>
+<pad name="V1" x="-10.16" y="2.54" drill="0.889" diameter="1.778"/>
+<pad name="V2" x="-10.16" y="0" drill="0.889" diameter="1.778"/>
+<pad name="V3" x="-10.16" y="-2.54" drill="0.889" diameter="1.778"/>
+</package>
+</packages>
+<symbols>
+<symbol name="COM-09032">
+<wire x1="7.62" y1="15.24" x2="7.62" y2="-17.78" width="0.254" layer="94"/>
+<wire x1="7.62" y1="-17.78" x2="-7.62" y2="-17.78" width="0.254" layer="94"/>
+<wire x1="-7.62" y1="-17.78" x2="-7.62" y2="15.24" width="0.254" layer="94"/>
+<wire x1="-7.62" y1="15.24" x2="7.62" y2="15.24" width="0.254" layer="94"/>
+<text x="-7.62" y="16.002" size="1.778" layer="95">&gt;NAME</text>
+<text x="-7.62" y="-20.32" size="1.778" layer="96">&gt;VALUE</text>
+<pin name="V" x="-12.7" y="12.7" length="middle" direction="pas"/>
+<pin name="SEL+" x="-12.7" y="-7.62" length="middle" direction="pas"/>
+<pin name="H+" x="-12.7" y="0" length="middle" direction="pas"/>
+<pin name="H" x="-12.7" y="2.54" length="middle" direction="pas"/>
+<pin name="H-" x="-12.7" y="-2.54" length="middle" direction="pas"/>
+<pin name="V+" x="-12.7" y="10.16" length="middle" direction="pas"/>
+<pin name="V-" x="-12.7" y="7.62" length="middle" direction="pas"/>
+<pin name="SEL-" x="-12.7" y="-10.16" length="middle" direction="pas"/>
+<pin name="SHIELD" x="-12.7" y="-15.24" length="middle" direction="pas"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="COM-09032" prefix="U">
+<description>Thumb Joystick &lt;a href="https://pricing.snapeda.com/parts/COM-09032/SparkFun%20Electronics/view-part?ref=eda"&gt;Check availability&lt;/a&gt;</description>
+<gates>
+<gate name="G$1" symbol="COM-09032" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="XDCR_COM-09032">
+<connects>
+<connect gate="G$1" pin="H" pad="H2"/>
+<connect gate="G$1" pin="H+" pad="H1"/>
+<connect gate="G$1" pin="H-" pad="H3"/>
+<connect gate="G$1" pin="SEL+" pad="B1A"/>
+<connect gate="G$1" pin="SEL-" pad="B2A"/>
+<connect gate="G$1" pin="SHIELD" pad="S1 S2 S3 S4"/>
+<connect gate="G$1" pin="V" pad="V2"/>
+<connect gate="G$1" pin="V+" pad="V1"/>
+<connect gate="G$1" pin="V-" pad="V3"/>
+</connects>
+<technologies>
+<technology name="">
+<attribute name="AVAILABILITY" value="In Stock"/>
+<attribute name="CHECK_PRICES" value="https://www.snapeda.com/parts/COM-09032/SparkFun+Electronics/view-part/?ref=eda"/>
+<attribute name="DESCRIPTION" value=" Joystick, 2 - Axis Analog (Resistive) Output "/>
+<attribute name="MF" value="SparkFun Electronics"/>
+<attribute name="MP" value="COM-09032"/>
+<attribute name="PACKAGE" value="Package "/>
+<attribute name="PRICE" value="None"/>
+<attribute name="SNAPEDA_LINK" value="https://www.snapeda.com/parts/COM-09032/SparkFun+Electronics/view-part/?ref=snap"/>
+</technology>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
+<library name="HTL22_basis">
+<description>&lt;b&gt;Basisbauelemente&lt;/b&gt;&lt;br&gt;
+Bauelemente entsprechen den gültigen Normen 
+&lt;ul&gt;
+&lt;li&gt;IEC 60617
+&lt;li&gt;EN 81346-2
+&lt;/ul&gt;
+&lt;hr&gt;
+Folgende Bauelemente sind enthalten:
+&lt;ul&gt;
+&lt;li&gt;Widerstände
+&lt;li&gt;Dioden 
+&lt;li&gt;Transistoren, NPN und PNP
+&lt;li&gt;MOSFET, N-Kanal, P-Kanal
+&lt;li&gt;Kondensatoren
+&lt;li&gt;ELKO
+&lt;li&gt;Lötanschlüsse
+&lt;li&gt;Montagebohrungen
+&lt;li&gt;Drucktaster
+&lt;li&gt;Leiterplattenschalter
+&lt;li&gt;Trimmpotenziometer
+&lt;li&gt;Arduino Nano und Uno
+&lt;li&gt;Spannungsregler 78xx und 79xx
+&lt;li&gt;OPAMP QUAD, DUAL, SINGLE
+&lt;li&gt;555
+&lt;li&gt;Kleinlautsprecher
+&lt;li&gt;Batterianschlüsse, 9V-Clip, 9V-Batt Halter, 3V-AA Halter
+&lt;li&gt;Schiebeschalter
+&lt;/ul&gt;
+
+Version 1.99, vom 28.11.2023&lt;br&gt;
+erstellt und gepflegt von 
+&lt;author&gt;neca@htl-donaustadt.at&lt;/author&gt;&lt;br&gt;
+&lt;hr&gt;
+Änderungsliste:&lt;br&gt;
+13.05.2019: Änderungen im Package Arduino UNO&lt;br&gt;
+27.03.2019: Batthalter Keystone hinzugefügt&lt;br&gt;
+26.03.2019: OPAMP LM301 hinzugefügt, Batterieclip, bedrahtet&lt;br&gt;
+05.03.2019: Dual-Leiterplattenschalter SX254 Hartmann&lt;br&gt;
+14.02.2019: Dual-Leiterplattenschalter C+K JS-Serie hinzugefügt&lt;br&gt;
+13.02.2019: Single-Leiterplattenschalter schalter1 hinzugefügt&lt;br&gt;
+12.02.2019: Dual-Leiterplattenschalter schalter2 hinzugefügt&lt;br&gt;
+04.01.2019: Visible bug in Arduino Uno+Nano&lt;br&gt;
+03.01.2019: Kleinlautsprecher + Vcc bug&lt;br&gt;
+20.12.2018: A-Kennzeichungs bug bei ELKOs behoben&lt;br&gt;
+29.01.2019: Fehler im Arduino-Uno Gehäuse behoben&lt;br&gt;
+12.10.2020: SMD Gehäuse 0805, 1206 hinzugefügt&lt;br&gt;
+29.01.2020: Fehler in 9V Batt Halter korrrigiert und TAKACHI 3V-AA Halter hinzugefügt&lt;br&gt;
+29.10.2020: Logos mit restric vesehen&lt;br&gt;
+03.11.2020: Diverse Änderungen&lt;br&gt;
+13.11.2020: SIP-3 Spannungswandler eingegeben&lt;br&gt;
+24.11.2020: Drahtbrücken in verschiedenen Längen hinzugefügt&lt;br&gt;
+14.12.2020: AVX HA06 und VA06 Kohleschichttrimmer eingefügt&lt;br&gt;
+18.12.2020: N-MOS eingefügt&lt;br&gt;
+21.12.2020: Silkscreen Bug behoben&lt;br&gt;
+13.01.2021: DUAL und QUAD OPV eingefügt&lt;br&gt;
+25.01.2021: Single OPAMP SOT23-5 hinzugefügt&lt;br&gt;
+08.02.2021: N-MOS + P-MOS in D-PAK und D2-PAK hinzugefügt&lt;br&gt;
+09.02.2021: SOT223 hinzugefügt, LM317 hinzugefügt&lt;br&gt;
+24.02.2021: SMD-Pads hinzugefügt&lt;br&gt;
+26.02.2021: SMD-Pads korrigiert&lt;br&gt;
+27.02.2021: 555-Symbol schaltplangerecht optimiert&lt;br&gt;
+01.03.2021: Arduino ICSP Schnittstelle implementiert&lt;br&gt;
+17.03.2021: Sunrom Schiebeschalter&lt;br&gt;
+22.03.2021: Korrektur ATTiny SO8-208&lt;br&gt;
+29.04.2021: Bei den OPV-Symbolen + und - vertauscht und den ausgang symmetrisch gemacht.&lt;br&gt;
+30.04.2021: Die Devices LN301 und LM741 auf getrennte Standdarstellung umgebaut.&lt;br&gt;
+01.05.2021: VCC Origin Bug behoben&lt;br&gt;
+03.05.2021: Bohrdurchmesser bei allen Arduino Packages auf 1.1mm vergrößert!&lt;br&gt;
+10.05.2021: Footprint von TC33 Potentiomenter geringfügig angepasst.&lt;br&gt;
+11.05.2021: DO-201 für Dioden eingefügt&lt;br&gt;
+12.05.2021: RGB-LED 1B-2G-3CC-4R und 1B-2G-3CA-4R eingefügt&lt;br&gt;
+12.05.2021: Kleinen Fehler im Packge TO220H korrigiert.&lt;br&gt;
+16.06.2021: Pin und PAD 2.5mm hinzugefügt&lt;br&gt;
+23.06.2021: NPN Transistoren in SOT223 Gehäuse hinzugefügt&lt;br&gt;
+24.06.2021: PTS 525 Taster und B3F-10 Taster in SMD hinzugefügt&lt;br&gt;
+01.07.2021: SOT89 Gehäuse hinzugefügt, BC369 und BC869 hinzugefügt&lt;br&gt;
+22.09.2022: Optimierungen am Gehäuse SOT23-5.NEU: DO214AA, DO214AB und DO214AC , SOD87, SOD80 Gehäuse, Z-Dioden&lt;br&gt;
+22.09.2022: CLV0405 .. CLV0805 SMD ELKOS hinzugefügt&lt;br&gt;
+22.11.2022: Fehler im OPV/SN2 Gehaeuse korrigiert&lt;br&gt;
+07.12.2022: Kleine Fehler in Batt Clip und SOD80 und SOD87&lt;br&gt;
+18.01.2022: Bohrdurchmesser in Tastern BF1000 auf 1mm vergrößert und SMD-Pad 150x75 hinzugefügt&lt;br&gt;
+18.02.2022: 1V8 Symbol hinzugefügt&lt;br&gt;
+21.03.2022: LED 5x2mm hinzugfügt&lt;br&gt;
+18.05.2022: Drucktaster LC1258OASP hinzugefügt&lt;br&gt;
+05.11.2022: Vbat und Vsup hinzugefügt&lt;br&gt;
+11.11.2022: Diverse FETS hinzugefügt&lt;br&gt;
+11.11.2022: Änderungen im FET Symbol&lt;br&gt;
+26.11.2022: Änderungen in Device: OPV_Quad und OPV_Dual -&gt; SWAP-Level&lt;br&gt;
+31.05.2023: Korrekturen in Arduino Nano und Uno&lt;br&gt;
+28.11.2023: Korrektur der Bohrdurchmesser in Package EVUF</description>
+<packages>
+</packages>
+<symbols>
+<symbol name="GND">
+<wire x1="-1.905" y1="0" x2="1.905" y2="0" width="0.254" layer="94"/>
+<text x="-3.302" y="-1.778" size="1.27" layer="96" font="vector">&gt;VALUE</text>
+<pin name="GND" x="0" y="2.54" visible="off" length="short" direction="sup" rot="R270"/>
+</symbol>
+<symbol name="+3V3">
+<wire x1="1.27" y1="-1.905" x2="0" y2="0" width="0.254" layer="94"/>
+<wire x1="0" y1="0" x2="-1.27" y2="-1.905" width="0.254" layer="94"/>
+<text x="-3.048" y="0.508" size="1.27" layer="96" font="vector">&gt;VALUE</text>
+<pin name="+3V3" x="0" y="-2.54" visible="off" length="short" direction="sup" rot="R90"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="GND" prefix="GND">
+<description>Virtuelles Symbol für &lt;b&gt;GND&lt;/b&gt;&lt;br&gt;
+&lt;hr&gt;
+&lt;author&gt;neca@htl-donaustadt.at&lt;/author&gt;</description>
+<gates>
+<gate name="1" symbol="GND" x="0" y="0"/>
+</gates>
+<devices>
+<device name="">
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="+3V3" prefix="+3V3">
+<description>&lt;b&gt;Virtuelles Symbol&lt;/b&gt;&lt;br&gt;
+für eine Spannungsversorgung von 
+&lt;b&gt;3V3&lt;/b&gt;
+&lt;hr&gt;
+&lt;author&gt;neca@htl-donaustadt.at&lt;/author&gt;</description>
+<gates>
+<gate name="G$1" symbol="+3V3" x="0" y="0"/>
+</gates>
+<devices>
+<device name="">
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -607,18 +868,210 @@ http://www.lcdwiki.com/3.5inch_SPI_Module_ILI9488_SKU:MSP3520</description>
 <parts>
 <part name="K1" library="HTL22_Eagle7_Controller" deviceset="ESP32DEVKITV1" device="1000MIL"/>
 <part name="P1" library="TFT SPI 3.5inch 480x320 ILI9488" deviceset="TFT_3.5&quot;_SPI_480X320" device=""/>
+<part name="U1" library="joystick COM-09032" deviceset="COM-09032" device=""/>
+<part name="GND1" library="HTL22_basis" deviceset="GND" device=""/>
+<part name="+3V1" library="HTL22_basis" deviceset="+3V3" device=""/>
+<part name="GND2" library="HTL22_basis" deviceset="GND" device=""/>
+<part name="+3V2" library="HTL22_basis" deviceset="+3V3" device=""/>
+<part name="+3V3" library="HTL22_basis" deviceset="+3V3" device=""/>
+<part name="GND3" library="HTL22_basis" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
 <plain>
 </plain>
 <instances>
-<instance part="K1" gate="G$1" x="119.38" y="78.74"/>
-<instance part="P1" gate="G$1" x="213.36" y="76.2"/>
+<instance part="K1" gate="G$1" x="55.88" y="43.18" smashed="yes">
+<attribute name="NAME" x="30.48" y="74.295" size="1.27" layer="95"/>
+</instance>
+<instance part="P1" gate="G$1" x="149.86" y="38.1" smashed="yes">
+<attribute name="NAME" x="140.5128" y="69.4436" size="1.27" layer="95" ratio="12"/>
+<attribute name="VALUE" x="141.1986" y="5.5626" size="1.27" layer="96" ratio="12"/>
+</instance>
+<instance part="U1" gate="G$1" x="215.265" y="28.575" smashed="yes">
+<attribute name="NAME" x="207.645" y="44.577" size="1.778" layer="95"/>
+<attribute name="VALUE" x="210.185" y="8.255" size="1.778" layer="96"/>
+</instance>
+<instance part="GND1" gate="1" x="200.025" y="8.255"/>
+<instance part="+3V1" gate="G$1" x="197.485" y="46.355"/>
+<instance part="GND2" gate="1" x="55.88" y="2.54"/>
+<instance part="+3V2" gate="G$1" x="58.42" y="81.28"/>
+<instance part="+3V3" gate="G$1" x="132.08" y="71.12"/>
+<instance part="GND3" gate="1" x="132.08" y="5.08"/>
 </instances>
 <busses>
 </busses>
 <nets>
+<net name="+3V3" class="0">
+<segment>
+<pinref part="U1" gate="G$1" pin="V+"/>
+<wire x1="202.565" y1="38.735" x2="197.485" y2="38.735" width="0.1524" layer="91"/>
+<wire x1="197.485" y1="38.735" x2="197.485" y2="28.575" width="0.1524" layer="91"/>
+<pinref part="U1" gate="G$1" pin="H+"/>
+<wire x1="197.485" y1="28.575" x2="202.565" y2="28.575" width="0.1524" layer="91"/>
+<wire x1="197.485" y1="38.735" x2="197.485" y2="43.815" width="0.1524" layer="91"/>
+<junction x="197.485" y="38.735"/>
+<pinref part="+3V1" gate="G$1" pin="+3V3"/>
+</segment>
+<segment>
+<pinref part="K1" gate="G$1" pin="3V3"/>
+<wire x1="58.42" y1="76.2" x2="58.42" y2="78.74" width="0.1524" layer="91"/>
+<pinref part="+3V2" gate="G$1" pin="+3V3"/>
+</segment>
+<segment>
+<wire x1="132.08" y1="68.58" x2="132.08" y2="66.04" width="0.1524" layer="91"/>
+<pinref part="P1" gate="G$1" pin="+3.3V"/>
+<wire x1="132.08" y1="66.04" x2="134.62" y2="66.04" width="0.1524" layer="91"/>
+<pinref part="+3V3" gate="G$1" pin="+3V3"/>
+<pinref part="P1" gate="G$1" pin="TFT_LED"/>
+<wire x1="134.62" y1="58.42" x2="132.08" y2="58.42" width="0.1524" layer="91"/>
+<wire x1="132.08" y1="58.42" x2="132.08" y2="66.04" width="0.1524" layer="91"/>
+<junction x="132.08" y="66.04"/>
+</segment>
+</net>
+<net name="GND" class="0">
+<segment>
+<pinref part="U1" gate="G$1" pin="V-"/>
+<wire x1="202.565" y1="36.195" x2="200.025" y2="36.195" width="0.1524" layer="91"/>
+<wire x1="200.025" y1="36.195" x2="200.025" y2="26.035" width="0.1524" layer="91"/>
+<pinref part="U1" gate="G$1" pin="H-"/>
+<wire x1="200.025" y1="26.035" x2="202.565" y2="26.035" width="0.1524" layer="91"/>
+<wire x1="200.025" y1="26.035" x2="200.025" y2="18.415" width="0.1524" layer="91"/>
+<junction x="200.025" y="26.035"/>
+<pinref part="U1" gate="G$1" pin="SEL-"/>
+<wire x1="200.025" y1="18.415" x2="202.565" y2="18.415" width="0.1524" layer="91"/>
+<wire x1="200.025" y1="18.415" x2="200.025" y2="10.795" width="0.1524" layer="91"/>
+<junction x="200.025" y="18.415"/>
+<pinref part="GND1" gate="1" pin="GND"/>
+</segment>
+<segment>
+<pinref part="GND2" gate="1" pin="GND"/>
+<pinref part="K1" gate="G$1" pin="GND"/>
+<wire x1="55.88" y1="5.08" x2="55.88" y2="7.62" width="0.1524" layer="91"/>
+<pinref part="K1" gate="G$1" pin="GND1"/>
+<wire x1="55.88" y1="7.62" x2="55.88" y2="10.16" width="0.1524" layer="91"/>
+<wire x1="55.88" y1="7.62" x2="60.96" y2="7.62" width="0.1524" layer="91"/>
+<wire x1="60.96" y1="7.62" x2="60.96" y2="10.16" width="0.1524" layer="91"/>
+<junction x="55.88" y="7.62"/>
+<pinref part="K1" gate="G$1" pin="GND2"/>
+<wire x1="55.88" y1="7.62" x2="50.8" y2="7.62" width="0.1524" layer="91"/>
+<wire x1="50.8" y1="7.62" x2="50.8" y2="10.16" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="P1" gate="G$1" pin="GND"/>
+<pinref part="GND3" gate="1" pin="GND"/>
+<wire x1="134.62" y1="10.16" x2="132.08" y2="10.16" width="0.1524" layer="91"/>
+<wire x1="132.08" y1="10.16" x2="132.08" y2="7.62" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="JOYSTICK_SELECT" class="0">
+<segment>
+<pinref part="U1" gate="G$1" pin="SEL+"/>
+<wire x1="202.565" y1="20.955" x2="194.945" y2="20.955" width="0.1524" layer="91"/>
+<label x="175.26" y="20.955" size="1.6764" layer="95"/>
+</segment>
+<segment>
+<pinref part="K1" gate="G$1" pin="IO36(ADC0)"/>
+<wire x1="25.4" y1="58.42" x2="27.94" y2="58.42" width="0.1524" layer="91"/>
+<label x="5.715" y="58.42" size="1.6764" layer="95"/>
+</segment>
+</net>
+<net name="TFT_MOSI" class="0">
+<segment>
+<pinref part="K1" gate="G$1" pin="(MOSI)IO23"/>
+<wire x1="86.36" y1="63.5" x2="88.9" y2="63.5" width="0.1524" layer="91"/>
+<label x="89.535" y="63.5" size="1.6764" layer="95"/>
+</segment>
+<segment>
+<pinref part="P1" gate="G$1" pin="TFT_MOSI"/>
+<wire x1="134.62" y1="45.72" x2="132.08" y2="45.72" width="0.1524" layer="91"/>
+<label x="120.65" y="45.72" size="1.6764" layer="95"/>
+</segment>
+</net>
+<net name="TFT_MISO" class="0">
+<segment>
+<pinref part="K1" gate="G$1" pin="(MISO)IO19"/>
+<wire x1="86.36" y1="50.8" x2="88.9" y2="50.8" width="0.1524" layer="91"/>
+<label x="89.535" y="50.8" size="1.6764" layer="95"/>
+</segment>
+<segment>
+<pinref part="P1" gate="G$1" pin="TFT_MISO"/>
+<wire x1="134.62" y1="43.18" x2="132.08" y2="43.18" width="0.1524" layer="91"/>
+<label x="120.65" y="43.18" size="1.6764" layer="95"/>
+</segment>
+</net>
+<net name="TFT_SCK" class="0">
+<segment>
+<pinref part="K1" gate="G$1" pin="(SCK)IO18"/>
+<wire x1="86.36" y1="48.26" x2="88.9" y2="48.26" width="0.1524" layer="91"/>
+<label x="89.535" y="48.26" size="1.6764" layer="95"/>
+</segment>
+<segment>
+<pinref part="P1" gate="G$1" pin="TFT_SCK"/>
+<wire x1="134.62" y1="48.26" x2="132.08" y2="48.26" width="0.1524" layer="91"/>
+<label x="122.555" y="48.26" size="1.6764" layer="95"/>
+</segment>
+</net>
+<net name="TFT_CS" class="0">
+<segment>
+<pinref part="K1" gate="G$1" pin="(CS)IO5"/>
+<wire x1="86.36" y1="45.72" x2="88.9" y2="45.72" width="0.1524" layer="91"/>
+<label x="89.535" y="45.72" size="1.6764" layer="95"/>
+</segment>
+<segment>
+<pinref part="P1" gate="G$1" pin="!TFT_CS!"/>
+<wire x1="134.62" y1="50.8" x2="132.08" y2="50.8" width="0.1524" layer="91"/>
+<label x="123.825" y="50.8" size="1.6764" layer="95"/>
+</segment>
+</net>
+<net name="TFT_DC" class="0">
+<segment>
+<pinref part="K1" gate="G$1" pin="IO26(ADC19/DAC2)"/>
+<wire x1="27.94" y1="40.64" x2="25.4" y2="40.64" width="0.1524" layer="91"/>
+<label x="17.145" y="40.64" size="1.6764" layer="95"/>
+</segment>
+<segment>
+<pinref part="P1" gate="G$1" pin="TFT_DC"/>
+<wire x1="134.62" y1="60.96" x2="129.54" y2="60.96" width="0.1524" layer="91"/>
+<label x="120.65" y="60.96" size="1.6764" layer="95"/>
+</segment>
+</net>
+<net name="TFT_RESET" class="0">
+<segment>
+<pinref part="K1" gate="G$1" pin="IO27(ADC17/TCH7)"/>
+<wire x1="27.94" y1="38.1" x2="25.4" y2="38.1" width="0.1524" layer="91"/>
+<label x="13.335" y="38.1" size="1.6764" layer="95"/>
+</segment>
+<segment>
+<pinref part="P1" gate="G$1" pin="!TFT_RESET!"/>
+<wire x1="134.62" y1="53.34" x2="132.08" y2="53.34" width="0.1524" layer="91"/>
+<label x="120.015" y="53.34" size="1.6764" layer="95"/>
+</segment>
+</net>
+<net name="JOYSTICK_X" class="0">
+<segment>
+<pinref part="U1" gate="G$1" pin="H"/>
+<wire x1="202.565" y1="31.115" x2="194.945" y2="31.115" width="0.1524" layer="91"/>
+<label x="181.61" y="31.115" size="1.6764" layer="95"/>
+</segment>
+<segment>
+<pinref part="K1" gate="G$1" pin="IO34(ADC6)"/>
+<wire x1="27.94" y1="53.34" x2="25.4" y2="53.34" width="0.1524" layer="91"/>
+<label x="12.065" y="53.34" size="1.6764" layer="95"/>
+</segment>
+</net>
+<net name="JOYSTICK_Y" class="0">
+<segment>
+<pinref part="U1" gate="G$1" pin="V"/>
+<wire x1="202.565" y1="41.275" x2="194.945" y2="41.275" width="0.1524" layer="91"/>
+<label x="181.61" y="41.275" size="1.6764" layer="95"/>
+</segment>
+<segment>
+<pinref part="K1" gate="G$1" pin="IO35(ADC7)"/>
+<wire x1="27.94" y1="50.8" x2="25.4" y2="50.8" width="0.1524" layer="91"/>
+<label x="12.065" y="50.8" size="1.6764" layer="95"/>
+</segment>
+</net>
 </nets>
 </sheet>
 </sheets>

@@ -6,12 +6,13 @@
 class Joystick
 {
     public:
-      Joystick(int8_t xPin, int8_t yPin);
+      Joystick(int8_t xPin, int8_t yPin, int8_t selectPin);
       void init();
       int xAxis();
       int yAxis();
     private:
       int8_t _xPin;
       int8_t _yPin;
+      int8_t _selectPin;
 };
 #endif

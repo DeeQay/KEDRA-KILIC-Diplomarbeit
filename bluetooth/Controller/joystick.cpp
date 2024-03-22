@@ -1,19 +1,20 @@
 #include <Arduino.h>
 #include "joystick.h"
-Joystick::Joystick(int8_t xPin, int8_t yPin)
+Joystick::Joystick(int8_t xPin, int8_t yPin, int8_t selectPin)
 {
   _xPin = xPin;
   _yPin = yPin;
+  _selectPin = selectPin;
 }
 void Joystick::init()
 {
     pinMode(_xPin,INPUT);
     pinMode(_yPin,INPUT);
+    pinMode(_selectPin, INPUT);
     Serial.println("Joystick init done");
 }
 int Joystick::xAxis()
 {
-  //Serial.println(analogRead(_xPin));
     int temp = 0;
     for(int i =0;i<10;i++)
     {
@@ -24,7 +25,6 @@ int Joystick::xAxis()
 }
 int Joystick::yAxis()
 {
-    //Serial.println(analogRead(_xPin));
     int temp = 0;
     for(int i =0;i<10;i++)
     {

@@ -3,7 +3,11 @@
 #include "Bluetooth.h"
 #include "joystick.h"
 
-Joystick joystick(34, 35);
+Joystick joystick(34, 35, 36);
+// joystick_x = 34
+// joystick_y = 35
+// joystick_select = 36
+
 Bluetooth BT;
 
 int message[BT.MAX_MESSAGE_LENGTH];
