@@ -3,6 +3,8 @@
 #include "Bluetooth.h"
 #include "joystick.h"
 
+#define DEBUG true  // Legt fest, ob Ausgaben in der Konsole erfolgen sollen.
+
 Joystick joystick(34, 35, 36);
 // joystick_x = 34
 // joystick_y = 35
@@ -30,35 +32,45 @@ void loop() {
 void HandleBluetoothReceive() {
   bool isMessageReceived = BT.HandleIncomingMessage(receivedMessage, sizeof(receivedMessage));
   if (isMessageReceived) {
-    Serial.print("BT_Incoming:\t");
-    if (receivedMessage[0] == BT.LIDAR) {
-      Serial.print("LIDAR: ");
-      for (int i = 1; i < BT.MAX_MESSAGE_LENGTH; i++) {
-        if (receivedMessage[i] != 0) {
-          Serial.print(receivedMessage[i]);
-          Serial.print(", ");
-        }
-      }
-      Serial.println();
+    Serial.print("BT empfangen:\t");
+    // Serial.println(receivedMessage[0]);
+    if (receivedMessage[0] == BT.JOYSTICK) {
+      ReceivedLidarValues();
     } else {
-      Serial.println("unknown");
+      Serial.println("Unbekanntes Paket");
     }
   }
+}
+
+void ReceivedLidarValues() {
+  Serial.print("Lidar: ");
+  int angle = receivedMessage[1];
+  int distance = receivedMessage[2];
+
+  // Wert "1" wird auf "0" gesetzt, da vor dem Senden der Wert "0" auf "1" umgewandelt wurde, weil beim Senden vom Wert "0" Probleme auftreten.
+  if (angle == 1) angle = 0;
+  if (distance == 1) distance = 0;
+
+  Serial.print(angle);
+  Serial.print(',');
+  Serial.println(distance);
+
+  // TODO: Lidar Funktion
 }
 
 void SendJoystick(int x, int y) {
   message[0] = BT.JOYSTICK;
 
-  // Wert "0" wird auf "1" umgewandelt und nach dem Senden wieder auf "0" gesetzt, weil beim Senden vom Wert "0" Probleme auftreten.
-  x == 0 ? message[1] = 1 : message[1] = x; 
-  y == 0 ? message[2] = 1 : message[2] = y;
-  
+  // Wert "0" wird auf "1" umgewandelt
+  message[1] = (x == 0 ? 1 : x);
+  message[2] = (y == 0 ? 1 : y);
+
+  BT.SendMessage(message);
+  memset(message, 0, sizeof(message));  // Das Array auf Null setzen
+
+  Serial.print("BT gesendet:\t");
+  Serial.print("Joystick: ");
   Serial.print(message[1]);
   Serial.print(", ");
   Serial.println(message[2]);
-
-  BT.SendMessage(message);
-  memset(message, 0, sizeof(message));
 }
-
-
