@@ -82,12 +82,14 @@ Durchgeführte Trennung der Gleichungen:
 
 Außerhalb der Funktion:
 ```cpp
-float halfMaxPosX = 0.5 * MAX_POSITION_X / MAX_DISTANCE;
-float halfMaxPosY = 0.5 * MAX_POSITION_Y / MAX_DISTANCE;
+float halfMaxPosX = 0.5 * MAX_POSITION_X;
+float halfMaxPosY = 0.5 * MAX_POSITION_Y;
+float scaleFactorX = halfMaxPosX / MAX_DISTANCE;
+float scaleFactorY = halfMaxPosY / MAX_DISTANCE;
 ```
 Innerhalb der Funktion:
 ```cpp
-pos.x = (xFloat * halfMaxPosX + 0.5) * MAX_POSITION_X;
-pos.y = (yFloat * halfMaxPosY + 0.5) * MAX_POSITION_Y;
+pos.x = xFloat * halfMaxPosX + scaleFactorX;
+pos.y = yFloat * halfMaxPosY + scaleFactorY;
 ```
 Durch diesen weiteren Schritt konnte die Testzeit von 1700 ms auf 1500 ms reduziert werden.

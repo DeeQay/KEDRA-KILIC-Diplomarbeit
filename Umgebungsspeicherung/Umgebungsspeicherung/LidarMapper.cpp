@@ -5,8 +5,10 @@
 using namespace std;
 
 // zum Optimieren wird es nur ein Mal berechnet anstatt jedes Mal
-float halfMaxPosX = 0.5 * MAX_POSITION_X / MAX_DISTANCE;
-float halfMaxPosY = 0.5 * MAX_POSITION_Y / MAX_DISTANCE;
+float halfMaxPosX = 0.5 * MAX_POSITION_X;
+float halfMaxPosY = 0.5 * MAX_POSITION_Y;
+float scaleFactorX = halfMaxPosX / MAX_DISTANCE;
+float scaleFactorY = halfMaxPosY / MAX_DISTANCE;
 
 LidarMapper::LidarMapper() {
   map = vector<vector<PositionState>>(MAX_POSITION_X, vector<PositionState>(MAX_POSITION_Y, UNKNOWN));
@@ -34,8 +36,8 @@ Position LidarMapper::calcPosition(int distance, float angle) {
   float yFloat = distance * sinAngle;
 
   // pos.x und pos.y aus dem Bereich Zentimeter in den Bereich von Position zuordnen und Nullpunkt in die Mitte setzten (Vereinfachte Formel)
-  pos.x = (xFloat * halfMaxPosX + 0.5) * MAX_POSITION_X;
-  pos.y = (yFloat * halfMaxPosY + 0.5) * MAX_POSITION_Y;
+  pos.x = xFloat * scaleFactorX + halfMaxPosX;
+  pos.y = yFloat * scaleFactorY + halfMaxPosY;
   return pos;
 }
 
