@@ -13,7 +13,7 @@ const int PING_INTERVAL = 1000;  // Intervall der Überprüfung, ob das andere B
 
 class Bluetooth {
 public:
-  static const unsigned int MAX_MESSAGE_LENGTH = 5; // Maximale Anzahl der Werte innerhalb einer Nachricht
+  static const unsigned int MAX_MESSAGE_LENGTH = 5;  // Maximale Anzahl der Werte innerhalb einer Nachricht
 
 private:
   BluetoothSerial SerialBT;
@@ -29,16 +29,16 @@ private:
 
 public:
   enum Message {
-    END = '\0', // Ende einer Nachricht
-    NEXT = '\n', // Nächster Wert einer Nachricht
+    END = '\0',   // Ende einer Nachricht
+    NEXT = '\n',  // Nächster Wert einer Nachricht
     JOYSTICK = 0,
     LIDAR = 1,
   };
-  void Setup(); // Im Arduino `setup()` aufrufen
-  static void Bt_Status(esp_spp_cb_event_t event, esp_spp_cb_param_t *param);
+  void Setup();  // Im Arduino `setup()` aufrufen
+  static void Bt_Status(esp_spp_cb_event_t event, esp_spp_cb_param_t* param);
   bool HandleIncomingMessage(int* outMessage, int sizeofOutMessage);  // returned true, wenn eine ganze Nachricht empfangen wurde. Empfangene Nachricht wird in `outMessage` gespeichert.
   void SendMessage(int message[]);
-  bool IsConnected(); // returned true, wenn mit einem Bluetooth Gerät verbunden
+  bool IsConnected();  // returned true, wenn mit einem Bluetooth Gerät verbunden
 };
 
 #endif

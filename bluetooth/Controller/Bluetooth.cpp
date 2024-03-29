@@ -10,17 +10,17 @@ void Bluetooth::Setup() {
   Serial.begin(115200);
 
   SerialBT.register_callback(Bt_Status);
-  SerialBT.begin(deviceName, true); // Bluetooth-Kommunikation starten als Master
-  SerialBT.connect(slaveName); // Probieren mit Slave zu verbinden 
+  SerialBT.begin(deviceName, true);  // Bluetooth-Kommunikation starten als Master
+  SerialBT.connect(slaveName);       // Probieren mit Slave zu verbinden
 
   ClearIncomingMessage();
 }
 
 void Bluetooth::Bt_Status(esp_spp_cb_event_t event, esp_spp_cb_param_t* param) {
-  if (event == ESP_SPP_OPEN_EVT) { // Bluetooth-Verbindung hergestellt (als Master)
+  if (event == ESP_SPP_OPEN_EVT) {  // Bluetooth-Verbindung hergestellt (als Master)
     Serial.println(F("Bluetooth verbunden"));
     isConnected = true;
-  } else if (event == ESP_SPP_CLOSE_EVT) { // Bluetooth-Verbindung getrennt
+  } else if (event == ESP_SPP_CLOSE_EVT) {  // Bluetooth-Verbindung getrennt
     Serial.println(F("Bluetooth getrennt"));
     isConnected = false;
   }

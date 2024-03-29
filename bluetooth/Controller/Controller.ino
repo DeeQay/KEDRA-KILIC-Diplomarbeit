@@ -1,14 +1,9 @@
 // Made by David KEDRA
-//Date 25/3/24
+
 #include "Bluetooth.h"
 #include "joystick.h"
 
-#define DEBUG true  // Legt fest, ob Ausgaben in der Konsole erfolgen sollen.
-
-Joystick joystick(34, 35, 36);
-// joystick_x = 34
-// joystick_y = 35
-// joystick_select = 36
+Joystick joystick(/*x*/ 34, /*y*/ 35, /*select*/ 36);
 
 Bluetooth BT;
 
@@ -26,21 +21,16 @@ void loop() {
 
   HandleBluetoothReceive();
   delay(10);
-  SendJoystick(joystick.xAxis() , joystick.yAxis() );
-//  Serial.println("X:" + String(joystick.xAxis()) + "Y: " + String(joystick.yAxis()));
+  SendJoystick(joystick.xAxis(), joystick.yAxis());
 }
 
 void HandleBluetoothReceive() {
   bool isMessageReceived = BT.HandleIncomingMessage(receivedMessage, sizeof(receivedMessage));
   if (isMessageReceived) {
     Serial.print("BT empfangen:\t");
-    // Serial.println(receivedMessage[0]);
-    if(receivedMessage[0] == BT.LIDAR)
-    {
-         ReceivedLidarValues();
-    }
-    else 
-    {
+    if (receivedMessage[0] == BT.LIDAR) {
+      ReceivedLidarValues();
+    } else {
       Serial.println("Unbekanntes Paket");
     }
   }
@@ -58,24 +48,22 @@ void ReceivedLidarValues() {
   Serial.print(angle);
   Serial.print(',');
   Serial.println(distance);
-
 }
 
 void SendJoystick(int x, int y) {
   message[0] = BT.JOYSTICK;
-
 
   // Wert "0" wird auf "1" umgewandelt
   message[1] = (x == 0 ? 1 : x);
   message[2] = (y == 0 ? 1 : y);
 
   BT.SendMessage(message);
- 
-/*
+
   Serial.print("BT gesendet:\t");
   Serial.print("Joystick: ");
   Serial.print(message[1]);
   Serial.print(", ");
-  Serial.println(message[2]);*/
+  Serial.println(message[2]);
+
   memset(message, 0, sizeof(message));  // Das Array auf Null setzen
 }

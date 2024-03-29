@@ -1,5 +1,5 @@
 // Made by David KEDRA, Berdan KILIC
-//Date 25/3/24
+
 #include "Bluetooth.h"
 #include "carControl.h"
 #include "pins.h"
@@ -17,10 +17,11 @@ hw_timer_t* timer = NULL;
 portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
 
 void IRAM_ATTR onTimer() {
-   portENTER_CRITICAL_ISR(&timerMux);
+  portENTER_CRITICAL_ISR(&timerMux);
   interruptCounter++;
   portEXIT_CRITICAL_ISR(&timerMux);
 }
+
 void setup() {
   // Serial.begin(115200);
   BT.Setup();
@@ -34,20 +35,18 @@ void setup() {
 }
 
 void loop() {
-   
+
   lidar19.read(distance, sizeof(distance) / sizeof(int), angle, sizeof(angle) / sizeof(int));
 
-  if (interruptCounter >= 1)
-   {
+  if (interruptCounter >= 1) {
 
     portENTER_CRITICAL(&timerMux);
     interruptCounter = 0;
     portEXIT_CRITICAL(&timerMux);
 
- //  Serial.println("Processed data (Distance, Angle):");
-    for (byte i = 0; i < 12; i++) 
-    {
-    /* Serial.print(distance[i], DEC);
+    //  Serial.println("Processed data (Distance, Angle):");
+    for (byte i = 0; i < 12; i++) {
+      /* Serial.print(distance[i], DEC);
       Serial.print(',');
       Serial.print(angle[i], DEC);
       Serial.println();*/
@@ -60,7 +59,7 @@ void loop() {
   memset(angle, 0, sizeof(angle) / sizeof(float));
 
   while (!BT.IsConnected()) {}
-    HandleBluetoothReceive(); 
+  HandleBluetoothReceive();
 }
 
 void HandleBluetoothReceive() {
@@ -85,7 +84,7 @@ void ReceivedJoystickValues() {
   /* if (JoystickX == 1) JoystickX = 0;
   if (JoystickY == 1) JoystickY = 0;*/
 
- Serial.print(JoystickX);
+  Serial.print(JoystickX);
   Serial.print(',');
   Serial.println(JoystickY);
 
@@ -100,7 +99,7 @@ void SendLidar(int angle, int distance) {
   message[2] = (distance == 0 ? 1 : distance);
 
   BT.SendMessage(message);
- 
+
 
   Serial.print("BT gesendet:\t");
   Serial.print("Lidar: ");
