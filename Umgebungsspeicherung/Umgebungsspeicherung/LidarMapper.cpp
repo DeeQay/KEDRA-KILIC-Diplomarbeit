@@ -1,26 +1,25 @@
 #include "LidarMapper.h"
-#include <cmath>
 #include <Arduino.h>
 
 using namespace std;
 
 // zum Optimieren wird es nur ein Mal berechnet anstatt jedes Mal
-float halfMaxPosX = 0.5 * MAX_POSITION_X;
-float halfMaxPosY = 0.5 * MAX_POSITION_Y;
+float halfMaxPosX = 0.5 * MAP_SIZE_X;
+float halfMaxPosY = 0.5 * MAP_SIZE_Y;
 float scaleFactorX = halfMaxPosX / MAX_DISTANCE;
 float scaleFactorY = halfMaxPosY / MAX_DISTANCE;
 
 LidarMapper::LidarMapper() {
-  map = vector<vector<PositionState>>(MAX_POSITION_X, vector<PositionState>(MAX_POSITION_Y, UNKNOWN));
+  map = vector<vector<PositionState>>(MAP_SIZE_X, vector<PositionState>(MAP_SIZE_Y, UNKNOWN));  // alles auf `UNKNOWN` setzten
 
-  int stepSize_x = 2 * MAX_DISTANCE / MAX_POSITION_X;
-  int stepSize_y = 2 * MAX_DISTANCE / MAX_POSITION_Y;
+  int stepSize_x = 2 * MAX_DISTANCE / MAP_SIZE_X;
+  int stepSize_y = 2 * MAX_DISTANCE / MAP_SIZE_Y;
   stepSize = min(stepSize_x, stepSize_y);
 }
 
-Position LidarMapper::calcPosition(int distance, float angle) {
+Position LidarMapper::calcPosition(int distance, int angle) {
   // Erstellung der Variablen, um Rechenaufwand zu minimieren
-  static float previousAngle = -1;
+  static int previousAngle = -1;
   static float cosAngle = -1;
   static float sinAngle = -1;
 
@@ -41,10 +40,10 @@ Position LidarMapper::calcPosition(int distance, float angle) {
   return pos;
 }
 
-void LidarMapper::calcObjectAndUpdateMap(int distance, float angle) {
+void LidarMapper::calcObjectAndUpdateMap(int distance, int angle) {
   Position pos = calcPosition(distance, angle);
 
-  if (pos.x >= 0 && pos.x < MAX_POSITION_X && pos.y >= 0 && pos.y < MAX_POSITION_Y) {
+  if (pos.x >= 0 && pos.x < MAP_SIZE_X && pos.y >= 0 && pos.y < MAP_SIZE_Y) {
     map[pos.x][pos.y] = OBJECT;
   }
 
@@ -53,7 +52,7 @@ void LidarMapper::calcObjectAndUpdateMap(int distance, float angle) {
   while (distance > 0) {
     pos = calcPosition(distance, angle);
 
-    if (pos.x >= 0 && pos.x < MAX_POSITION_X && pos.y >= 0 && pos.y < MAX_POSITION_Y) {
+    if (pos.x >= 0 && pos.x < MAP_SIZE_X && pos.y >= 0 && pos.y < MAP_SIZE_Y) {
       if (map[pos.x][pos.y] == UNKNOWN || map[pos.x][pos.y] == OBJECT) {
         map[pos.x][pos.y] = AIR;
       }

@@ -56,7 +56,7 @@ void loop() {
   }
 
   memset(distance, 0, sizeof(distance) / sizeof(int));
-  memset(angle, 0, sizeof(angle) / sizeof(float));
+  memset(angle, 0, sizeof(angle) / sizeof(int));
 
   while (!BT.IsConnected()) {}
   HandleBluetoothReceive();
