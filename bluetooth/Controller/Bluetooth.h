@@ -29,8 +29,10 @@ private:
 
 public:
   enum Message {
+    // Befehlszeichen:
     END = '\0',   // Ende einer Nachricht
     NEXT = '\n',  // Nächster Wert einer Nachricht
+    // Nachrichtentypen:
     JOYSTICK = 0,
     LIDAR = 1,
   };
