@@ -17,7 +17,7 @@ LidarMapper::LidarMapper() {
   stepSize = min(stepSize_x, stepSize_y);
 }
 
-Position LidarMapper::calcPosition(int distance, int angle) {
+Position LidarMapper::calcPosition(int angle, int distance) {
   // Erstellung der Variablen, um Rechenaufwand zu minimieren
   static int previousAngle = -1;
   static float cosAngle = -1;
@@ -40,7 +40,7 @@ Position LidarMapper::calcPosition(int distance, int angle) {
   return pos;
 }
 
-void LidarMapper::calcObjectAndUpdateMap(int distance, int angle) {
+void LidarMapper::calcObjectAndUpdateMap(int angle, int distance) {
   Position pos = calcPosition(distance, angle);
 
   if (pos.x >= 0 && pos.x < MAP_SIZE_X && pos.y >= 0 && pos.y < MAP_SIZE_Y) {

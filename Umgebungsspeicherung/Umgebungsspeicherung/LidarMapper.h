@@ -25,12 +25,12 @@ enum PositionState {
 class LidarMapper {
 public:
   LidarMapper();  // Constructor
-  void calcObjectAndUpdateMap(int distance, int angle);
+  void calcObjectAndUpdateMap(int angle, int distance);
   vector<vector<PositionState>> getMap();
 
 private:
   vector<vector<PositionState>> map;
-  Position calcPosition(int distance, int angle);
+  Position calcPosition(int angle, int distance);
   int stepSize;
 };
 
