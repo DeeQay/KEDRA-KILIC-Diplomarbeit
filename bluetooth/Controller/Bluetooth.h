@@ -1,4 +1,4 @@
-// Made by David KEDRA
+// Programmersteller: David KEDRA
 // Klasse zum Kommunizieren zwischen zwei Bluetooth Geräten
 // Typ: Master
 
@@ -17,7 +17,7 @@ public:
 
 private:
   BluetoothSerial SerialBT;
-  String deviceName = "ESP32-BT-Controller";
+  String masterName = "ESP32-BT-Controller";
   String slaveName = "ESP32-BT-Car";
   static bool isConnected;
   int messagePos = 0;

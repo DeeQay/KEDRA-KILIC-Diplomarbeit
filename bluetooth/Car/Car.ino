@@ -1,13 +1,14 @@
-// Made by David KEDRA, Berdan KILIC
-
 #include "Bluetooth.h"
 #include "carControl.h"
 #include "pins.h"
 #include "Ld19.h"
-Bluetooth BT;
+
+Bluetooth bt;
 LD19 lidar19;
-int message[BT.MAX_MESSAGE_LENGTH] = {};
-int receivedMessage[BT.MAX_MESSAGE_LENGTH];
+
+int message[bt.MAX_MESSAGE_LENGTH] = {};
+int receivedMessage[bt.MAX_MESSAGE_LENGTH];
+
 int distance[12];
 int angle[12];
 
@@ -16,7 +17,7 @@ volatile int interruptCounter;
 hw_timer_t* timer = NULL;
 portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
 
-void IRAM_ATTR onTimer() {
+void IRAM_ATTR onTimer() {  // Berdan Kilic
   portENTER_CRITICAL_ISR(&timerMux);
   interruptCounter++;
   portEXIT_CRITICAL_ISR(&timerMux);
@@ -24,7 +25,7 @@ void IRAM_ATTR onTimer() {
 
 void setup() {
   // Serial.begin(115200);
-  BT.Setup();
+  bt.Setup();
   carInit();
   lidar19.setup(230400);
 
@@ -35,11 +36,46 @@ void setup() {
 }
 
 void loop() {
+  if (!bt.IsConnected()) return;  // Der Code unterhalb wird nur bei verbundenen Bluetooth ausgeführt
 
+  HandleSendLidar();
+
+  HandleBluetoothReceive();
+}
+
+void HandleBluetoothReceive() {  // David Kedra
+  bool isMessageReceived = bt.HandleIncomingMessage(receivedMessage, sizeof(receivedMessage));
+  if (isMessageReceived) {
+    Serial.print("bt empfangen:\t");
+    // Serial.println(receivedMessage[0]);
+    if (receivedMessage[0] == bt.JOYSTICK) {
+      ReceivedJoystickValues();
+    } else {
+      Serial.println("Unbekanntes Paket");
+    }
+  }
+}
+
+void ReceivedJoystickValues() {  // David Kedra
+  Serial.print("Joystick: ");
+  int JoystickX = receivedMessage[1];
+  int JoystickY = receivedMessage[2];
+
+  // Wert "1" wird auf "0" gesetzt, da vor dem Senden der Wert "0" auf "1" umgewandelt wurde, weil beim Senden vom Wert "0" Probleme auftreten.
+  /*if (JoystickX == 1) JoystickX = 0;
+  if (JoystickY == 1) JoystickY = 0;*/
+
+  Serial.print(JoystickX);
+  Serial.print(',');
+  Serial.println(JoystickY);
+
+  carLoop(JoystickX, JoystickY);
+}
+
+void HandleSendLidar() {  // Berdan Kilic
   lidar19.read(distance, sizeof(distance) / sizeof(int), angle, sizeof(angle) / sizeof(int));
 
   if (interruptCounter >= 1) {
-
     portENTER_CRITICAL(&timerMux);
     interruptCounter = 0;
     portEXIT_CRITICAL(&timerMux);
@@ -57,51 +93,19 @@ void loop() {
 
   memset(distance, 0, sizeof(distance) / sizeof(int));
   memset(angle, 0, sizeof(angle) / sizeof(int));
-
-  while (!BT.IsConnected()) {}
-  HandleBluetoothReceive();
 }
 
-void HandleBluetoothReceive() {
-  bool isMessageReceived = BT.HandleIncomingMessage(receivedMessage, sizeof(receivedMessage));
-  if (isMessageReceived) {
-    Serial.print("BT empfangen:\t");
-    // Serial.println(receivedMessage[0]);
-    if (receivedMessage[0] == BT.JOYSTICK) {
-      ReceivedJoystickValues();
-    } else {
-      Serial.println("Unbekanntes Paket");
-    }
-  }
-}
-
-void ReceivedJoystickValues() {
-  Serial.print("Joystick: ");
-  int JoystickX = receivedMessage[1];
-  int JoystickY = receivedMessage[2];
-
-  // Wert "1" wird auf "0" gesetzt, da vor dem Senden der Wert "0" auf "1" umgewandelt wurde, weil beim Senden vom Wert "0" Probleme auftreten.
-  /* if (JoystickX == 1) JoystickX = 0;
-  if (JoystickY == 1) JoystickY = 0;*/
-
-  Serial.print(JoystickX);
-  Serial.print(',');
-  Serial.println(JoystickY);
-
-  carLoop(JoystickX, JoystickY);
-}
-
-void SendLidar(int angle, int distance) {
-  message[0] = BT.LIDAR;
+void SendLidar(int angle, int distance) {  // David Kedra
+  message[0] = bt.LIDAR;
 
   // Wert "0" wird auf "1" umgewandelt
-  message[1] = (angle == 0 ? 1 : angle);
-  message[2] = (distance == 0 ? 1 : distance);
+  /*message[1] = (angle == 0 ? 1 : angle);
+  message[2] = (distance == 0 ? 1 : distance);*/
 
-  BT.SendMessage(message);
+  bt.SendMessage(message);
 
 
-  Serial.print("BT gesendet:\t");
+  Serial.print("bt gesendet:\t");
   Serial.print("Lidar: ");
   Serial.print(message[1]);
   Serial.print(", ");

@@ -1,4 +1,4 @@
-// Made by David KEDRA
+// Programmersteller: David KEDRA
 // Klasse zum Kommunizieren zwischen zwei Bluetooth Geräten
 // Typ: Slave
 
@@ -10,7 +10,7 @@ void Bluetooth::Setup() {
   Serial.begin(115200);
 
   SerialBT.register_callback(Bt_Status);
-  SerialBT.begin(deviceName, false);  // Bluetooth-Kommunikation starten als Slave
+  SerialBT.begin(slaveName, false);  // Bluetooth-Kommunikation starten als Slave
 
   ClearIncomingMessage();
 }
@@ -45,7 +45,7 @@ bool Bluetooth::HandleIncomingMessage(int* outMessage, int sizeofOutMessage) {
       // vollständige Nachricht erhalten
       if (messagePos >= MAX_MESSAGE_LENGTH) {
         // Anzahl der Werte in empfangener Nachricht ist mehr als `MAX_MESSAGE_LENGTH`
-        Serial.println(F("ERROR: Anzahl der Werte in eingehende Nachricht ist länger als die eingestellte MAX_MESSAGE_LENGTH! Die Nachricht wird übersprungen."));
+        Serial.println(F("ERROR: Anzahl der Werte in eingehender Nachricht ist länger als die eingestellte MAX_MESSAGE_LENGTH! Die Nachricht wird übersprungen."));
         ClearIncomingMessage();
         return false;
       } else {
@@ -69,6 +69,11 @@ void Bluetooth::ClearIncomingMessage() {
 }
 
 void Bluetooth::SendMessage(int message[MAX_MESSAGE_LENGTH]) {
+  if (!isConnected) {
+    Serial.println(F("ERROR: Bluetooth ist nicht verbunden. SendMessage() wird nicht ausgeführt."));
+    return false;
+  }
+
   for (int i = 0; i < MAX_MESSAGE_LENGTH; i++) {
     int digits[10];
     int digitPos = 0;
@@ -97,7 +102,6 @@ bool Bluetooth::IsConnected() {
   if (!isConnected && millis() > pingTimerMax) {
     pingTimerMax = millis() + PING_INTERVAL;
     Serial.println(F("Warten auf Bluetooth verbindung..."));
-    return false;
   }
   return isConnected;
 }
