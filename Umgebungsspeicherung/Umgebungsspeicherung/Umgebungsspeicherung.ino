@@ -7,11 +7,10 @@ using namespace std;
 LidarMapper mapper;
 TFTDisplay tft;
 
-
 void setup() {
   Serial.begin(115200);
 
-  tft.Setup();
+  tft.Setup(mapper.getMap());
 
   TestLidarValuesCode();
 }
@@ -35,7 +34,7 @@ void TestLidarValuesCode() {
   for (int angle = 0; angle < 360; angle += 2) {
     int newdistance = 3750 + sin(angle * 2 / 180 * 3.14152) * 1250;
     mapper.calcObjectAndUpdateMap(angle, newdistance);
-    tft.PrintMap();
+    tft.PrintMap(mapper.getMap());
   }
   delay(1000);
 
@@ -43,7 +42,7 @@ void TestLidarValuesCode() {
   distance = 3000;
   for (int angle = 0; angle < 360; angle += 2) {
     mapper.calcObjectAndUpdateMap(angle, distance);
-    tft.PrintMap();
+    tft.PrintMap(mapper.getMap());
   }
   delay(1000);
 
@@ -51,7 +50,7 @@ void TestLidarValuesCode() {
   distance = 5000;
   for (int angle = 0; angle < 360; angle += 2) {
     mapper.calcObjectAndUpdateMap(angle, distance);
-    tft.PrintMap();
+    tft.PrintMap(mapper.getMap());
   }
   delay(1000);
 
@@ -59,7 +58,7 @@ void TestLidarValuesCode() {
   distance = 3000;
   for (int angle = 0; angle < 360; angle += 2) {
     mapper.calcObjectAndUpdateMap(angle, distance);
-    tft.PrintMap();
+    tft.PrintMap(mapper.getMap());
   }
   delay(1000);
 
@@ -70,5 +69,5 @@ void TestLidarValuesCode() {
     mapper.calcObjectAndUpdateMap(angle, distance);
   }
   Serial.println((millis() - start));
-  tft.PrintMap();
+  tft.PrintMap(mapper.getMap());
 }

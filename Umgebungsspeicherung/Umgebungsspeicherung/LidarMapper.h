@@ -5,11 +5,9 @@
 
 using namespace std;
 
-#define MAX_DISTANCE 5000
-
 // Die Größe für die Speicherung der Map und die Anzahl der Zellen am Display
-#define MAP_SIZE_X 120
-#define MAP_SIZE_Y 80
+const int MAP_SIZE_X = 21;
+const int MAP_SIZE_Y = 21;
 
 struct Position {
   int x;
@@ -22,16 +20,18 @@ enum PositionState {
   UNKNOWN
 };
 
-class LidarMapper {
-public:
-  LidarMapper();  // Constructor
-  void calcObjectAndUpdateMap(int angle, int distance);
-  vector<vector<PositionState>> getMap();
+#define MAX_DISTANCE 5000
 
+class LidarMapper {
 private:
   vector<vector<PositionState>> map;
   Position calcPosition(int angle, int distance);
   int stepSize;
+
+public:
+  LidarMapper();  // Constructor
+  void calcObjectAndUpdateMap(int angle, int distance);
+  vector<vector<PositionState>> getMap();
 };
 
 #endif
