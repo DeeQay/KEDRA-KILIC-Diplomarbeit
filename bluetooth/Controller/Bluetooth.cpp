@@ -9,9 +9,9 @@ bool Bluetooth::isConnected = false;
 void Bluetooth::Setup() {
   Serial.begin(115200);
 
-  SerialBT.register_callback(Bt_Status);
-  SerialBT.begin(masterName, true);  // Bluetooth starten als Master
-  SerialBT.connect(slaveName);       // Versuchen mit Slave zu verbinden
+  SerialBT.register_callback(Bt_Status);  // Rückruf-Funktion registrieren
+  SerialBT.begin(masterName, true);       // Bluetooth starten als Master
+  SerialBT.connect(slaveName);            // Versuchen mit Slave zu verbinden
 
   ClearIncomingMessage();
 }
@@ -56,9 +56,10 @@ bool Bluetooth::HandleIncomingMessage(int* outMessage, int sizeofOutMessage) {
         return true;
       }
     } else if (messagePos < MAX_MESSAGE_LENGTH && isdigit(receivedValue)) {
-      // `incomingMessage[messagePos] * 10`  ->  Nuller am Ende hizufügen
-      // `receivedValue - '0'`  ->  char in int umwandeln
-      incomingMessage[messagePos] = incomingMessage[messagePos] * 10 + (receivedValue - '0');
+      // Datentyp `char` zu `int` konvertieren
+      int digit = receivedValue - '0';
+      // Ziffer `digit` an das Ende der aktuellen Zahl in der Nachricht anhängen
+      incomingMessage[messagePos] = incomingMessage[messagePos] * 10 + digit;
     }
   }
   return false;
@@ -72,7 +73,7 @@ void Bluetooth::ClearIncomingMessage() {
 void Bluetooth::SendMessage(int message[MAX_MESSAGE_LENGTH]) {
   if (!isConnected) {
     Serial.println(F("ERROR: Bluetooth ist nicht verbunden. SendMessage() wird nicht ausgeführt."));
-    return false;
+    return;
   }
 
   for (int i = 0; i < MAX_MESSAGE_LENGTH; i++) {
