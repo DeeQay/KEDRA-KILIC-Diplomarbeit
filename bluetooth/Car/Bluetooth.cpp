@@ -72,7 +72,7 @@ void Bluetooth::ClearIncomingMessage() {
 void Bluetooth::SendMessage(int message[MAX_MESSAGE_LENGTH]) {
   if (!isConnected) {
     Serial.println(F("ERROR: Bluetooth ist nicht verbunden. SendMessage() wird nicht ausgeführt."));
-    return false;
+    return;
   }
 
   for (int i = 0; i < MAX_MESSAGE_LENGTH; i++) {
