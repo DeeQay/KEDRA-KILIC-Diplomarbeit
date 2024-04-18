@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="1" unitdist="mm" unit="mm" style="lines" multiple="1" display="no" altdistance="0.025" altunitdist="inch" altunit="inch"/>
+<grid distance="5" unitdist="mil" unit="mil" style="lines" multiple="1" display="no" altdistance="0.025" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
@@ -66,6 +66,12 @@
 <wire x1="98" y1="0" x2="98" y2="90" width="0" layer="20"/>
 <wire x1="98" y1="90" x2="0" y2="90" width="0" layer="20"/>
 <wire x1="0" y1="90" x2="0" y2="0" width="0" layer="20"/>
+<text x="21.9075" y="2.54" size="1.778" layer="16" font="vector" rot="MR0">David Kedra
+Diplomarbeit
+Fernsteuerung</text>
+<text x="2.54" y="2.2225" size="1.778" layer="52">David Kedra
+Diplomarbeit
+Fernsteuerung</text>
 </plain>
 <libraries>
 <library name="HTL22_Eagle7_Controller">
@@ -340,6 +346,163 @@ with Driver ILI9488</text>
 </package>
 </packages>
 </library>
+<library name="HTL22_basis">
+<description>&lt;b&gt;Basisbauelemente&lt;/b&gt;&lt;br&gt;
+Bauelemente entsprechen den gültigen Normen 
+&lt;ul&gt;
+&lt;li&gt;IEC 60617
+&lt;li&gt;EN 81346-2
+&lt;/ul&gt;
+&lt;hr&gt;
+Folgende Bauelemente sind enthalten:
+&lt;ul&gt;
+&lt;li&gt;Widerstände
+&lt;li&gt;Dioden 
+&lt;li&gt;Transistoren, NPN und PNP
+&lt;li&gt;MOSFET, N-Kanal, P-Kanal
+&lt;li&gt;Kondensatoren
+&lt;li&gt;ELKO
+&lt;li&gt;Lötanschlüsse
+&lt;li&gt;Montagebohrungen
+&lt;li&gt;Drucktaster
+&lt;li&gt;Leiterplattenschalter
+&lt;li&gt;Trimmpotenziometer
+&lt;li&gt;Arduino Nano und Uno
+&lt;li&gt;Spannungsregler 78xx und 79xx
+&lt;li&gt;OPAMP QUAD, DUAL, SINGLE
+&lt;li&gt;555
+&lt;li&gt;Kleinlautsprecher
+&lt;li&gt;Batterianschlüsse, 9V-Clip, 9V-Batt Halter, 3V-AA Halter
+&lt;li&gt;Schiebeschalter
+&lt;/ul&gt;
+
+Version 1.99, vom 28.11.2023&lt;br&gt;
+erstellt und gepflegt von 
+&lt;author&gt;neca@htl-donaustadt.at&lt;/author&gt;&lt;br&gt;
+&lt;hr&gt;
+Änderungsliste:&lt;br&gt;
+13.05.2019: Änderungen im Package Arduino UNO&lt;br&gt;
+27.03.2019: Batthalter Keystone hinzugefügt&lt;br&gt;
+26.03.2019: OPAMP LM301 hinzugefügt, Batterieclip, bedrahtet&lt;br&gt;
+05.03.2019: Dual-Leiterplattenschalter SX254 Hartmann&lt;br&gt;
+14.02.2019: Dual-Leiterplattenschalter C+K JS-Serie hinzugefügt&lt;br&gt;
+13.02.2019: Single-Leiterplattenschalter schalter1 hinzugefügt&lt;br&gt;
+12.02.2019: Dual-Leiterplattenschalter schalter2 hinzugefügt&lt;br&gt;
+04.01.2019: Visible bug in Arduino Uno+Nano&lt;br&gt;
+03.01.2019: Kleinlautsprecher + Vcc bug&lt;br&gt;
+20.12.2018: A-Kennzeichungs bug bei ELKOs behoben&lt;br&gt;
+29.01.2019: Fehler im Arduino-Uno Gehäuse behoben&lt;br&gt;
+12.10.2020: SMD Gehäuse 0805, 1206 hinzugefügt&lt;br&gt;
+29.01.2020: Fehler in 9V Batt Halter korrrigiert und TAKACHI 3V-AA Halter hinzugefügt&lt;br&gt;
+29.10.2020: Logos mit restric vesehen&lt;br&gt;
+03.11.2020: Diverse Änderungen&lt;br&gt;
+13.11.2020: SIP-3 Spannungswandler eingegeben&lt;br&gt;
+24.11.2020: Drahtbrücken in verschiedenen Längen hinzugefügt&lt;br&gt;
+14.12.2020: AVX HA06 und VA06 Kohleschichttrimmer eingefügt&lt;br&gt;
+18.12.2020: N-MOS eingefügt&lt;br&gt;
+21.12.2020: Silkscreen Bug behoben&lt;br&gt;
+13.01.2021: DUAL und QUAD OPV eingefügt&lt;br&gt;
+25.01.2021: Single OPAMP SOT23-5 hinzugefügt&lt;br&gt;
+08.02.2021: N-MOS + P-MOS in D-PAK und D2-PAK hinzugefügt&lt;br&gt;
+09.02.2021: SOT223 hinzugefügt, LM317 hinzugefügt&lt;br&gt;
+24.02.2021: SMD-Pads hinzugefügt&lt;br&gt;
+26.02.2021: SMD-Pads korrigiert&lt;br&gt;
+27.02.2021: 555-Symbol schaltplangerecht optimiert&lt;br&gt;
+01.03.2021: Arduino ICSP Schnittstelle implementiert&lt;br&gt;
+17.03.2021: Sunrom Schiebeschalter&lt;br&gt;
+22.03.2021: Korrektur ATTiny SO8-208&lt;br&gt;
+29.04.2021: Bei den OPV-Symbolen + und - vertauscht und den ausgang symmetrisch gemacht.&lt;br&gt;
+30.04.2021: Die Devices LN301 und LM741 auf getrennte Standdarstellung umgebaut.&lt;br&gt;
+01.05.2021: VCC Origin Bug behoben&lt;br&gt;
+03.05.2021: Bohrdurchmesser bei allen Arduino Packages auf 1.1mm vergrößert!&lt;br&gt;
+10.05.2021: Footprint von TC33 Potentiomenter geringfügig angepasst.&lt;br&gt;
+11.05.2021: DO-201 für Dioden eingefügt&lt;br&gt;
+12.05.2021: RGB-LED 1B-2G-3CC-4R und 1B-2G-3CA-4R eingefügt&lt;br&gt;
+12.05.2021: Kleinen Fehler im Packge TO220H korrigiert.&lt;br&gt;
+16.06.2021: Pin und PAD 2.5mm hinzugefügt&lt;br&gt;
+23.06.2021: NPN Transistoren in SOT223 Gehäuse hinzugefügt&lt;br&gt;
+24.06.2021: PTS 525 Taster und B3F-10 Taster in SMD hinzugefügt&lt;br&gt;
+01.07.2021: SOT89 Gehäuse hinzugefügt, BC369 und BC869 hinzugefügt&lt;br&gt;
+22.09.2022: Optimierungen am Gehäuse SOT23-5.NEU: DO214AA, DO214AB und DO214AC , SOD87, SOD80 Gehäuse, Z-Dioden&lt;br&gt;
+22.09.2022: CLV0405 .. CLV0805 SMD ELKOS hinzugefügt&lt;br&gt;
+22.11.2022: Fehler im OPV/SN2 Gehaeuse korrigiert&lt;br&gt;
+07.12.2022: Kleine Fehler in Batt Clip und SOD80 und SOD87&lt;br&gt;
+18.01.2022: Bohrdurchmesser in Tastern BF1000 auf 1mm vergrößert und SMD-Pad 150x75 hinzugefügt&lt;br&gt;
+18.02.2022: 1V8 Symbol hinzugefügt&lt;br&gt;
+21.03.2022: LED 5x2mm hinzugfügt&lt;br&gt;
+18.05.2022: Drucktaster LC1258OASP hinzugefügt&lt;br&gt;
+05.11.2022: Vbat und Vsup hinzugefügt&lt;br&gt;
+11.11.2022: Diverse FETS hinzugefügt&lt;br&gt;
+11.11.2022: Änderungen im FET Symbol&lt;br&gt;
+26.11.2022: Änderungen in Device: OPV_Quad und OPV_Dual -&gt; SWAP-Level&lt;br&gt;
+31.05.2023: Korrekturen in Arduino Nano und Uno&lt;br&gt;
+28.11.2023: Korrektur der Bohrdurchmesser in Package EVUF</description>
+<packages>
+<package name="BATT-3V3-AA">
+<description>&lt;b&gt;Batteriehalter&lt;/b&gt;&lt;p&gt;
+TAKACHI, Part.Nr.:SN 3-2PC&lt;br&gt;
+RS.BestNr.:175-6074&lt;br&gt;&lt;br&gt;
+
+Symbolbild&lt;br&gt;
+&lt;img src=Bilder/Batt_2AA.png&gt;
+&lt;br&gt;
+&lt;hr&gt;
+
+&lt;author&gt;neca@htl-donaustadt.at&lt;/author&gt;</description>
+<wire x1="-15.875" y1="-28.575" x2="15.875" y2="-28.575" width="0.127" layer="21"/>
+<wire x1="15.875" y1="-28.575" x2="15.875" y2="28.575" width="0.127" layer="21"/>
+<wire x1="15.875" y1="28.575" x2="-15.875" y2="28.575" width="0.127" layer="21"/>
+<wire x1="-15.875" y1="28.575" x2="-15.875" y2="-28.575" width="0.127" layer="21"/>
+<wire x1="-15.24" y1="27.178" x2="0" y2="27.178" width="0.127" layer="21"/>
+<wire x1="0" y1="27.178" x2="15.24" y2="27.178" width="0.127" layer="21"/>
+<wire x1="15.24" y1="27.178" x2="15.24" y2="25.4" width="0.127" layer="21"/>
+<wire x1="15.24" y1="25.4" x2="12.7" y2="25.4" width="0.127" layer="21"/>
+<wire x1="12.7" y1="25.4" x2="12.7" y2="12.7" width="0.127" layer="21"/>
+<wire x1="12.7" y1="12.7" x2="15.24" y2="12.7" width="0.127" layer="21"/>
+<wire x1="15.24" y1="12.7" x2="15.24" y2="-15.24" width="0.127" layer="21"/>
+<wire x1="15.24" y1="-15.24" x2="12.7" y2="-15.24" width="0.127" layer="21"/>
+<wire x1="12.7" y1="-15.24" x2="12.7" y2="-25.4" width="0.127" layer="21"/>
+<wire x1="12.7" y1="-25.4" x2="15.24" y2="-25.4" width="0.127" layer="21"/>
+<wire x1="15.24" y1="-25.4" x2="15.24" y2="-27.178" width="0.127" layer="21"/>
+<wire x1="15.24" y1="-27.178" x2="0" y2="-27.178" width="0.127" layer="21"/>
+<wire x1="0" y1="-27.178" x2="-15.24" y2="-27.178" width="0.127" layer="21"/>
+<wire x1="-15.24" y1="-27.178" x2="-15.24" y2="-24.765" width="0.127" layer="21"/>
+<wire x1="-15.24" y1="-24.765" x2="-12.7" y2="-24.765" width="0.127" layer="21"/>
+<wire x1="-12.7" y1="-24.765" x2="-12.7" y2="-15.24" width="0.127" layer="21"/>
+<wire x1="-12.7" y1="-15.24" x2="-15.24" y2="-15.24" width="0.127" layer="21"/>
+<wire x1="-15.24" y1="-15.24" x2="-15.24" y2="12.7" width="0.127" layer="21"/>
+<wire x1="-15.24" y1="12.7" x2="-12.7" y2="12.7" width="0.127" layer="21"/>
+<wire x1="-12.7" y1="12.7" x2="-12.7" y2="25.4" width="0.127" layer="21"/>
+<wire x1="-12.7" y1="25.4" x2="-15.24" y2="25.4" width="0.127" layer="21"/>
+<wire x1="-15.24" y1="25.4" x2="-15.24" y2="27.178" width="0.127" layer="21"/>
+<wire x1="10.414" y1="-26.67" x2="2.159" y2="-26.67" width="0.127" layer="21"/>
+<wire x1="2.159" y1="-26.67" x2="10.16" y2="-25.4" width="0.127" layer="21"/>
+<wire x1="10.16" y1="-25.4" x2="3.302" y2="-24.003" width="0.127" layer="21"/>
+<wire x1="3.302" y1="-24.003" x2="9.017" y2="-23.241" width="0.127" layer="21"/>
+<wire x1="9.017" y1="-23.241" x2="4.318" y2="-22.098" width="0.127" layer="21"/>
+<wire x1="4.318" y1="-22.098" x2="8.128" y2="-21.336" width="0.127" layer="21"/>
+<wire x1="8.128" y1="-21.336" x2="5.08" y2="-20.32" width="0.127" layer="21"/>
+<wire x1="5.08" y1="-20.32" x2="7.62" y2="-20.32" width="0.127" layer="21"/>
+<wire x1="0" y1="-27.178" x2="0" y2="-17.78" width="0.127" layer="21"/>
+<wire x1="0" y1="27.178" x2="0" y2="15.24" width="0.127" layer="21"/>
+<wire x1="-11.684" y1="26.67" x2="-3.429" y2="26.67" width="0.127" layer="21"/>
+<wire x1="-3.429" y1="26.67" x2="-11.43" y2="25.4" width="0.127" layer="21"/>
+<wire x1="-11.43" y1="25.4" x2="-4.572" y2="24.003" width="0.127" layer="21"/>
+<wire x1="-4.572" y1="24.003" x2="-10.287" y2="23.241" width="0.127" layer="21"/>
+<wire x1="-10.287" y1="23.241" x2="-5.588" y2="22.098" width="0.127" layer="21"/>
+<wire x1="-5.588" y1="22.098" x2="-9.398" y2="21.336" width="0.127" layer="21"/>
+<wire x1="-9.398" y1="21.336" x2="-6.35" y2="20.32" width="0.127" layer="21"/>
+<wire x1="-6.35" y1="20.32" x2="-8.89" y2="20.32" width="0.127" layer="21"/>
+<pad name="PLUS" x="-6.35" y="-28.575" drill="1.3" diameter="2.54" shape="long"/>
+<pad name="MINUS" x="6.35" y="-28.575" drill="1.3" diameter="2.54" shape="long"/>
+<pad name="P$1" x="0" y="0" drill="3.3" diameter="4.5"/>
+<pad name="P$2" x="0" y="-7.1882" drill="3.3" diameter="4.5"/>
+<pad name="P$3" x="0" y="7.1882" drill="3.3" diameter="4.5"/>
+<text x="-16.51" y="29.845" size="1.27" layer="25" font="vector">&gt;NAME</text>
+<text x="9.525" y="-31.115" size="1.27" layer="27" font="vector">&gt;VALUE</text>
+</package>
+</packages>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -349,7 +512,7 @@ with Driver ILI9488</text>
 <class number="0" name="default" width="0" drill="0">
 </class>
 </classes>
-<designrules name="default">
+<designrules name="default *">
 <description language="de">&lt;b&gt;EAGLE Design Rules&lt;/b&gt;
 &lt;p&gt;
 Die Standard-Design-Rules sind so gewählt, dass sie für 
@@ -367,21 +530,21 @@ design rules under a new name.</description>
 <param name="layerSetup" value="(1*16)"/>
 <param name="mtCopper" value="0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm"/>
 <param name="mtIsolate" value="1.5mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm"/>
-<param name="mdWireWire" value="8mil"/>
-<param name="mdWirePad" value="8mil"/>
-<param name="mdWireVia" value="8mil"/>
-<param name="mdPadPad" value="8mil"/>
-<param name="mdPadVia" value="8mil"/>
-<param name="mdViaVia" value="8mil"/>
-<param name="mdSmdPad" value="8mil"/>
-<param name="mdSmdVia" value="8mil"/>
-<param name="mdSmdSmd" value="8mil"/>
+<param name="mdWireWire" value="12mil"/>
+<param name="mdWirePad" value="12mil"/>
+<param name="mdWireVia" value="12mil"/>
+<param name="mdPadPad" value="12mil"/>
+<param name="mdPadVia" value="12mil"/>
+<param name="mdViaVia" value="12mil"/>
+<param name="mdSmdPad" value="12mil"/>
+<param name="mdSmdVia" value="12mil"/>
+<param name="mdSmdSmd" value="12mil"/>
 <param name="mdViaViaSameLayer" value="8mil"/>
 <param name="mnLayersViaInSmd" value="2"/>
 <param name="mdCopperDimension" value="40mil"/>
 <param name="mdDrill" value="8mil"/>
 <param name="mdSmdStop" value="0mil"/>
-<param name="msWidth" value="10mil"/>
+<param name="msWidth" value="12mil"/>
 <param name="msDrill" value="24mil"/>
 <param name="msMicroVia" value="9.99mm"/>
 <param name="msBlindViaRatio" value="0.5"/>
@@ -426,7 +589,7 @@ design rules under a new name.</description>
 <param name="dpMaxLengthDifference" value="10mm"/>
 <param name="dpGapFactor" value="2.5"/>
 <param name="checkGrid" value="0"/>
-<param name="checkAngle" value="0"/>
+<param name="checkAngle" value="1"/>
 <param name="checkFont" value="1"/>
 <param name="checkRestrict" value="1"/>
 <param name="useDiameter" value="13"/>
@@ -434,12 +597,12 @@ design rules under a new name.</description>
 </designrules>
 <autorouter>
 <pass name="Default">
-<param name="RoutingGrid" value="50mil"/>
-<param name="AutoGrid" value="1"/>
-<param name="Efforts" value="0"/>
-<param name="TopRouterVariant" value="1"/>
+<param name="RoutingGrid" value="5mil"/>
+<param name="AutoGrid" value="0"/>
+<param name="Efforts" value="2"/>
+<param name="TopRouterVariant" value="0"/>
 <param name="tpViaShape" value="round"/>
-<param name="PrefDir.1" value="a"/>
+<param name="PrefDir.1" value="0"/>
 <param name="PrefDir.2" value="0"/>
 <param name="PrefDir.3" value="0"/>
 <param name="PrefDir.4" value="0"/>
@@ -454,7 +617,7 @@ design rules under a new name.</description>
 <param name="PrefDir.13" value="0"/>
 <param name="PrefDir.14" value="0"/>
 <param name="PrefDir.15" value="0"/>
-<param name="PrefDir.16" value="a"/>
+<param name="PrefDir.16" value="*"/>
 <param name="cfVia" value="8"/>
 <param name="cfNonPref" value="5"/>
 <param name="cfChangeDir" value="2"/>
@@ -529,7 +692,7 @@ design rules under a new name.</description>
 </pass>
 </autorouter>
 <elements>
-<element name="K1" library="HTL22_Eagle7_Controller" package="ESP32-DEVKITV1" value="ESP32DEVKITV11000MIL" x="77.23" y="44.22" rot="MR0"/>
+<element name="K1" library="HTL22_Eagle7_Controller" package="ESP32-DEVKITV1" value="ESP32DEVKITV11000MIL" x="61.365" y="35.165" rot="MR90"/>
 <element name="P1" library="TFT SPI 3.5inch 480x320 ILI9488" package="TFT_3.5&quot;_SPI_480X320" value="TFT_3.5&quot;_SPI_480X320" x="0" y="90" rot="R270"/>
 <element name="U1" library="joystick COM-09032" package="XDCR_COM-09032" value="COM-09032" x="62" y="14.9" rot="R270">
 <attribute name="SNAPEDA_LINK" value="https://www.snapeda.com/parts/COM-09032/SparkFun+Electronics/view-part/?ref=snap" x="62" y="14.9" size="1.778" layer="27" rot="R270" display="off"/>
@@ -541,6 +704,7 @@ design rules under a new name.</description>
 <attribute name="PACKAGE" value="Package " x="62" y="14.9" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="DESCRIPTION" value=" Joystick, 2 - Axis Analog (Resistive) Output " x="62" y="14.9" size="1.778" layer="27" rot="R270" display="off"/>
 </element>
+<element name="G1" library="HTL22_basis" package="BATT-3V3-AA" value="BATT3V3_AA" x="33.909" y="59.309" rot="MR0"/>
 </elements>
 <signals>
 <signal name="+3V3">
@@ -549,70 +713,143 @@ design rules under a new name.</description>
 <contactref element="K1" pad="1"/>
 <contactref element="P1" pad="1"/>
 <contactref element="P1" pad="8"/>
-<wire x1="64.54" y1="25.06" x2="77.23" y2="44.22" width="0" layer="19" extent="1-1"/>
-<wire x1="51.84" y1="17.44" x2="64.54" y2="25.06" width="0" layer="19" extent="1-1"/>
-<wire x1="2" y1="60.56" x2="51.84" y2="17.44" width="0" layer="19" extent="1-1"/>
-<wire x1="2" y1="78.34" x2="2" y2="60.56" width="0" layer="19" extent="1-1"/>
+<contactref element="G1" pad="PLUS"/>
+<wire x1="2" y1="60.56" x2="5.461" y2="60.56" width="0.3048" layer="16"/>
+<wire x1="5.461" y1="60.56" x2="5.461" y2="60.452" width="0.3048" layer="16"/>
+<via x="5.461" y="60.452" extent="1-16" drill="1" diameter="1.778"/>
+<wire x1="5.461" y1="60.452" x2="5.461" y2="78.359" width="0.3048" layer="1"/>
+<via x="5.461" y="78.359" extent="1-16" drill="1" diameter="1.778"/>
+<wire x1="2" y1="78.34" x2="5.461" y2="78.34" width="0.3048" layer="16"/>
+<wire x1="5.461" y1="78.34" x2="5.461" y2="78.359" width="0.3048" layer="16"/>
+<wire x1="61.087" y1="35.052" x2="61.341" y2="35.052" width="0.3048" layer="16"/>
+<wire x1="59.69" y1="33.655" x2="61.087" y2="35.052" width="0.3048" layer="16"/>
+<wire x1="59.69" y1="29.972" x2="59.69" y2="33.655" width="0.3048" layer="16"/>
+<wire x1="64.516" y1="25.146" x2="59.69" y2="29.972" width="0.3048" layer="16"/>
+<wire x1="61.341" y1="35.052" x2="61.365" y2="35.165" width="0.3048" layer="16"/>
+<wire x1="64.516" y1="25.146" x2="64.54" y2="25.06" width="0.3048" layer="16"/>
+<wire x1="56.515" y1="17.526" x2="53.34" y2="17.526" width="0.3048" layer="16"/>
+<wire x1="53.34" y1="17.526" x2="51.943" y2="17.526" width="0.3048" layer="16"/>
+<wire x1="64.262" y1="25.273" x2="56.515" y2="17.526" width="0.3048" layer="16"/>
+<wire x1="51.943" y1="17.526" x2="51.84" y2="17.44" width="0.3048" layer="16"/>
+<wire x1="64.262" y1="25.273" x2="64.54" y2="25.06" width="0.3048" layer="16"/>
+<wire x1="53.34" y1="17.653" x2="40.259" y2="30.734" width="0.3048" layer="16"/>
+<wire x1="53.34" y1="17.653" x2="53.34" y2="17.526" width="0.3048" layer="16"/>
+<wire x1="10.414" y1="60.452" x2="5.461" y2="60.452" width="0.3048" layer="16"/>
+<wire x1="40.132" y1="30.734" x2="10.414" y2="60.452" width="0.3048" layer="16"/>
+<wire x1="40.132" y1="30.734" x2="40.259" y2="30.734" width="0.3048" layer="16"/>
 </signal>
 <signal name="GND">
 <contactref element="U1" pad="V3"/>
 <contactref element="U1" pad="H3"/>
-<contactref element="U1" pad="B2A"/>
+<contactref element="U1" pad="B2B"/>
 <contactref element="K1" pad="14"/>
 <contactref element="K1" pad="38"/>
 <contactref element="K1" pad="32"/>
 <contactref element="P1" pad="2"/>
-<wire x1="61.99" y1="69.62" x2="77.23" y2="69.62" width="0" layer="19" extent="1-1"/>
-<wire x1="44.21" y1="44.22" x2="61.99" y2="69.62" width="0" layer="19" extent="1-1"/>
-<wire x1="59.46" y1="25.06" x2="44.21" y2="44.22" width="0" layer="19" extent="1-1"/>
-<wire x1="69.62" y1="18.075" x2="59.46" y2="25.06" width="0" layer="19" extent="1-1"/>
+<contactref element="G1" pad="MINUS"/>
+<polygon width="0.4064" layer="16" pour="hatch" isolate="0.508">
+<vertex x="0" y="0"/>
+<vertex x="98" y="0"/>
+<vertex x="98" y="90"/>
+<vertex x="0" y="90"/>
+</polygon>
 <wire x1="51.84" y1="12.36" x2="59.46" y2="25.06" width="0" layer="19" extent="1-1"/>
-<wire x1="2" y1="75.8" x2="44.21" y2="44.22" width="0" layer="19" extent="1-1"/>
+<wire x1="86.765" y1="35.165" x2="69.62" y2="11.725" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="JOYSTICK_SELECT">
 <contactref element="U1" pad="B1A"/>
 <contactref element="K1" pad="3"/>
-<wire x1="74.7" y1="18.075" x2="72.15" y2="44.22" width="0" layer="19" extent="1-1"/>
+<wire x1="61.468" y1="39.37" x2="61.468" y2="40.132" width="0.3048" layer="16"/>
+<wire x1="74.676" y1="26.162" x2="61.468" y2="39.37" width="0.3048" layer="16"/>
+<wire x1="74.676" y1="18.161" x2="74.676" y2="26.162" width="0.3048" layer="16"/>
+<wire x1="61.468" y1="40.132" x2="61.365" y2="40.245" width="0.3048" layer="16"/>
+<wire x1="74.676" y1="18.161" x2="74.7" y2="18.075" width="0.3048" layer="16"/>
 </signal>
 <signal name="TFT_MOSI">
 <contactref element="K1" pad="37"/>
 <contactref element="P1" pad="6"/>
-<wire x1="2" y1="65.64" x2="74.69" y2="69.62" width="0" layer="19" extent="1-1"/>
+<wire x1="2" y1="65.64" x2="86.765" y2="37.705" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="TFT_MISO">
 <contactref element="K1" pad="31"/>
 <contactref element="P1" pad="9"/>
-<wire x1="2" y1="58.02" x2="59.45" y2="69.62" width="0" layer="19" extent="1-1"/>
+<wire x1="2.032" y1="57.15" x2="2.032" y2="57.912" width="0.3048" layer="16"/>
+<wire x1="24.511" y1="34.671" x2="2.032" y2="57.15" width="0.3048" layer="16"/>
+<wire x1="24.511" y1="29.972" x2="24.511" y2="34.671" width="0.3048" layer="16"/>
+<wire x1="44.196" y1="10.287" x2="24.511" y2="29.972" width="0.3048" layer="16"/>
+<wire x1="70.739" y1="10.287" x2="44.196" y2="10.287" width="0.3048" layer="16"/>
+<wire x1="2.032" y1="57.912" x2="2" y2="58.02" width="0.3048" layer="16"/>
+<wire x1="70.739" y1="10.287" x2="74.041" y2="13.589" width="0.3048" layer="16"/>
+<wire x1="86.765" y1="52.945" x2="83.806" y2="52.945" width="0.3048" layer="16"/>
+<wire x1="83.806" y1="52.945" x2="82.931" y2="52.07" width="0.3048" layer="16"/>
+<wire x1="82.931" y1="52.07" x2="82.931" y2="14.732" width="0.3048" layer="16"/>
+<wire x1="82.931" y1="14.732" x2="81.788" y2="13.589" width="0.3048" layer="16"/>
+<wire x1="81.788" y1="13.589" x2="74.041" y2="13.589" width="0.3048" layer="16"/>
 </signal>
 <signal name="TFT_SCK">
 <contactref element="K1" pad="30"/>
 <contactref element="P1" pad="7"/>
-<wire x1="2" y1="63.1" x2="56.91" y2="69.62" width="0" layer="19" extent="1-1"/>
+<wire x1="26.289" y1="62.992" x2="2.032" y2="62.992" width="0.3048" layer="16"/>
+<wire x1="32.766" y1="56.515" x2="26.289" y2="62.992" width="0.3048" layer="16"/>
+<wire x1="59.055" y1="56.515" x2="32.766" y2="56.515" width="0.3048" layer="16"/>
+<wire x1="59.309" y1="56.769" x2="59.055" y2="56.515" width="0.3048" layer="16"/>
+<wire x1="85.471" y1="56.769" x2="59.309" y2="56.769" width="0.3048" layer="16"/>
+<wire x1="86.741" y1="55.499" x2="85.471" y2="56.769" width="0.3048" layer="16"/>
+<wire x1="2.032" y1="62.992" x2="2" y2="63.1" width="0.3048" layer="16"/>
+<wire x1="86.741" y1="55.499" x2="86.765" y2="55.485" width="0.3048" layer="16"/>
 </signal>
 <signal name="TFT_CS">
 <contactref element="K1" pad="29"/>
 <contactref element="P1" pad="3"/>
-<wire x1="2" y1="73.26" x2="54.37" y2="69.62" width="0" layer="19" extent="1-1"/>
+<wire x1="50.546" y1="73.152" x2="2.032" y2="73.152" width="0.3048" layer="16"/>
+<wire x1="59.309" y1="64.389" x2="50.546" y2="73.152" width="0.3048" layer="16"/>
+<wire x1="80.264" y1="64.389" x2="59.309" y2="64.389" width="0.3048" layer="16"/>
+<wire x1="86.741" y1="57.912" x2="80.264" y2="64.389" width="0.3048" layer="16"/>
+<wire x1="2.032" y1="73.152" x2="2" y2="73.26" width="0.3048" layer="16"/>
+<wire x1="86.741" y1="57.912" x2="86.765" y2="58.025" width="0.3048" layer="16"/>
 </signal>
 <signal name="TFT_DC">
 <contactref element="K1" pad="10"/>
 <contactref element="P1" pad="5"/>
-<wire x1="2" y1="68.18" x2="54.37" y2="44.22" width="0" layer="19" extent="1-1"/>
+<wire x1="28.448" y1="68.072" x2="2.032" y2="68.072" width="0.3048" layer="16"/>
+<wire x1="34.417" y1="62.103" x2="28.448" y2="68.072" width="0.3048" layer="16"/>
+<wire x1="56.515" y1="62.103" x2="34.417" y2="62.103" width="0.3048" layer="16"/>
+<wire x1="60.579" y1="58.039" x2="56.515" y2="62.103" width="0.3048" layer="16"/>
+<wire x1="61.341" y1="58.039" x2="60.579" y2="58.039" width="0.3048" layer="16"/>
+<wire x1="2.032" y1="68.072" x2="2" y2="68.18" width="0.3048" layer="16"/>
+<wire x1="61.341" y1="58.039" x2="61.365" y2="58.025" width="0.3048" layer="16"/>
 </signal>
 <signal name="TFT_RESET">
 <contactref element="K1" pad="11"/>
 <contactref element="P1" pad="4"/>
-<wire x1="2" y1="70.72" x2="51.83" y2="44.22" width="0" layer="19" extent="1-1"/>
+<wire x1="50.546" y1="70.612" x2="2.032" y2="70.612" width="0.3048" layer="16"/>
+<wire x1="60.579" y1="60.579" x2="50.546" y2="70.612" width="0.3048" layer="16"/>
+<wire x1="61.341" y1="60.579" x2="60.579" y2="60.579" width="0.3048" layer="16"/>
+<wire x1="2.032" y1="70.612" x2="2" y2="70.72" width="0.3048" layer="16"/>
+<wire x1="61.341" y1="60.579" x2="61.365" y2="60.565" width="0.3048" layer="16"/>
 </signal>
 <signal name="JOYSTICK_X">
 <contactref element="U1" pad="H2"/>
 <contactref element="K1" pad="5"/>
-<wire x1="51.84" y1="14.9" x2="67.07" y2="44.22" width="0" layer="19" extent="1-1"/>
+<wire x1="61.468" y1="44.45" x2="61.468" y2="45.212" width="0.3048" layer="16"/>
+<wire x1="76.073" y1="29.845" x2="61.468" y2="44.45" width="0.3048" layer="16"/>
+<wire x1="76.073" y1="16.891" x2="76.073" y2="29.845" width="0.3048" layer="16"/>
+<wire x1="61.468" y1="45.212" x2="61.365" y2="45.325" width="0.3048" layer="16"/>
+<wire x1="51.84" y1="14.9" x2="63.795" y2="14.9" width="0.3048" layer="16"/>
+<wire x1="63.795" y1="14.9" x2="65.278" y2="16.383" width="0.3048" layer="16"/>
+<wire x1="65.278" y1="16.383" x2="75.565" y2="16.383" width="0.3048" layer="16"/>
+<wire x1="75.565" y1="16.383" x2="76.073" y2="16.891" width="0.3048" layer="16"/>
 </signal>
 <signal name="JOYSTICK_Y">
 <contactref element="U1" pad="V2"/>
 <contactref element="K1" pad="6"/>
-<wire x1="62" y1="25.06" x2="64.53" y2="44.22" width="0" layer="19" extent="1-1"/>
+<wire x1="60.452" y1="47.752" x2="61.341" y2="47.752" width="0.3048" layer="16"/>
+<wire x1="58.547" y1="45.847" x2="60.452" y2="47.752" width="0.3048" layer="16"/>
+<wire x1="58.547" y1="29.21" x2="58.547" y2="45.847" width="0.3048" layer="16"/>
+<wire x1="61.976" y1="25.781" x2="58.547" y2="29.21" width="0.3048" layer="16"/>
+<wire x1="61.976" y1="25.146" x2="61.976" y2="25.781" width="0.3048" layer="16"/>
+<wire x1="61.341" y1="47.752" x2="61.365" y2="47.865" width="0.3048" layer="16"/>
+<wire x1="61.976" y1="25.146" x2="62" y2="25.06" width="0.3048" layer="16"/>
 </signal>
 </signals>
 </board>

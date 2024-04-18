@@ -1,5 +1,5 @@
-joystick COM-09032.lbr:
-https://www.snapeda.com/parts/COM-09032/SparkFun%20Electronics/view-part
+# joystick COM-09032.lbr
+"https://www.snapeda.com/parts/COM-09032/SparkFun%20Electronics/view-part"
 
-TFT SPI 3.5inch 480x320 ILI9488.lbr:
-David Kedra
+# TFT SPI 3.5inch 480x320 ILI9488.lbr
+Die Eagle Library wurde hauptsächlich von David Kedra erstellt, basierend auf einer Vorlage von Wolfram F. veröffentlicht am 17.10.2023 um 21:01 Uhr unter "https://www.mikrocontroller.net/topic/560527".
