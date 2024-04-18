@@ -1,9 +1,0 @@
-# Idee Umgebungsspeicherung
-
-Speicherung erfolgt nur wenn fahrzeug stationär.
-Wenn fahrzeug fährt wird die speicherung überschrieben.
-
-https://chat.openai.com/c/5757952d-ca95-4332-a0c9-2a13918b37a5
- 
-SLAM: 
-https://de.wikipedia.org/wiki/Simultaneous_Localization_and_Mapping
