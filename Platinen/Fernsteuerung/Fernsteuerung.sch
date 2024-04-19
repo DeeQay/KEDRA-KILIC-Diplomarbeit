@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="25" unitdist="mil" unit="mil" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
@@ -2427,6 +2427,9 @@ Erstellt: 13.02.19 von
 <sheets>
 <sheet>
 <plain>
+<text x="114.3" y="88.9" size="2.54" layer="97">David Kedra
+Diplomarbeit
+Fernsteuerung</text>
 </plain>
 <instances>
 <instance part="K1" gate="G$1" x="78.105" y="50.165" smashed="yes">
@@ -2505,20 +2508,6 @@ Erstellt: 13.02.19 von
 </net>
 <net name="GND" class="0">
 <segment>
-<pinref part="U1" gate="G$1" pin="V-"/>
-<wire x1="81.915" y1="135.89" x2="79.375" y2="135.89" width="0.1524" layer="91"/>
-<wire x1="79.375" y1="135.89" x2="79.375" y2="125.73" width="0.1524" layer="91"/>
-<pinref part="U1" gate="G$1" pin="H-"/>
-<wire x1="79.375" y1="125.73" x2="81.915" y2="125.73" width="0.1524" layer="91"/>
-<wire x1="79.375" y1="125.73" x2="79.375" y2="118.11" width="0.1524" layer="91"/>
-<junction x="79.375" y="125.73"/>
-<pinref part="U1" gate="G$1" pin="SEL-"/>
-<wire x1="79.375" y1="118.11" x2="81.915" y2="118.11" width="0.1524" layer="91"/>
-<wire x1="79.375" y1="118.11" x2="79.375" y2="110.49" width="0.1524" layer="91"/>
-<junction x="79.375" y="118.11"/>
-<pinref part="GND1" gate="1" pin="GND"/>
-</segment>
-<segment>
 <pinref part="GND2" gate="1" pin="GND"/>
 <pinref part="K1" gate="G$1" pin="GND"/>
 <wire x1="78.105" y1="12.065" x2="78.105" y2="14.605" width="0.1524" layer="91"/>
@@ -2547,6 +2536,20 @@ Erstellt: 13.02.19 von
 <wire x1="27.305" y1="50.165" x2="27.305" y2="47.625" width="0.1524" layer="91"/>
 <pinref part="GND5" gate="1" pin="GND"/>
 </segment>
+<segment>
+<pinref part="U1" gate="G$1" pin="V-"/>
+<wire x1="81.915" y1="135.89" x2="79.375" y2="135.89" width="0.1524" layer="91"/>
+<wire x1="79.375" y1="135.89" x2="79.375" y2="125.73" width="0.1524" layer="91"/>
+<pinref part="U1" gate="G$1" pin="H-"/>
+<wire x1="79.375" y1="125.73" x2="81.915" y2="125.73" width="0.1524" layer="91"/>
+<wire x1="79.375" y1="125.73" x2="79.375" y2="118.11" width="0.1524" layer="91"/>
+<junction x="79.375" y="125.73"/>
+<pinref part="U1" gate="G$1" pin="SEL-"/>
+<wire x1="79.375" y1="118.11" x2="81.915" y2="118.11" width="0.1524" layer="91"/>
+<pinref part="GND1" gate="1" pin="GND"/>
+<wire x1="79.375" y1="110.49" x2="79.375" y2="118.11" width="0.1524" layer="91"/>
+<junction x="79.375" y="118.11"/>
+</segment>
 </net>
 <net name="JOYSTICK_SELECT" class="0">
 <segment>
@@ -2557,7 +2560,7 @@ Erstellt: 13.02.19 von
 <segment>
 <pinref part="K1" gate="G$1" pin="IO36(ADC0)"/>
 <wire x1="47.625" y1="65.405" x2="50.165" y2="65.405" width="0.1524" layer="91"/>
-<label x="27.94" y="65.405" size="1.6764" layer="95"/>
+<label x="27.94" y="66.04" size="1.6764" layer="95"/>
 </segment>
 </net>
 <net name="TFT_MOSI" class="0">
@@ -2656,7 +2659,7 @@ Erstellt: 13.02.19 von
 <label x="34.29" y="57.785" size="1.6764" layer="95"/>
 </segment>
 </net>
-<net name="N$1" class="0">
+<net name="BUTTON_PULLDOWN" class="0">
 <segment>
 <pinref part="K1" gate="G$1" pin="IO39(ADC3)"/>
 <pinref part="S1" gate="G$1" pin="S"/>
@@ -2665,9 +2668,10 @@ Erstellt: 13.02.19 von
 <wire x1="27.305" y1="62.865" x2="22.225" y2="62.865" width="0.1524" layer="91"/>
 <wire x1="27.305" y1="62.865" x2="27.305" y2="60.325" width="0.1524" layer="91"/>
 <junction x="27.305" y="62.865"/>
+<label x="25.0825" y="63.5" size="1.6764" layer="95"/>
 </segment>
 </net>
-<net name="N$2" class="0">
+<net name="BATTERY_+3V3" class="0">
 <segment>
 <pinref part="G1" gate="G$1" pin="PLUS"/>
 <wire x1="113.665" y1="133.985" x2="113.665" y2="137.16" width="0.1524" layer="91"/>
