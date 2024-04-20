@@ -56,7 +56,7 @@ bool Bluetooth::HandleIncomingMessage(int* outMessage, int sizeofOutMessage) {
       }
     } else if (messagePos < MAX_MESSAGE_LENGTH && isdigit(receivedValue)) {
       // Datentyp `char` zu `int` konvertieren
-      int8_t digit = receivedValue - '0'
+      int8_t digit = receivedValue - '0';
       // Ziffer `digit` an das Ende der aktuellen Zahl in der Nachricht anhängen
       incomingMessage[messagePos] = incomingMessage[messagePos] * 10 + digit;
     }

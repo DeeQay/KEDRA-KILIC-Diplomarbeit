@@ -1,3 +1,5 @@
+// Programmersteller: David KEDRA
+
 #ifndef LIDARMAPPER_H
 #define LIDARMAPPER_H
 

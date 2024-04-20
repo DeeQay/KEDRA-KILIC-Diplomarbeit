@@ -12,6 +12,9 @@ int receivedMessage[bt.MAX_MESSAGE_LENGTH];
 int distance[12];
 int angle[12];
 
+unsigned long lastSendTime = 0; // Variable zur Speicherung der Zeit des letzten Bluetooth sendens
+unsigned long sendInterval = 10; // Intervall zwischen den Bluetooth Sendungen in Millisekunden
+
 volatile int interruptCounter;
 
 hw_timer_t* timer = NULL;
@@ -36,18 +39,21 @@ void setup() {
 }
 
 void loop() {
-  if (!bt.IsConnected()) return;  // Der Code unterhalb wird nur bei verbundenen Bluetooth ausgeführt
-
-  HandleSendLidar();
+  if (!bt.IsConnected()) return;  // Der Code unterhalb wird nur bei verbundenem Bluetooth ausgeführt
 
   HandleBluetoothReceive();
+
+  // Bluetooth Senden
+  if (millis() - lastSendTime >= sendInterval) { // Überprüfen, ob genügend Zeit vergangen ist seit dem letzten Senden
+    HandleSendLidar();
+    lastSendTime = millis(); // Aktualisieren der Zeit des letzten Sendens
+  }
 }
 
 void HandleBluetoothReceive() {  // David Kedra
   bool isMessageReceived = bt.HandleIncomingMessage(receivedMessage, sizeof(receivedMessage));
   if (isMessageReceived) {
     Serial.print("bt empfangen:\t");
-    // Serial.println(receivedMessage[0]);
     if (receivedMessage[0] == bt.JOYSTICK) {
       ReceivedJoystickValues();
     } else {
@@ -60,10 +66,6 @@ void ReceivedJoystickValues() {  // David Kedra
   Serial.print("Joystick: ");
   int JoystickX = receivedMessage[1];
   int JoystickY = receivedMessage[2];
-
-  // Wert "1" wird auf "0" gesetzt, da vor dem Senden der Wert "0" auf "1" umgewandelt wurde, weil beim Senden vom Wert "0" Probleme auftreten.
-  /*if (JoystickX == 1) JoystickX = 0;
-  if (JoystickY == 1) JoystickY = 0;*/
 
   Serial.print(JoystickX);
   Serial.print(',');
@@ -80,15 +82,9 @@ void HandleSendLidar() {  // Berdan Kilic
     interruptCounter = 0;
     portEXIT_CRITICAL(&timerMux);
 
-    //  Serial.println("Processed data (Distance, Angle):");
     for (byte i = 0; i < 12; i++) {
-      /* Serial.print(distance[i], DEC);
-      Serial.print(',');
-      Serial.print(angle[i], DEC);
-      Serial.println();*/
       SendLidar(angle[i], distance[i]);
     }
-    //Serial.println("/******************END***************");
   }
 
   memset(distance, 0, sizeof(distance) / sizeof(int));
@@ -97,10 +93,6 @@ void HandleSendLidar() {  // Berdan Kilic
 
 void SendLidar(int angle, int distance) {  // David Kedra
   message[0] = bt.LIDAR;
-
-  // Wert "0" wird auf "1" umgewandelt
-  /*message[1] = (angle == 0 ? 1 : angle);
-  message[2] = (distance == 0 ? 1 : distance);*/
 
   bt.SendMessage(message);
 

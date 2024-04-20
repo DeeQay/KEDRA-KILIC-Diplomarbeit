@@ -1,31 +1,3 @@
-#include "LidarMapper.h"
-#include "TFTDisplay.h"
-#include <vector>
-
-using namespace std;
-
-LidarMapper mapper;
-TFTDisplay tft;
-
-void setup() {
-  Serial.begin(115200);
-
-  tft.Setup(mapper.getMap());
-
-  TestLidarValuesCode();
-}
-
-void loop() {
-}
-
-
-
-
-
-
-
-
-
 void TestLidarValuesCode() {
   // Test code
   int distance;

@@ -1,3 +1,5 @@
+// Programmersteller: David KEDRA
+
 #include "TFTDisplay.h"
 
 using namespace std;

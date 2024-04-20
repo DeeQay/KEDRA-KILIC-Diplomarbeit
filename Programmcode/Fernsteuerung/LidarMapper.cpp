@@ -1,3 +1,5 @@
+// Programmersteller: David KEDRA
+
 #include "LidarMapper.h"
 #include <Arduino.h>
 

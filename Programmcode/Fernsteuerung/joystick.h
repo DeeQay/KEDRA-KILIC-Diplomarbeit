@@ -1,3 +1,5 @@
+// Programmersteller: Berdan KILIC & David Kedra
+
 #ifndef JOYSTICK_H
 #define JOYSTICK_H
 
@@ -9,6 +11,7 @@ public:
   void init();
   int xAxis();
   int yAxis();
+  bool pressed();
 private:
   int8_t _xPin;
   int8_t _yPin;

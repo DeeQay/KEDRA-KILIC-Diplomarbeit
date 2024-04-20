@@ -1,3 +1,5 @@
+// Programmersteller: David KEDRA
+
 #ifndef TFTDISPLAY_H
 #define TFTDISPLAY_H
 
