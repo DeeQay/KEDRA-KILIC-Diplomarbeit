@@ -5,8 +5,8 @@
 using namespace std;
 
 void TFTDisplay::Setup(vector<vector<PositionState>> map) {
-  tft.setSpiKludge(false);
   tft.init();
+  tft.setSpiKludge(false); // Modus für Treiber ILI9486 (falscher Treiber) deaktivieren
   tft.setRotation(3);
 
   tft.fillScreen(YELLOW);  // alles UNKNOWN
@@ -22,14 +22,14 @@ void TFTDisplay::Setup(vector<vector<PositionState>> map) {
 void TFTDisplay::PrintMap(vector<vector<PositionState>> map) {
   static vector<vector<PositionState>> previousMap;
 
-  // Initialisierung
   if (previousMap.size() == 0) {
+    // Initialisierung
     previousMap = map;
     return;
   }
 
-  // Es hat sich nichts geändert
   if (previousMap == map) {
+    // Es hat sich nichts geändert
     return;
   }
 
@@ -55,15 +55,6 @@ void TFTDisplay::UpdateMap(const vector<vector<PositionState>>& map, const vecto
 
       if (map[i][j] == OBJECT && previousMap[i][j] != OBJECT) {
         tft.fillRect(x, y, CELL_WIDTH, CELL_HEIGHT, OBJECT_COLOR);
-
-        // if (previousObjectPos.x != -1 && previousObjectPos.y != -1) {
-        // if (x < previousObjectPos.x - 2 * CELL_WIDTH || x > previousObjectPos.x + 2 * CELL_WIDTH
-        //     || y < previousObjectPos.y - 2 * CELL_HEIGHT || y > previousObjectPos.y + 2 * CELL_HEIGHT) {
-        //   // aktuelle Zelle liegt außerhalb der vorherigen Zelle PLUS einer weiteren Zelle (=> zwischen den zwei Zellen ist eine Lücke)
-        //   // ausfüllen der Lücke:
-        //   tft.drawLine(previousObjectPos.x, previousObjectPos.y, x, y, OBJECT_COLOR);
-        // }
-        // }
 
         previousObjectPos.x = x;
         previousObjectPos.y = y;

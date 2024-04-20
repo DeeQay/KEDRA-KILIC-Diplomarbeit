@@ -9,7 +9,7 @@ public:
   // VSPI:
   // MOSI -> 23
   // MISO -> 19
-  // CLK -> 18
+  // SCK/CLK -> 18
   
   // Joystick
   static const int JOYSTICK_X = 34;

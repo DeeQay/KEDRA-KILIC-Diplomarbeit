@@ -22,7 +22,7 @@ enum PositionState {
   UNKNOWN
 };
 
-#define MAX_DISTANCE 5000
+#define MAX_DISTANCE 5000 // Die maximale Anzeige-Distanz nach Norden Osten Süden Westen
 
 class LidarMapper {
 private:
