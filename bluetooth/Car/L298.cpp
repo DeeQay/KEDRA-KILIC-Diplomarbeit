@@ -29,15 +29,6 @@ void L298::disableAllMotors() {
   digitalWrite(driver_2_in4, LOW);
 }
 void L298::forward() {
-  /* digitalWrite(driver_1_in1, LOW); //left
-  digitalWrite(driver_1_in2, HIGH); 
-  digitalWrite(driver_1_in3, HIGH);
-  digitalWrite(driver_1_in4, LOW);
-
-  digitalWrite(driver_2_in1, HIGH); //right
-  digitalWrite(driver_2_in2, LOW);
-  digitalWrite(driver_2_in3, LOW);
-  digitalWrite(driver_2_in4, HIGH);*/
 
   digitalWrite(driver_1_in1, HIGH);
   digitalWrite(driver_1_in2, LOW);
@@ -51,21 +42,12 @@ void L298::forward() {
 }
 // Function to turn motors backward
 void L298::backward() {
-  /* digitalWrite(driver_1_in1, HIGH);
-  digitalWrite(driver_1_in2, LOW);
-  digitalWrite(driver_1_in3, LOW);
-  digitalWrite(driver_1_in4, HIGH);
-
-  digitalWrite(driver_2_in1, LOW);
-  digitalWrite(driver_2_in2, HIGH);
-  digitalWrite(driver_2_in3, HIGH);
-  digitalWrite(driver_2_in4, LOW);*/
-  digitalWrite(driver_1_in1, LOW);  //left
+  digitalWrite(driver_1_in1, LOW);  
   digitalWrite(driver_1_in2, HIGH);
   digitalWrite(driver_1_in3, HIGH);
   digitalWrite(driver_1_in4, LOW);
 
-  digitalWrite(driver_2_in1, HIGH);  //right
+  digitalWrite(driver_2_in1, HIGH);  
   digitalWrite(driver_2_in2, LOW);
   digitalWrite(driver_2_in3, LOW);
   digitalWrite(driver_2_in4, HIGH);

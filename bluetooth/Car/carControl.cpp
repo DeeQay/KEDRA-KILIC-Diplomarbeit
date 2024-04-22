@@ -10,32 +10,11 @@ void carInit() {
   motordrive.init();
   Serial.println("Setup done");
 
-  /*  analogWrite(driver_1_en1,255);  
-     analogWrite(driver_1_en2,255);
-     analogWrite(driver_2_en1,255);
-     analogWrite(driver_2_en2,255);
-
-  digitalWrite(driver_1_in1, HIGH);
-  digitalWrite(driver_1_in2, LOW);
-  digitalWrite(driver_1_in3, LOW);
-  digitalWrite(driver_1_in4, HIGH);
-
-  digitalWrite(driver_2_in1, LOW);
-  digitalWrite(driver_2_in2, HIGH);
-  digitalWrite(driver_2_in3, HIGH);
-  digitalWrite(driver_2_in4, LOW);*/
-
-  /*motordrive.forward();delay(5000);
-  motordrive.backward();delay(5000);
-  motordrive.left();delay(5000);
-  motordrive.right();delay(5000);*/
 }
 void carLoop(int joystickX, int joystickY) {
   int X = joystickX;
   int Y = joystickY;
-  // Serial.println("ADC X: " + String(X));
-  // Serial.println("ADC Y: " + String(Y));
-  // Serial.println("////////////////////////");
+  
   if ((X > 1850 && X < 4095) && Y > 1700) {
     // Serial.println("forward");
     int pwm = 0;
@@ -61,7 +40,6 @@ void carLoop(int joystickX, int joystickY) {
     analogWrite(driver_2_en1, pwm);
     analogWrite(driver_2_en2, pwm);
     //Serial.println("Direction:Forward, ADC X:" + String(X) + "," + "ADC Y:" + String(Y) + "," + "Pwm:" + String(pwm));
-
   }
 
   else if (X < 1800 && Y > 1700) {
@@ -129,19 +107,5 @@ void carLoop(int joystickX, int joystickY) {
     analogWrite(driver_2_en2, pwm);
     carIsIdle = true;
   }
-  /* if( !carIsIdle && (X > 1800 && X <1900) && (Y>1800 &&  Y<1900) )
-  {
-     int pwm = 0;
-      motordrive.disableAllMotors();
-     // Serial.println("stop");
-      analogWrite(driver_1_en1,pwm);
-      analogWrite(driver_1_en2,pwm);
-      analogWrite(driver_2_en1,pwm);
-      analogWrite(driver_2_en2,pwm);
-     carIsIdle = true;
-  } 
-  else 
-  {
-    carIsIdle = false;
-  }*/
+  
 }
