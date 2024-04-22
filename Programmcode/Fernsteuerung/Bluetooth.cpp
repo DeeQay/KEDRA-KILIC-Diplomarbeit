@@ -83,13 +83,13 @@ void Bluetooth::SendMessage(int message[MAX_MESSAGE_LENGTH]) {
 
     // integer Nachricht als einzelne Ziffer speichern
     while (tmpMessage > 0) {
-      int digit = tmpMessage % 10;
-      digits[digitPos++] = digit;
-      tmpMessage /= 10;
+      int digit = tmpMessage % 10; // rechte Ziffer entnehmen
+      digits[digitPos++] = digit; // rechte Ziffer speichern
+      tmpMessage /= 10; // Die Position der Ziffern nach rechts verschieben
     }
     // Ziffer in richtige Reihenfolge setzen (Array umkehren):
     for (int j = digitPos - 1; j >= 0; j--) {
-      char digitAsAscii = '0' + digits[j];
+      char digitAsAscii = '0' + digits[j]; // Ziffer in ASCII Zeichen umwandeln
       SerialBT.write(digitAsAscii);  // Ziffern einzeln senden
     }
 

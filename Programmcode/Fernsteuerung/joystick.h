@@ -17,4 +17,5 @@ private:
   int8_t _yPin;
   int8_t _selectPin;
 };
+
 #endif

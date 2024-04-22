@@ -12,14 +12,11 @@ const int MAP_SIZE_X = 21;
 const int MAP_SIZE_Y = 21;
 
 struct Position {
-  int x;
-  int y;
+  int x, y;
 };
 
 enum PositionState {
-  AIR,
-  OBJECT,
-  UNKNOWN
+  AIR, OBJECT, UNKNOWN
 };
 
 #define MAX_DISTANCE 5000 // Die maximale Anzeige-Distanz nach Norden Osten Süden Westen
@@ -27,13 +24,13 @@ enum PositionState {
 class LidarMapper {
 private:
   vector<vector<PositionState>> map;
-  Position calcPosition(int angle, int distance);
+  Position calcPosition(int angle, int distance); // Berechnet die Position eines Objekts basierend auf Winkel und Entfernung 
   int stepSize;
 
 public:
   LidarMapper();  // Constructor
-  void calcObjectAndUpdateMap(int angle, int distance);
-  vector<vector<PositionState>> getMap();
+  void calcObjectAndUpdateMap(int angle, int distance); // Berechnet die Position eines erkannten Objekts und aktualisiert die Kartenansicht entsprechend
+  vector<vector<PositionState>> getMap(); // Gibt die aktuelle Kartenansicht zurück
 };
 
 #endif

@@ -14,6 +14,7 @@ float scaleFactorY = halfMaxPosY / MAX_DISTANCE;
 LidarMapper::LidarMapper() {
   map = vector<vector<PositionState>>(MAP_SIZE_X, vector<PositionState>(MAP_SIZE_Y, UNKNOWN));  // alles auf `UNKNOWN` setzten
 
+  // Berechnung der minimalen Änderung der Distanz
   int stepSize_x = 2 * MAX_DISTANCE / MAP_SIZE_X;
   int stepSize_y = 2 * MAX_DISTANCE / MAP_SIZE_Y;
   stepSize = min(stepSize_x, stepSize_y);
@@ -43,23 +44,28 @@ Position LidarMapper::calcPosition(int angle, int distance) {
 }
 
 void LidarMapper::calcObjectAndUpdateMap(int angle, int distance) {
-  Position pos = calcPosition(distance, angle);
+  Position pos = calcPosition(angle, distance);
 
+  // Setzen des Objektes
   if (pos.x >= 0 && pos.x < MAP_SIZE_X && pos.y >= 0 && pos.y < MAP_SIZE_Y) {
+    // innerhalb der Arraygrenzen
     map[pos.x][pos.y] = OBJECT;
   }
 
   distance -= stepSize;
 
+  // Berechnung und Setzen der Luft zwischen Sensor und Objekt
   while (distance > 0) {
     pos = calcPosition(distance, angle);
 
     if (pos.x >= 0 && pos.x < MAP_SIZE_X && pos.y >= 0 && pos.y < MAP_SIZE_Y) {
+      // innerhalb der Arraygrenzen
       if (map[pos.x][pos.y] == UNKNOWN || map[pos.x][pos.y] == OBJECT) {
-        map[pos.x][pos.y] = AIR;
+        // Position ist nicht Luft
+        map[pos.x][pos.y] = AIR; // Position auf Luft setzen
       }
     }
-    distance -= stepSize;
+    distance -= stepSize; // nächster Schritt
   }
 }
 
