@@ -15,18 +15,25 @@ int LeeAlgorithm::CalculateNumbers() {
   int currentNumber = 0;
 
   while (true) {
+    // alle Zellen der Karte durchlaufen
     for (int x = 0; x < ROW_SIZE; x++) {
       for (int y = 0; y < COLUMN_SIZE; y++) {
-        if ((map[x][y] == currentNumber && currentNumber != 0) || (currentNumber == 0 && map[x][y] == START)) {
+        if ((map[x][y] == currentNumber && currentNumber != 0)
+            || (currentNumber == 0 && map[x][y] == START)) {
+          // korrekte Zelle gefunden
+          // die Nachbarzellen der aktuellen Zelle durchlaufen (inklusive diagonal)
           for (int i = x - 1; i <= x + 1; i++) {
             for (int j = y - 1; j <= y + 1; j++) {
               if (i < 0 || j < 0 || i > ROW_SIZE - 1 || j > COLUMN_SIZE - 1) {
-                continue;
+                // außerhalb des Arrays
+                continue;  // nächster Wert
               }
               if (map[i][j] == 0) {
-                map[i][j] = currentNumber + 1;
+                // Nachbarzelle noch nicht markiert
+                map[i][j] = currentNumber + 1;  // Nachbarzelle mit der nächsten Nummer markieren
               } else if (map[i][j] == END) {
-                return currentNumber + 1;
+                // Ziel erreicht
+                return currentNumber + 1;  // Rückgabe der Weglänge
               }
             }
           }
@@ -35,7 +42,7 @@ int LeeAlgorithm::CalculateNumbers() {
     }
     currentNumber++;
     if (currentNumber > ROW_SIZE * COLUMN_SIZE) {
-      return -1;
+      return -1;  // Kein Weg wurde gefunden
     }
   }
 }

@@ -10,7 +10,7 @@ public:
   // MOSI -> 23
   // MISO -> 19
   // SCK/CLK -> 18
-  
+
   // Joystick
   static const int JOYSTICK_X = 34;
   static const int JOYSTICK_Y = 35;

@@ -5,9 +5,9 @@
 using namespace std;
 
 void TFTDisplay::Setup(vector<vector<PositionState>> map) {
-  tft.init();
-  tft.setSpiKludge(false); // Modus für Treiber ILI9486 (falscher Treiber) deaktivieren
-  tft.setRotation(3);
+  tft.init();               // Initialisierung der Library
+  tft.setSpiKludge(false);  // Modus für Treiber ILI9486 (= falscher Treiber) deaktivieren
+  tft.setRotation(3);       // Drehung der Anzeige einstellen
 
   tft.fillScreen(YELLOW);  // alles UNKNOWN
 
@@ -63,7 +63,6 @@ void TFTDisplay::UpdateMap(const vector<vector<PositionState>>& map, const vecto
       } else if (map[i][j] == UNKNOWN && previousMap[i][j] != UNKNOWN) {
         tft.fillRect(x, y, CELL_WIDTH, CELL_HEIGHT, UNKNOWN_COLOR);
       }
-      
     }
   }
 }
