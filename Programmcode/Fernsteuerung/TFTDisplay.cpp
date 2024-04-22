@@ -1,10 +1,12 @@
+// Programmersteller: David KEDRA
+
 #include "TFTDisplay.h"
 
 using namespace std;
 
-void TFTDisplay::Setup() {
-  tft.setSpiKludge(false);
+void TFTDisplay::Setup(vector<vector<PositionState>> map) {
   tft.init();
+  tft.setSpiKludge(false); // Modus für Treiber ILI9486 (falscher Treiber) deaktivieren
   tft.setRotation(3);
 
   tft.fillScreen(YELLOW);  // alles UNKNOWN
@@ -14,21 +16,20 @@ void TFTDisplay::Setup() {
   int centerY = (MAP_SIZE_Y / 2) * CELL_HEIGHT;
   tft.fillCircle(centerX + CELL_WIDTH / 2, centerY + CELL_HEIGHT / 2, min(CELL_WIDTH, CELL_HEIGHT) / 2, RED);
 
-  PrintMap();  // Initialisierung der Funktion
+  PrintMap(map);  // Initialisierung der Funktion
 }
 
-void TFTDisplay::PrintMap() {
+void TFTDisplay::PrintMap(vector<vector<PositionState>> map) {
   static vector<vector<PositionState>> previousMap;
-  vector<vector<PositionState>> map = mapper.getMap();
 
-  // Initialisierung
   if (previousMap.size() == 0) {
+    // Initialisierung
     previousMap = map;
     return;
   }
 
-  // Es hat sich nichts geändert
   if (previousMap == map) {
+    // Es hat sich nichts geändert
     return;
   }
 
@@ -39,11 +40,11 @@ void TFTDisplay::PrintMap() {
 
 void TFTDisplay::UpdateMap(const vector<vector<PositionState>>& map, const vector<vector<PositionState>>& previousMap) {
   Position previousObjectPos;
-  previousObjectPos.x = 0;
-  previousObjectPos.y = 0;
+  previousObjectPos.x = -1;
+  previousObjectPos.y = -1;
 
-  for (int i = 0; i < map.size(); i++) {
-    for (int j = 0; j < map[i].size(); j++) {
+  for (int i = 0; i < MAP_SIZE_X; i++) {
+    for (int j = 0; j < MAP_SIZE_Y; j++) {
       int x = i * CELL_WIDTH;
       int y = j * CELL_HEIGHT;
 
@@ -55,13 +56,6 @@ void TFTDisplay::UpdateMap(const vector<vector<PositionState>>& map, const vecto
       if (map[i][j] == OBJECT && previousMap[i][j] != OBJECT) {
         tft.fillRect(x, y, CELL_WIDTH, CELL_HEIGHT, OBJECT_COLOR);
 
-        if (x < previousObjectPos.x - 2 * CELL_WIDTH || x > previousObjectPos.x + 2 * CELL_WIDTH
-            || y < previousObjectPos.y - 2 * CELL_HEIGHT || y > previousObjectPos.y + 2 * CELL_HEIGHT) {
-          // aktuelle Zelle liegt außerhalb der vorherigen Zelle PLUS einer weiteren Zelle (=> zwischen den zwei Zellen ist eine Lücke)
-          // ausfüllen der Lücke:
-          tft.drawLine(previousObjectPos.x, previousObjectPos.y, x, y, OBJECT_COLOR);
-        }
-
         previousObjectPos.x = x;
         previousObjectPos.y = y;
       } else if (map[i][j] == AIR && previousMap[i][j] != AIR) {
@@ -69,6 +63,7 @@ void TFTDisplay::UpdateMap(const vector<vector<PositionState>>& map, const vecto
       } else if (map[i][j] == UNKNOWN && previousMap[i][j] != UNKNOWN) {
         tft.fillRect(x, y, CELL_WIDTH, CELL_HEIGHT, UNKNOWN_COLOR);
       }
+      
     }
   }
 }

@@ -1,6 +1,6 @@
-// Made by David KEDRA
+// Programmersteller: David KEDRA
 // Klasse zum Kommunizieren zwischen zwei Bluetooth Geräten
-// Typ: Master
+// Typ: Slave
 
 #ifndef BLUETOOTH_H
 #define BLUETOOTH_H
@@ -17,7 +17,6 @@ public:
 
 private:
   BluetoothSerial SerialBT;
-  String deviceName = "ESP32-BT-Controller";
   String slaveName = "ESP32-BT-Car";
   static bool isConnected;
   int messagePos = 0;

@@ -1,8 +1,10 @@
+// Programmersteller: David KEDRA
+
 #ifndef TFTDISPLAY_H
 #define TFTDISPLAY_H
 
+#include "Pins.h"
 #include "LidarMapper.h"
-#include "pins.h"
 #include <vector>
 #include <ILI9486_SPI.h>
 #include <U8g2_for_Adafruit_GFX.h>
@@ -18,18 +20,7 @@ using namespace std;
 #define YELLOW 0xFFE0
 #define WHITE 0xFFFF
 
-
 class TFTDisplay {
-public:
-  LidarMapper mapper;
-
-  // Constructor
-  TFTDisplay()
-    : tft(Pin::TFT_CS, Pin::TFT_DC, Pin::TFT_RST) {}
-
-  void Setup();
-  void PrintMap();
-
 private:
   ILI9486_SPI tft;
   U8G2_FOR_ADAFRUIT_GFX u8g2Fonts;
@@ -47,6 +38,12 @@ private:
   void UpdateMap(const vector<vector<PositionState>>& map, const vector<vector<PositionState>>& previousMap);
 
 public:
+  // Constructor
+  TFTDisplay()
+    : tft(Pin::TFT_CS, Pin::TFT_DC, Pin::TFT_RST) {}
+
+  void Setup(vector<vector<PositionState>> map);
+  void PrintMap(vector<vector<PositionState>> map);
 };
 
 #endif

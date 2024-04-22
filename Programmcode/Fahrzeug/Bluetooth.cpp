@@ -1,6 +1,6 @@
-// Made by David KEDRA
+// Programmersteller: David KEDRA
 // Klasse zum Kommunizieren zwischen zwei Bluetooth Geräten
-// Typ: Master
+// Typ: Slave
 
 #include "Bluetooth.h"
 
@@ -9,15 +9,14 @@ bool Bluetooth::isConnected = false;
 void Bluetooth::Setup() {
   Serial.begin(115200);
 
-  SerialBT.register_callback(Bt_Status);
-  SerialBT.begin(deviceName, true);  // Bluetooth-Kommunikation starten als Master
-  SerialBT.connect(slaveName);       // Probieren mit Slave zu verbinden
+  SerialBT.register_callback(Bt_Status);  // Rückruf-Funktion registrieren
+  SerialBT.begin(slaveName, false);       // Bluetooth-Kommunikation starten als Slave
 
   ClearIncomingMessage();
 }
 
 void Bluetooth::Bt_Status(esp_spp_cb_event_t event, esp_spp_cb_param_t* param) {
-  if (event == ESP_SPP_OPEN_EVT) {  // Bluetooth-Verbindung hergestellt (als Master)
+  if (event == ESP_SPP_SRV_OPEN_EVT) {  // Bluetooth-Verbindung hergestellt (als Slave)
     Serial.println(F("Bluetooth verbunden"));
     isConnected = true;
   } else if (event == ESP_SPP_CLOSE_EVT) {  // Bluetooth-Verbindung getrennt
@@ -46,7 +45,7 @@ bool Bluetooth::HandleIncomingMessage(int* outMessage, int sizeofOutMessage) {
       // vollständige Nachricht erhalten
       if (messagePos >= MAX_MESSAGE_LENGTH) {
         // Anzahl der Werte in empfangener Nachricht ist mehr als `MAX_MESSAGE_LENGTH`
-        Serial.println(F("ERROR: Anzahl der Werte in eingehende Nachricht ist länger als die eingestellte MAX_MESSAGE_LENGTH! Die Nachricht wird übersprungen."));
+        Serial.println(F("ERROR: Anzahl der Werte in eingehender Nachricht ist länger als die eingestellte MAX_MESSAGE_LENGTH! Die Nachricht wird übersprungen."));
         ClearIncomingMessage();
         return false;
       } else {
@@ -56,9 +55,10 @@ bool Bluetooth::HandleIncomingMessage(int* outMessage, int sizeofOutMessage) {
         return true;
       }
     } else if (messagePos < MAX_MESSAGE_LENGTH && isdigit(receivedValue)) {
-      // `incomingMessage[messagePos] * 10`  ->  Nuller am Ende hizufügen
-      // `receivedValue - '0'`  ->  char in int umwandeln
-      incomingMessage[messagePos] = incomingMessage[messagePos] * 10 + (receivedValue - '0');
+      // Datentyp `char` zu `int` konvertieren
+      int8_t digit = receivedValue - '0';
+      // Ziffer `digit` an das Ende der aktuellen Zahl in der Nachricht anhängen
+      incomingMessage[messagePos] = incomingMessage[messagePos] * 10 + digit;
     }
   }
   return false;
@@ -70,6 +70,11 @@ void Bluetooth::ClearIncomingMessage() {
 }
 
 void Bluetooth::SendMessage(int message[MAX_MESSAGE_LENGTH]) {
+  if (!isConnected) {
+    Serial.println(F("ERROR: Bluetooth ist nicht verbunden. SendMessage() wird nicht ausgeführt."));
+    return;
+  }
+
   for (int i = 0; i < MAX_MESSAGE_LENGTH; i++) {
     int digits[10];
     int digitPos = 0;
@@ -97,13 +102,7 @@ void Bluetooth::SendMessage(int message[MAX_MESSAGE_LENGTH]) {
 bool Bluetooth::IsConnected() {
   if (!isConnected && millis() > pingTimerMax) {
     pingTimerMax = millis() + PING_INTERVAL;
-
-    SerialBT.end();
-    SerialBT.begin(deviceName, true);
-    SerialBT.connect(slaveName);
-
-    Serial.println(F("Versuche Bluetooth-Verbindung herzustellen..."));
-    return false;
+    Serial.println(F("Warten auf Bluetooth verbindung..."));
   }
   return isConnected;
 }

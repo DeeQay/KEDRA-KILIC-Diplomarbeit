@@ -1,3 +1,5 @@
+// Programmersteller: Berdan KILIC & David Kedra
+
 #include <Arduino.h>
 #include "joystick.h"
 Joystick::Joystick(int8_t xPin, int8_t yPin, int8_t selectPin) {
@@ -26,4 +28,8 @@ int Joystick::yAxis() {
   }
   temp = temp / 10;
   return temp;
+}
+
+bool Joystick::pressed() {
+  return digitalRead(_selectPin);
 }

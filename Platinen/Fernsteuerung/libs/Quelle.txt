@@ -1,5 +1,0 @@
-joystick COM-09032.lbr:
-https://www.snapeda.com/parts/COM-09032/SparkFun%20Electronics/view-part
-
-TFT SPI 3.5inch 480x320 ILI9488.lbr:
-David Kedra
