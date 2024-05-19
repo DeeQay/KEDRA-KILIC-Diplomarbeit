@@ -7,17 +7,15 @@
 bool Bluetooth::isConnected = false;
 
 void Bluetooth::Setup() {
-  Serial.begin(115200);
-
   SerialBT.register_callback(Bt_Status);  // Rückruf-Funktion registrieren
   SerialBT.begin(masterName, true);       // Bluetooth starten als Master
-  SerialBT.connect(slaveName);            // Versuchen mit Slave zu verbinden
 
   ClearIncomingMessage();
 }
 
 void Bluetooth::Bt_Status(esp_spp_cb_event_t event, esp_spp_cb_param_t* param) {
   if (event == ESP_SPP_OPEN_EVT) {  // Bluetooth-Verbindung hergestellt (als Master)
+    delay(500);
     Serial.println(F("Bluetooth verbunden"));
     isConnected = true;
   } else if (event == ESP_SPP_CLOSE_EVT) {  // Bluetooth-Verbindung getrennt

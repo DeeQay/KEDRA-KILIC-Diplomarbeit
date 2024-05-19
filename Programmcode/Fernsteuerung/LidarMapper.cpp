@@ -43,30 +43,47 @@ Position LidarMapper::calcPosition(int angle, int distance) {
   return pos;
 }
 
-void LidarMapper::calcObjectAndUpdateMap(int angle, int distance) {
-  Position pos = calcPosition(angle, distance);
+void LidarMapper::calcObjectAndUpdateMap_stationary(int angle, int distance) {
+  Position objectPos = calcPosition(angle, distance);
 
   // Setzen des Objektes
-  if (pos.x >= 0 && pos.x < MAP_SIZE_X && pos.y >= 0 && pos.y < MAP_SIZE_Y) {
+  if (objectPos.x >= 0 && objectPos.x < MAP_SIZE_X && objectPos.y >= 0 && objectPos.y < MAP_SIZE_Y) {
     // innerhalb der Arraygrenzen
-    map[pos.x][pos.y] = OBJECT;
+    map[objectPos.x][objectPos.y] = OBJECT;
   }
 
   distance -= stepSize;
 
   // Berechnung und Setzen der Luft zwischen Sensor und Objekt
+  Position pos;
   while (distance > 0) {
-    pos = calcPosition(distance, angle);
+    pos = calcPosition(angle, distance);
 
     if (pos.x >= 0 && pos.x < MAP_SIZE_X && pos.y >= 0 && pos.y < MAP_SIZE_Y) {
       // innerhalb der Arraygrenzen
-      if (map[pos.x][pos.y] == UNKNOWN || map[pos.x][pos.y] == OBJECT) {
+      if (map[pos.x][pos.y] == UNKNOWN || map[pos.x][pos.y] == OBJECT && pos.x != objectPos.x && pos.y != objectPos.y) {
         // Position ist nicht Luft
-        map[pos.x][pos.y] = AIR; // Position auf Luft setzen
+        map[pos.x][pos.y] = AIR;  // Position auf Luft setzen
       }
     }
-    distance -= stepSize; // nächster Schritt
+    distance -= stepSize;  // nächster Schritt
   }
+}
+
+void LidarMapper::calcObjectAndUpdateMap_moving(int angle, int distance) {
+  static int previousAngle = -1;
+
+  if (angle < previousAngle - 15) {
+    for (int i = 0; i < MAP_SIZE_X; ++i) {
+      for (int j = 0; j < MAP_SIZE_Y; ++j) {
+        map[i][j] = UNKNOWN;
+      }
+    }
+  }
+
+  calcObjectAndUpdateMap_stationary(angle, distance);
+
+  previousAngle = angle;
 }
 
 vector<vector<PositionState>> LidarMapper::getMap() {

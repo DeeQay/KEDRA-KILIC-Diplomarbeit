@@ -83,7 +83,9 @@ void HandleSendLidar() {  // Berdan Kilic
     portEXIT_CRITICAL(&timerMux);
 
     for (byte i = 0; i < 12; i++) {
-      SendLidar(angle[i], distance[i]);
+      if (distance[i] > 0 && distance[i] < 15000) { // Wenn zwischen 0 und 15 Metern
+        SendLidar(angle[i], distance[i]);
+      }
     }
   }
 
@@ -93,6 +95,8 @@ void HandleSendLidar() {  // Berdan Kilic
 
 void SendLidar(int angle, int distance) {  // David Kedra
   message[0] = bt.LIDAR;
+  message[1] = angle;
+  message[2] = distance;
 
   bt.SendMessage(message);
 

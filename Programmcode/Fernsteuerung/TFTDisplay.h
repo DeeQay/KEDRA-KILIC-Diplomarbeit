@@ -34,6 +34,7 @@ private:
   const uint16_t OBJECT_COLOR = BLACK;
   const uint16_t AIR_COLOR = WHITE;
   const uint16_t UNKNOWN_COLOR = YELLOW;
+  const uint16_t CAR_COLOR = RED;
 
   void UpdateMap(const vector<vector<PositionState>>& map, const vector<vector<PositionState>>& previousMap);
 

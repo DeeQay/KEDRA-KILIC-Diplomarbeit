@@ -58,7 +58,7 @@ void LD19::read(int *arr, int size, int *arrAngle, int aSize) {
                     Serial.println("End Angle: " + String(endAngle)+ "deg");*/
         crc = CalCRC8((uint8_t *)&tmp, 46);
         if (crc == tmp[46]) {
-          Serial.println(" Lidar CRC OK");
+          //Serial.println(" Lidar CRC OK");
           for (int i = 0; i < size; i++) {
             arr[i] = mpoints[i];
             // Serial.print(String(mpoints[i]) + ", ");

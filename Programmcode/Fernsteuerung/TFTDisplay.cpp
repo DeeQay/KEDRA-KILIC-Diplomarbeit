@@ -5,16 +5,16 @@
 using namespace std;
 
 void TFTDisplay::Setup(vector<vector<PositionState>> map) {
-  tft.init();               // Initialisierung der Library
   tft.setSpiKludge(false);  // Modus für Treiber ILI9486 (= falscher Treiber) deaktivieren
+  tft.init();               // Initialisierung der Library
   tft.setRotation(3);       // Drehung der Anzeige einstellen
 
-  tft.fillScreen(YELLOW);  // alles UNKNOWN
+  tft.fillScreen(UNKNOWN_COLOR);  // alles UNKNOWN
 
   // Mittelpunkt zeichnen
   int centerX = (MAP_SIZE_X / 2) * CELL_WIDTH;
   int centerY = (MAP_SIZE_Y / 2) * CELL_HEIGHT;
-  tft.fillCircle(centerX + CELL_WIDTH / 2, centerY + CELL_HEIGHT / 2, min(CELL_WIDTH, CELL_HEIGHT) / 2, RED);
+  tft.fillCircle(centerX + CELL_WIDTH / 2, centerY + CELL_HEIGHT / 2, min(CELL_WIDTH, CELL_HEIGHT) / 2, CAR_COLOR);
 
   PrintMap(map);  // Initialisierung der Funktion
 }
