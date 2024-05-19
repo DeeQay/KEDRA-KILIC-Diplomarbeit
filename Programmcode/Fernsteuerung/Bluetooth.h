@@ -7,6 +7,7 @@
 
 #include <Arduino.h>
 #include "BluetoothSerial.h"
+#include "TFTDisplay.h"
 
 const int PING_INTERVAL = 1000;  // Intervall der Überprüfung, ob das andere Bluetooth-Gerät verbunden ist; in Millisekunden
 
@@ -41,6 +42,7 @@ public:
   bool HandleIncomingMessage(int* outMessage, int sizeofOutMessage);  // returned true, wenn eine ganze Nachricht empfangen wurde. Empfangene Nachricht wird in `outMessage` gespeichert.
   void SendMessage(int message[]);
   bool IsConnected();  // returned true, wenn mit einem Bluetooth Gerät verbunden
+  bool IsConnectedONLY();
 };
 
 #endif

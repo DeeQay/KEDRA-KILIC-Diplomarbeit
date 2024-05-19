@@ -31,5 +31,5 @@ int Joystick::yAxis() {
 }
 
 bool Joystick::pressed() {
-  return digitalRead(_selectPin);
+  return !analogRead(_selectPin);
 }

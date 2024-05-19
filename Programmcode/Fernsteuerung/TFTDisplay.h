@@ -7,7 +7,6 @@
 #include "LidarMapper.h"
 #include <vector>
 #include <ILI9486_SPI.h>
-#include <U8g2_for_Adafruit_GFX.h>
 
 using namespace std;
 
@@ -23,7 +22,6 @@ using namespace std;
 class TFTDisplay {
 private:
   ILI9486_SPI tft;
-  U8G2_FOR_ADAFRUIT_GFX u8g2Fonts;
 
   const int TFT_WIDTH = 480;
   const int TFT_HEIGHT = 320;
@@ -35,6 +33,8 @@ private:
   const uint16_t AIR_COLOR = WHITE;
   const uint16_t UNKNOWN_COLOR = YELLOW;
   const uint16_t CAR_COLOR = RED;
+  const uint16_t SELECT_COLOR = MAGENTA;
+  const uint16_t PATH_COLOR = CYAN;
 
   void UpdateMap(const vector<vector<PositionState>>& map, const vector<vector<PositionState>>& previousMap);
 
@@ -45,6 +45,11 @@ public:
 
   void Setup(vector<vector<PositionState>> map);
   void PrintMap(vector<vector<PositionState>> map);
+
+  void BT_disconnectMessage();
+  void Clear();
+
+  void SelectText(bool show);
 };
 
 #endif

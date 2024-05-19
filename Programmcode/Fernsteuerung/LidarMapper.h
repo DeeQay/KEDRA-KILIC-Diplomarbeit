@@ -18,7 +18,7 @@ struct Position {
 };
 
 enum PositionState {
-  AIR, OBJECT, UNKNOWN
+  AIR, OBJECT, UNKNOWN, SELECT, PATH
 };
 
 class LidarMapper {
@@ -32,6 +32,8 @@ public:
   void calcObjectAndUpdateMap_stationary(int angle, int distance); // Berechnet die Position eines erkannten Objekts und aktualisiert die Kartenansicht entsprechend
   void calcObjectAndUpdateMap_moving(int angle, int distance);
   vector<vector<PositionState>> getMap(); // Gibt die aktuelle Kartenansicht zurück
+  void resetMap();
+  void Select(int dir, Position* currentPos);
 };
 
 #endif

@@ -1,6 +1,7 @@
 // Programmersteller: David KEDRA
 
 #include "TFTDisplay.h"
+#include "FreeMonoBoldOblique12pt7b.h"
 
 using namespace std;
 
@@ -8,6 +9,7 @@ void TFTDisplay::Setup(vector<vector<PositionState>> map) {
   tft.setSpiKludge(false);  // Modus für Treiber ILI9486 (= falscher Treiber) deaktivieren
   tft.init();               // Initialisierung der Library
   tft.setRotation(3);       // Drehung der Anzeige einstellen
+  tft.setFont(&FreeMonoBoldOblique12pt7b);
 
   tft.fillScreen(UNKNOWN_COLOR);  // alles UNKNOWN
 
@@ -62,7 +64,51 @@ void TFTDisplay::UpdateMap(const vector<vector<PositionState>>& map, const vecto
         tft.fillRect(x, y, CELL_WIDTH, CELL_HEIGHT, AIR_COLOR);
       } else if (map[i][j] == UNKNOWN && previousMap[i][j] != UNKNOWN) {
         tft.fillRect(x, y, CELL_WIDTH, CELL_HEIGHT, UNKNOWN_COLOR);
+      } else if (map[i][j] == SELECT && previousMap[i][j] != SELECT) {
+        tft.fillRect(x, y, CELL_WIDTH, CELL_HEIGHT, SELECT_COLOR);
+      } else if (map[i][j] == PATH && previousMap[i][j] != PATH) {
+        tft.fillRect(x, y, CELL_WIDTH, CELL_HEIGHT, PATH_COLOR);
       }
     }
   }
+}
+
+void TFTDisplay::BT_disconnectMessage() {
+  tft.fillScreen(YELLOW);
+  tft.setCursor(0, 37);
+  tft.setTextColor(BLACK);
+
+  tft.setTextSize(2);
+  tft.println("    Fahrzeug");
+  tft.println("    getrennt");
+  tft.println();
+  tft.println();
+  tft.setTextSize(1);
+  tft.println("                 Diplomarbeit von");
+  tft.println("                   David Kedra");
+  tft.println("                       und");
+  tft.println("                   Berdan Kilic");
+
+}
+
+void TFTDisplay::Clear() {
+  tft.fillScreen(UNKNOWN_COLOR);
+
+  // Mittelpunkt zeichnen
+  int centerX = (MAP_SIZE_X / 2) * CELL_WIDTH;
+  int centerY = (MAP_SIZE_Y / 2) * CELL_HEIGHT;
+  tft.fillCircle(centerX + CELL_WIDTH / 2, centerY + CELL_HEIGHT / 2, min(CELL_WIDTH, CELL_HEIGHT) / 2, CAR_COLOR);
+}
+
+void TFTDisplay::SelectText(bool show) {
+  tft.setCursor(1, 15);
+  tft.setTextSize(1);
+
+  if (show) {
+    tft.setTextColor(BLACK);
+  } else {
+    tft.setTextColor(UNKNOWN_COLOR);
+  }
+
+  tft.println("Auswahl");
 }

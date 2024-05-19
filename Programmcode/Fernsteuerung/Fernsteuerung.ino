@@ -17,8 +17,6 @@ int receivedMessage[bt.MAX_MESSAGE_LENGTH];
 unsigned long lastSendTime = 0;   // Variable zur Speicherung der Zeit des letzten Bluetooth sendens
 unsigned long sendInterval = 10;  // Intervall zwischen den Bluetooth Sendungen in Millisekunden
 
-bool test = false;  // ENTFERNEN
-
 void setup() {
   Serial.begin(115200);
 
@@ -27,15 +25,24 @@ void setup() {
   bt.Setup();                  // Bluetooth Setup
   joystick.init();             // Joystick Setup
   tft.Setup(mapper.getMap());  // TFT-Display Setup
-
-
-
-  //TestLidarValuesCode();
 }
 
-void loop() {
-  if (!bt.IsConnected()) return;  // Der Code unterhalb wird nur bei verbundenem Bluetooth ausgeführt
+bool previousConnected = false;
 
+void loop() {
+  /*if (!bt.IsConnectedONLY()) {
+    tft.BT_disconnectMessage();
+    bt.IsConnected();
+    previousConnected = false;
+    return;
+  }  // Der Code unterhalb wird nur bei verbundenem Bluetooth ausgeführt
+  if (previousConnected == false) {
+    previousConnected = true;
+    fakeConnect = false;
+    tft.Clear();
+  }
+
+  // Bluetooth Empfangen
   HandleBluetoothReceive();
 
   // Bluetooth Senden
@@ -43,9 +50,18 @@ void loop() {
     SendJoystick(joystick.xAxis(), joystick.yAxis());
     lastSendTime = millis();  // Aktualisieren der Zeit des letzten Sendens
   }
-
+  */
   if (analogRead(Pin::BUTTON)) {
-    test = !test;
+    Serial.println("in");
+    tft.SelectText(true);
+    delay(700);
+
+    Position selectedPos = SelectionLoop();
+    RouteCalc(selectedPos);
+
+    Serial.println("out");
+    tft.SelectText(false);
+    delay(600);
   }
 }
 
@@ -70,7 +86,8 @@ void ReceivedLidarValues() {  // David Kedra
   Serial.print(',');
   Serial.println(distance);
 
-  if (test) {
+
+  if (joystick.xAxis() > 1740 && joystick.xAxis() < 1860 && joystick.yAxis() > 1700 && joystick.xAxis() < 1820) {
     mapper.calcObjectAndUpdateMap_stationary(angle, distance);
   } else {
     mapper.calcObjectAndUpdateMap_moving(angle, distance);
@@ -85,133 +102,42 @@ void SendJoystick(int x, int y) {  // David Kedra
 
   bt.SendMessage(message);
 
-  //Serial.print("bt gesendet:\t");
-  //Serial.print("Joystick: ");
-  //Serial.print(message[1]);
-  //Serial.print(", ");
-  //Serial.println(message[2]);
+  Serial.print("bt gesendet:\t");
+  Serial.print("Joystick: ");
+  Serial.print(message[1]);
+  Serial.print(", ");
+  Serial.println(message[2]);
 
   memset(message, 0, sizeof(message));  // Das Array auf Null setzen
 }
 
-void TestLidarValuesCode() {
-  // Test code
-  int distance;
+Position SelectionLoop() {
+  Position currentPos = { MAP_SIZE_X / 2, MAP_SIZE_Y / 2 };
 
-  // Test 1
-  for (int angle = 0; angle < 360; angle += 1) {
-    int newdistance = 3750 + sin(angle * 2 / 180 * 3.14152) * 1250;
-    mapper.calcObjectAndUpdateMap_moving(angle, newdistance);
+  int dir = -1;
+  while (!analogRead(Pin::BUTTON)) {
+    if (joystick.xAxis() > 3900) {
+      // Norden
+      dir = 1;
+    } else if (joystick.yAxis() < 200) {
+      // Osten
+      dir = 2;
+    } else if (joystick.xAxis() < 200) {
+      // Süden
+      dir = 3;
+    } else if (joystick.yAxis() > 3900) {
+      // Westen
+      dir = 4;
+    } else {
+      dir = 0;
+      continue;
+    }
+    mapper.Select(dir, &currentPos);
+    tft.PrintMap(mapper.getMap());
+    delay(120);
   }
-  tft.PrintMap(mapper.getMap());
+  return currentPos;
+}
 
-  // Test 2
-  distance = 3000;
-  for (int angle = 0; angle < 360; angle += 1) {
-    mapper.calcObjectAndUpdateMap_moving(angle, distance);
-  }
-  tft.PrintMap(mapper.getMap());
-
-  // Test 3
-  distance = 5000;
-  for (int angle = 0; angle < 360; angle += 1) {
-    mapper.calcObjectAndUpdateMap_moving(angle, distance);
-  }
-  tft.PrintMap(mapper.getMap());
-
-  // Test 4
-  distance = 3000;
-  for (int angle = 0; angle < 360; angle += 1) {
-    mapper.calcObjectAndUpdateMap_moving(angle, distance);
-  }
-  tft.PrintMap(mapper.getMap());
-  // Test 1
-  for (int angle = 0; angle < 360; angle += 1) {
-    int newdistance = 3750 + sin(angle * 2 / 180 * 3.14152) * 1250;
-    mapper.calcObjectAndUpdateMap_moving(angle, newdistance);
-  }
-  tft.PrintMap(mapper.getMap());
-
-  // Test 2
-  distance = 3000;
-  for (int angle = 0; angle < 360; angle += 1) {
-    mapper.calcObjectAndUpdateMap_moving(angle, distance);
-  }
-  tft.PrintMap(mapper.getMap());
-
-  // Test 3
-  distance = 5000;
-  for (int angle = 0; angle < 360; angle += 1) {
-    mapper.calcObjectAndUpdateMap_moving(angle, distance);
-  }
-  tft.PrintMap(mapper.getMap());
-
-  // Test 4
-  distance = 3000;
-  for (int angle = 0; angle < 360; angle += 1) {
-    mapper.calcObjectAndUpdateMap_moving(angle, distance);
-  }
-  tft.PrintMap(mapper.getMap());
-
-
-
-  delay(2000);
-
-
-
-
-  // Test 1
-  for (int angle = 0; angle < 360; angle += 1) {
-    int newdistance = 3750 + sin(angle * 2 / 180 * 3.14152) * 1250;
-    mapper.calcObjectAndUpdateMap_stationary(angle, newdistance);
-  }
-  tft.PrintMap(mapper.getMap());
-
-  // Test 2
-  distance = 3000;
-  for (int angle = 0; angle < 360; angle += 1) {
-    mapper.calcObjectAndUpdateMap_stationary(angle, distance);
-  }
-  tft.PrintMap(mapper.getMap());
-
-  // Test 3
-  distance = 5000;
-  for (int angle = 0; angle < 360; angle += 1) {
-    mapper.calcObjectAndUpdateMap_stationary(angle, distance);
-  }
-  tft.PrintMap(mapper.getMap());
-
-  // Test 4
-  distance = 3000;
-  for (int angle = 0; angle < 360; angle += 1) {
-    mapper.calcObjectAndUpdateMap_stationary(angle, distance);
-  }
-  tft.PrintMap(mapper.getMap());
-  // Test 1
-  for (int angle = 0; angle < 360; angle += 1) {
-    int newdistance = 3750 + sin(angle * 2 / 180 * 3.14152) * 1250;
-    mapper.calcObjectAndUpdateMap_stationary(angle, newdistance);
-  }
-  tft.PrintMap(mapper.getMap());
-
-  // Test 2
-  distance = 3000;
-  for (int angle = 0; angle < 360; angle += 1) {
-    mapper.calcObjectAndUpdateMap_stationary(angle, distance);
-  }
-  tft.PrintMap(mapper.getMap());
-
-  // Test 3
-  distance = 5000;
-  for (int angle = 0; angle < 360; angle += 1) {
-    mapper.calcObjectAndUpdateMap_stationary(angle, distance);
-  }
-  tft.PrintMap(mapper.getMap());
-
-  // Test 4
-  distance = 3000;
-  for (int angle = 0; angle < 360; angle += 1) {
-    mapper.calcObjectAndUpdateMap_stationary(angle, distance);
-  }
-  tft.PrintMap(mapper.getMap());
+void RouteCalc(Position endPos) {
 }

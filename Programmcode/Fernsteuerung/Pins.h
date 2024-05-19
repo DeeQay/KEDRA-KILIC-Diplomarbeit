@@ -12,8 +12,8 @@ public:
   // SCK/CLK -> 18
 
   // Joystick
-  static const int JOYSTICK_X = 34;
-  static const int JOYSTICK_Y = 35;
+  static const int JOYSTICK_X = 35;
+  static const int JOYSTICK_Y = 34;
   static const int JOYSTICK_SELECT = 36;
 
   // Button
