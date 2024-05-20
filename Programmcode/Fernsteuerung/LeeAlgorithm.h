@@ -3,21 +3,22 @@
 
 #include "LidarMapper.h"
 
-#define ROW_SIZE 10
-#define COLUMN_SIZE 10
+using namespace std;
+
+#define START -1
+#define END -2
+#define WALL -3
+#define PATH -4
 
 class LeeAlgorithm {
 public:
   LeeAlgorithm();
-
-  int CalculateNumbers();
-  void CalculatePath(Position position, int positionNumber);
-  void ClearNumbers();
+  void Calc(const vector<vector<PositionState>>& map, vector<vector<int>>& returnMap);
 
 private:
-  int map[ROW_SIZE][COLUMN_SIZE];
-  Position startPos;
-  Position endPos;
+  int CalculateNumbers(vector<vector<int>>& map2); // return: Endpositions-Nummer (-1, wenn kein Weg möglich)
+  void CalculatePath(vector<vector<int>>& map2, Position endPosition, int endPositionNumber);
+  int ClearNumbers();
 };
 
 #endif

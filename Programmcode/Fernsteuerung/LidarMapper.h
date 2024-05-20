@@ -7,8 +7,6 @@
 
 using namespace std;
 
-#define MAX_DISTANCE 2000 // Die maximale Anzeige-Distanz nach Norden Osten Süden Westen
-
 // Die Größe für die Speicherung der Map und die Anzahl der Zellen am Display
 const int MAP_SIZE_X = 60;
 const int MAP_SIZE_Y = 40;
@@ -18,22 +16,36 @@ struct Position {
 };
 
 enum PositionState {
-  AIR, OBJECT, UNKNOWN, SELECT, PATH
+  AIR,
+  OBJECT,
+  UNKNOWN,
+  SELECT,
+  PATH
 };
 
 class LidarMapper {
 private:
   vector<vector<PositionState>> map;
-  Position calcPosition(int angle, int distance); // Berechnet die Position eines Objekts basierend auf Winkel und Entfernung 
+  Position calcPosition(int angle, int distance);  // Berechnet die Position eines Objekts basierend auf Winkel und Entfernung
   int stepSize;
+  float halfMaxPosX;
+  float halfMaxPosY;
+  float scaleFactorX;
+  float scaleFactorY;
 
 public:
-  LidarMapper();  // Constructor
-  void calcObjectAndUpdateMap_stationary(int angle, int distance); // Berechnet die Position eines erkannten Objekts und aktualisiert die Kartenansicht entsprechend
-  void calcObjectAndUpdateMap_moving(int angle, int distance);
-  vector<vector<PositionState>> getMap(); // Gibt die aktuelle Kartenansicht zurück
+  LidarMapper();                                                    // Constructor
+  void calcObjectAndUpdateMap_stationary(int angle, int distance);  // Modus Speichern // Berechnet die Position eines erkannten Objekts und aktualisiert die Kartenansicht entsprechend
+  bool calcObjectAndUpdateMap_moving(int angle, int distance);      // Modus Löschen und Neu // alle 360° werden angezeigt
+  void calcObjectAndUpdateMap_overwrite(int angle, int distance);   // Modus Überschreiben // Jeden alten Wert mit dem neuen überschreiben
+  vector<vector<PositionState>> getMap();                           // Gibt die aktuelle Kartenansicht zurück
   void resetMap();
   void Select(int dir, Position* currentPos);
+  void SetPath(int x, int y);
+  void SetMap(vector<vector<PositionState>> newMap);
+
+  int MAX_DISTANCE; // Die maximale Anzeige-Distanz nach Norden Osten Süden Westen
+  void newMaxDistance();
 };
 
 #endif

@@ -8,7 +8,9 @@ bool Bluetooth::isConnected = false;
 
 void Bluetooth::Setup() {
   SerialBT.register_callback(Bt_Status);  // Rückruf-Funktion registrieren
+  delay(100);
   SerialBT.begin(masterName, true);       // Bluetooth starten als Master
+  delay(100);
 
   ClearIncomingMessage();
 }

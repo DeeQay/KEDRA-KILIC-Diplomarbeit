@@ -5,19 +5,30 @@
 
 using namespace std;
 
-// zum Optimieren wird es nur ein Mal berechnet anstatt jedes Mal
-float halfMaxPosX = 0.5 * MAP_SIZE_X;
-float halfMaxPosY = 0.5 * MAP_SIZE_Y;
-float scaleFactorX = halfMaxPosX / MAX_DISTANCE;
-float scaleFactorY = halfMaxPosY / MAX_DISTANCE;
-
 LidarMapper::LidarMapper() {
   map = vector<vector<PositionState>>(MAP_SIZE_X, vector<PositionState>(MAP_SIZE_Y, UNKNOWN));  // alles auf `UNKNOWN` setzten
+
+  MAX_DISTANCE = 2000;
 
   // Berechnung der minimalen Änderung der Distanz
   int stepSize_x = 2 * MAX_DISTANCE / MAP_SIZE_X;
   int stepSize_y = 2 * MAX_DISTANCE / MAP_SIZE_Y;
   stepSize = min(stepSize_x, stepSize_y);
+
+  // zum Optimieren wird es nur ein Mal berechnet anstatt jedes Mal
+  halfMaxPosX = 0.5 * MAP_SIZE_X;
+  halfMaxPosY = 0.5 * MAP_SIZE_Y;
+  scaleFactorX = halfMaxPosX / MAX_DISTANCE;
+  scaleFactorY = halfMaxPosY / MAX_DISTANCE;
+}
+
+void LidarMapper::newMaxDistance() {
+  int stepSize_x = 2 * MAX_DISTANCE / MAP_SIZE_X;
+  int stepSize_y = 2 * MAX_DISTANCE / MAP_SIZE_Y;
+  stepSize = min(stepSize_x, stepSize_y);
+
+  scaleFactorX = halfMaxPosX / MAX_DISTANCE;
+  scaleFactorY = halfMaxPosY / MAX_DISTANCE;
 }
 
 Position LidarMapper::calcPosition(int angle, int distance) {
@@ -70,16 +81,49 @@ void LidarMapper::calcObjectAndUpdateMap_stationary(int angle, int distance) {
   }
 }
 
-void LidarMapper::calcObjectAndUpdateMap_moving(int angle, int distance) {
+bool LidarMapper::calcObjectAndUpdateMap_moving(int angle, int distance) {
   static int previousAngle = -1;
 
-  if (angle < previousAngle - 15) {
-    resetMap();
+  if (angle < previousAngle || angle == 359) {
+    previousAngle = 0;
+    return true;
   }
 
   calcObjectAndUpdateMap_stationary(angle, distance);
 
   previousAngle = angle;
+
+  return false;
+}
+
+void LidarMapper::calcObjectAndUpdateMap_overwrite(int angle, int distance) {
+  Position pos = calcPosition(angle, distance);
+
+  int distanceToEdge = distance;
+  while (pos.x >= 0 && pos.x < MAP_SIZE_X && pos.y >= 0 && pos.y < MAP_SIZE_Y) {
+    distanceToEdge += stepSize;
+    pos = calcPosition(angle, distanceToEdge);
+  }
+
+  distanceToEdge -= stepSize;
+  // Alles UNKNOWN in Richtung zum Objekt und darüber hinaus
+  bool oneObjDeleted = false;
+  while (distanceToEdge > 0) {
+    pos = calcPosition(angle, distanceToEdge);
+
+    if (pos.x >= 0 && pos.x < MAP_SIZE_X && pos.y >= 0 && pos.y < MAP_SIZE_Y) {
+      // innerhalb der Arraygrenzen
+      if (map[pos.x][pos.y] == OBJECT && !oneObjDeleted) {
+        oneObjDeleted = true;
+        map[pos.x][pos.y] = UNKNOWN;
+      } else if (map[pos.x][pos.y] != OBJECT) {
+        map[pos.x][pos.y] = UNKNOWN;
+      }
+    }
+    distanceToEdge -= stepSize;  // nächster Schritt
+  }
+
+  calcObjectAndUpdateMap_stationary(angle, distance);
 }
 
 void LidarMapper::Select(int dir, Position* currentPos) {
@@ -87,26 +131,31 @@ void LidarMapper::Select(int dir, Position* currentPos) {
 
   Position previousPos = *currentPos;
 
-  if (dir == 0)  {
+  if (dir == 0) {
     // keine Richtung
     return;
-  } else if (dir == 1) {
+  } else if (dir == 1 && currentPos->x < MAP_SIZE_X - 1) {
     // Norden
     currentPos->x++;
-  } else if (dir == 2) {
+  } else if (dir == 2 && currentPos->y < MAP_SIZE_X - 1) {
     // Osten
     currentPos->y++;
-  } else if (dir == 3) {
+  } else if (dir == 3 && currentPos->x > 0) {
     // Süden
     currentPos->x--;
-  } else if (dir == 4) {
+  } else if (dir == 4 && currentPos->y > 0) {
     // Westen
     currentPos->y--;
   }
 
-  map[previousPos.x][previousPos.y] = previousPosState; // alte State zurücksetzten
-  
-  previousPosState = map[currentPos->x][currentPos->y]; // aktuelle State speichern
+  if (currentPos->x < 0 && currentPos->x >= MAP_SIZE_X && currentPos->y < 0 && currentPos->y >= MAP_SIZE_Y) {
+    // Außerhalb der Arraygrenzen
+    return;
+  }
+
+  map[previousPos.x][previousPos.y] = previousPosState;  // alte State zurücksetzten
+
+  previousPosState = map[currentPos->x][currentPos->y];  // aktuelle State speichern
 
   map[currentPos->x][currentPos->y] = SELECT;
 }
@@ -121,4 +170,12 @@ void LidarMapper::resetMap() {
       map[i][j] = UNKNOWN;
     }
   }
+}
+
+void LidarMapper::SetPath(int x, int y) {
+  map[x][y] = PATH;
+}
+
+void LidarMapper::SetMap(vector<vector<PositionState>> newMap) {
+  map = newMap;
 }

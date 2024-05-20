@@ -2,7 +2,9 @@
 #include "joystick.h"
 #include "LidarMapper.h"
 #include "TFTDisplay.h"
+#include "LeeAlgorithm.h"
 #include <vector>
+#include <string>
 
 using namespace std;
 
@@ -10,6 +12,7 @@ Joystick joystick(Pin::JOYSTICK_X, Pin::JOYSTICK_Y, Pin::JOYSTICK_SELECT);
 Bluetooth bt;
 LidarMapper mapper;
 TFTDisplay tft;
+LeeAlgorithm leeAlg;
 
 int message[bt.MAX_MESSAGE_LENGTH];
 int receivedMessage[bt.MAX_MESSAGE_LENGTH];
@@ -17,20 +20,27 @@ int receivedMessage[bt.MAX_MESSAGE_LENGTH];
 unsigned long lastSendTime = 0;   // Variable zur Speicherung der Zeit des letzten Bluetooth sendens
 unsigned long sendInterval = 10;  // Intervall zwischen den Bluetooth Sendungen in Millisekunden
 
+vector<vector<PositionState>> mapBeforeSelect;
+
+int mapperMode = 0;  // 0 = Speichern; 1 = Überschreiben; 2 = ganze Umdrehung
+
+unsigned long showingTextTimeStart = 0;
+bool showingText = true;
+
 void setup() {
-  Serial.begin(115200);
+  //Serial.begin(115200); // Weg machen für mehr Geschwindigkeit und weniger Energieverbrauch
 
   pinMode(Pin::BUTTON, INPUT);
 
-  bt.Setup();                  // Bluetooth Setup
-  joystick.init();             // Joystick Setup
   tft.Setup(mapper.getMap());  // TFT-Display Setup
+  bt.Setup();       // Bluetooth Setup
+  joystick.init();  // Joystick Setup
 }
 
 bool previousConnected = false;
 
 void loop() {
-  /*if (!bt.IsConnectedONLY()) {
+  if (!bt.IsConnectedONLY()) {
     tft.BT_disconnectMessage();
     bt.IsConnected();
     previousConnected = false;
@@ -38,7 +48,6 @@ void loop() {
   }  // Der Code unterhalb wird nur bei verbundenem Bluetooth ausgeführt
   if (previousConnected == false) {
     previousConnected = true;
-    fakeConnect = false;
     tft.Clear();
   }
 
@@ -50,18 +59,134 @@ void loop() {
     SendJoystick(joystick.xAxis(), joystick.yAxis());
     lastSendTime = millis();  // Aktualisieren der Zeit des letzten Sendens
   }
-  */
+
+  // Taster
   if (analogRead(Pin::BUTTON)) {
-    Serial.println("in");
-    tft.SelectText(true);
-    delay(700);
+    bool hold = false;
+    unsigned long holdTimeStart = millis();
+    int requiredHoldTime = 1000;
+    while (analogRead(Pin::BUTTON)) {
+      if (millis() > holdTimeStart + requiredHoldTime) {
+        hold = true;
+        break;
+      }
+    }
 
-    Position selectedPos = SelectionLoop();
-    RouteCalc(selectedPos);
+    if (hold == false) {
+      // Taster drücken
+      if (mapperMode < 2) {
+        mapperMode++;
+      } else {
+        mapperMode = 0;
+      }
 
-    Serial.println("out");
-    tft.SelectText(false);
-    delay(600);
+      showingText = true;  // für Timer, um es wieder auszublenden
+      showingTextTimeStart = millis();
+
+      if (mapperMode == 0) {
+        mapper.resetMap();
+        tft.PrintMap(mapper.getMap(), false);
+        tft.ShowText(true, "Modus: Speichern");
+      } else if (mapperMode == 1) {
+        mapper.resetMap();
+        tft.PrintMap(mapper.getMap(), false);
+        tft.ShowText(true, "Modus: Ueberschreiben");
+      } else if (mapperMode == 2) {
+        mapper.resetMap();
+        tft.PrintMap(mapper.getMap(), false);
+        tft.ShowText(true, "Modus: ganze Umdrehung");
+      }
+    } else {
+      // Taster gehalten
+      showingText = true;  // für Timer, um es wieder auszublenden
+      showingTextTimeStart = millis();
+
+      mapper.resetMap();
+      tft.PrintMap(mapper.getMap(), false);
+
+      tft.ShowText(true, "Zurueckgesetzt");
+
+      delay(600);
+    }
+  }
+
+  // Joystick
+  if (joystick.pressed()) {
+    bool hold = false;
+    unsigned long holdTimeStart = millis();
+    int requiredHoldTime = 1000;
+    while (joystick.pressed()) {
+      if (millis() > holdTimeStart + requiredHoldTime) {
+        hold = true;
+        break;
+      }
+    }
+
+    if (hold == false) {
+      // Joystick drücken
+      tft.ShowText(true, "Auswahl mit Joystick");
+      mapBeforeSelect = mapper.getMap();
+
+      delay(500);
+
+      Position selectedPos = SelectionLoop();
+      RouteCalc(selectedPos);
+      tft.ShowText(false, "");
+      tft.PrintMap(mapper.getMap(), true);
+
+
+      tft.ShowText(true, "Taster betaetigen, um fortzufahren");
+
+      while (!analogRead(Pin::BUTTON)) {
+        delay(100);
+      }
+
+      tft.ShowText(false, "");
+      mapper.SetMap(mapBeforeSelect);
+      tft.PrintMap(mapper.getMap(), true);
+
+      delay(600);
+    } else {
+      // Joystick halten
+      mapper.resetMap();
+      tft.PrintMap(mapper.getMap(), false);
+      String distanceText1 = "Maximale Messdistanz: ";
+      String distanceText2 = "mm\nMit dem Joystick aendern\nTaster betaetigen, um fortzufahren";
+      String distanceText = distanceText1 + String(mapper.MAX_DISTANCE) + distanceText2;
+      tft.ShowText(true, distanceText);
+
+      while (!analogRead(Pin::BUTTON)) {
+        // Änderung der maximalen Messdistanz
+        if (joystick.yAxis() > 3800 && mapper.MAX_DISTANCE < 15000) {
+          // hoch
+          mapper.MAX_DISTANCE += 500;
+          String distanceText = distanceText1 + String(mapper.MAX_DISTANCE) + distanceText2;
+          tft.ShowText(true, distanceText);
+          delay(50);
+        } else if (joystick.yAxis() < 200 && mapper.MAX_DISTANCE > 500) {
+          // runter
+          mapper.MAX_DISTANCE -= 500;
+          String distanceText = distanceText1 + String(mapper.MAX_DISTANCE) + distanceText2;
+          tft.ShowText(true, distanceText);
+          delay(50);
+        }
+      }
+
+      mapper.newMaxDistance();
+
+      tft.ShowText(false, "");
+      mapper.resetMap();
+      tft.PrintMap(mapper.getMap(), false);
+
+      delay(600);
+    }
+  }
+
+  int textShowTime = 2000;
+  if (showingText && millis() > showingTextTimeStart + textShowTime) {
+    showingText = false;
+    tft.ShowText(false, "");
+    tft.PrintMap(mapper.getMap(), true);
   }
 }
 
@@ -87,12 +212,27 @@ void ReceivedLidarValues() {  // David Kedra
   Serial.println(distance);
 
 
-  if (joystick.xAxis() > 1740 && joystick.xAxis() < 1860 && joystick.yAxis() > 1700 && joystick.xAxis() < 1820) {
+  /*if (joystick.xAxis() > 1700 && joystick.xAxis() < 1820 || joystick.yAxis() > 1740 && joystick.xAxis() < 1860) {
     mapper.calcObjectAndUpdateMap_stationary(angle, distance);
   } else {
     mapper.calcObjectAndUpdateMap_moving(angle, distance);
+  }*/
+
+  if (mapperMode == 0) {
+    // Speichern
+    mapper.calcObjectAndUpdateMap_stationary(angle, distance);
+    tft.PrintMap(mapper.getMap(), false);
+  } else if (mapperMode == 1) {
+    // Überschreiben
+    mapper.calcObjectAndUpdateMap_overwrite(angle, distance);
+    tft.PrintMap(mapper.getMap(), false);
+  } else if (mapperMode == 2) {
+    // ganze Umdrehung
+    if (mapper.calcObjectAndUpdateMap_moving(angle, distance)) {
+      tft.PrintMap(mapper.getMap(), false);
+      mapper.resetMap();
+    }
   }
-  tft.PrintMap(mapper.getMap());
 }
 
 void SendJoystick(int x, int y) {  // David Kedra
@@ -102,11 +242,11 @@ void SendJoystick(int x, int y) {  // David Kedra
 
   bt.SendMessage(message);
 
-  Serial.print("bt gesendet:\t");
-  Serial.print("Joystick: ");
-  Serial.print(message[1]);
-  Serial.print(", ");
-  Serial.println(message[2]);
+  //Serial.print("bt gesendet:\t");
+  //Serial.print("Joystick: ");
+  //Serial.print(message[1]);
+  //Serial.print(", ");
+  //Serial.println(message[2]);
 
   memset(message, 0, sizeof(message));  // Das Array auf Null setzen
 }
@@ -115,7 +255,7 @@ Position SelectionLoop() {
   Position currentPos = { MAP_SIZE_X / 2, MAP_SIZE_Y / 2 };
 
   int dir = -1;
-  while (!analogRead(Pin::BUTTON)) {
+  while (!joystick.pressed()) {
     if (joystick.xAxis() > 3900) {
       // Norden
       dir = 1;
@@ -133,11 +273,23 @@ Position SelectionLoop() {
       continue;
     }
     mapper.Select(dir, &currentPos);
-    tft.PrintMap(mapper.getMap());
-    delay(120);
+    tft.PrintMap(mapper.getMap(), false);
+    delay(100);
   }
   return currentPos;
 }
 
 void RouteCalc(Position endPos) {
+  vector<vector<int>> returnMap;
+  returnMap = vector<vector<int>>(MAP_SIZE_X, vector<int>(MAP_SIZE_Y, 0));  // `returnMap` gleich groß wie `map`. alles gesetzt auf `0`
+
+  leeAlg.Calc(mapper.getMap(), returnMap);
+
+  for (int x = 0; x < MAP_SIZE_X; x++) {
+    for (int y = 0; y < MAP_SIZE_Y; y++) {
+      if (returnMap[x][y] == -4) {  // -4 = PATH
+        mapper.SetPath(x, y);
+      }
+    }
+  }
 }

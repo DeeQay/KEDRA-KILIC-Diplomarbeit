@@ -11,11 +11,13 @@
 using namespace std;
 
 #define BLACK 0x0000
+#define GRAY 0x3186
 #define BLUE 0x001F
 #define RED 0xF800
 #define GREEN 0x07E0
 #define CYAN 0x07FF
 #define MAGENTA 0xF81F
+#define BRIGHTER_MAGENTA 0xFC3F
 #define YELLOW 0xFFE0
 #define WHITE 0xFFFF
 
@@ -33,10 +35,10 @@ private:
   const uint16_t AIR_COLOR = WHITE;
   const uint16_t UNKNOWN_COLOR = YELLOW;
   const uint16_t CAR_COLOR = RED;
-  const uint16_t SELECT_COLOR = MAGENTA;
-  const uint16_t PATH_COLOR = CYAN;
+  const uint16_t SELECT_COLOR = BLUE;
+  const uint16_t PATH_COLOR = BRIGHTER_MAGENTA;
 
-  void UpdateMap(const vector<vector<PositionState>>& map, const vector<vector<PositionState>>& previousMap);
+  void UpdateMap(const vector<vector<PositionState>>& map, const vector<vector<PositionState>>& previousMap, bool ignorePrevious);
 
 public:
   // Constructor
@@ -44,12 +46,12 @@ public:
     : tft(Pin::TFT_CS, Pin::TFT_DC, Pin::TFT_RST) {}
 
   void Setup(vector<vector<PositionState>> map);
-  void PrintMap(vector<vector<PositionState>> map);
+  void PrintMap(vector<vector<PositionState>> map, bool ignorePrevious);
 
   void BT_disconnectMessage();
   void Clear();
 
-  void SelectText(bool show);
+  void ShowText(bool show, String text);
 };
 
 #endif
