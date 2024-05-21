@@ -157,7 +157,7 @@ void loop() {
 
       while (!analogRead(Pin::BUTTON)) {
         // Änderung der maximalen Messdistanz
-        if (joystick.yAxis() > 3800 && mapper.MAX_DISTANCE < 15000) {
+        if (joystick.yAxis() > 3800 && mapper.MAX_DISTANCE < 12000) {
           // hoch
           mapper.MAX_DISTANCE += 500;
           String distanceText = distanceText1 + String(mapper.MAX_DISTANCE) + distanceText2;
@@ -206,6 +206,10 @@ void ReceivedLidarValues() {  // David Kedra
   Serial.print("Lidar: ");
   int angle = receivedMessage[1];
   int distance = receivedMessage[2];
+
+  if (angle < 0 || angle > 359 || distance < 5 || distance > 12000) {
+    return;
+  }
 
   Serial.print(angle);
   Serial.print(',');
