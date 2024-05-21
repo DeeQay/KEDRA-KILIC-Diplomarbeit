@@ -100,15 +100,12 @@ void LidarMapper::calcObjectAndUpdateMap_overwrite(int angle, int distance) {
   Position pos = calcPosition(angle, distance);
 
   int distanceToEdge = distance;
+
+  bool oneObjDeleted = false; 
+
+  // Alles UNKNOWN in Richtung zum Objekt und darüber hinaus
   while (pos.x >= 0 && pos.x < MAP_SIZE_X && pos.y >= 0 && pos.y < MAP_SIZE_Y) {
     distanceToEdge += stepSize;
-    pos = calcPosition(angle, distanceToEdge);
-  }
-
-  distanceToEdge -= stepSize;
-  // Alles UNKNOWN in Richtung zum Objekt und darüber hinaus
-  bool oneObjDeleted = false;
-  while (distanceToEdge > 0) {
     pos = calcPosition(angle, distanceToEdge);
 
     if (pos.x >= 0 && pos.x < MAP_SIZE_X && pos.y >= 0 && pos.y < MAP_SIZE_Y) {
@@ -120,9 +117,8 @@ void LidarMapper::calcObjectAndUpdateMap_overwrite(int angle, int distance) {
         map[pos.x][pos.y] = UNKNOWN;
       }
     }
-    distanceToEdge -= stepSize;  // nächster Schritt
   }
-
+  
   calcObjectAndUpdateMap_stationary(angle, distance);
 }
 
