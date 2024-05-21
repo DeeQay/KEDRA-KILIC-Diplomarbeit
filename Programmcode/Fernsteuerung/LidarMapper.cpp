@@ -97,28 +97,28 @@ bool LidarMapper::calcObjectAndUpdateMap_moving(int angle, int distance) {
 }
 
 void LidarMapper::calcObjectAndUpdateMap_overwrite(int angle, int distance) {
-  Position pos = calcPosition(angle, distance);
+  Position objPos = calcPosition(angle, distance);
+  Position pos = objPos;
 
   int distanceToEdge = distance;
 
-  bool oneObjDeleted = false; 
-
-  // Alles UNKNOWN in Richtung zum Objekt und darüber hinaus
+  bool oneObjDeleted = false;
+  // Alles UNKNOWN in Richtung vom Objekt und darüber hinaus
   while (pos.x >= 0 && pos.x < MAP_SIZE_X && pos.y >= 0 && pos.y < MAP_SIZE_Y) {
     distanceToEdge += stepSize;
     pos = calcPosition(angle, distanceToEdge);
 
-    if (pos.x >= 0 && pos.x < MAP_SIZE_X && pos.y >= 0 && pos.y < MAP_SIZE_Y) {
-      // innerhalb der Arraygrenzen
-      if (map[pos.x][pos.y] == OBJECT && !oneObjDeleted) {
-        oneObjDeleted = true;
-        map[pos.x][pos.y] = UNKNOWN;
-      } else if (map[pos.x][pos.y] != OBJECT) {
-        map[pos.x][pos.y] = UNKNOWN;
-      }
+    if (pos.x >= objPos.x - 1 && pos.x <= objPos.x + 1 && pos.y >= objPos.y - 1 && pos.y <= objPos.y + 1) {
+      continue;
+    }
+    if (map[pos.x][pos.y] == OBJECT && !oneObjDeleted) {
+      oneObjDeleted = true;
+      map[pos.x][pos.y] = UNKNOWN;
+    } else if (map[pos.x][pos.y] != OBJECT) {
+      map[pos.x][pos.y] = UNKNOWN;
     }
   }
-  
+
   calcObjectAndUpdateMap_stationary(angle, distance);
 }
 
