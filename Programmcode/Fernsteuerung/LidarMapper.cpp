@@ -82,16 +82,25 @@ void LidarMapper::calcObjectAndUpdateMap_stationary(int angle, int distance) {
 }
 
 bool LidarMapper::calcObjectAndUpdateMap_moving(int angle, int distance) {
-  static int previousAngle = -1;
+  static bool angleProcessed[360];
 
-  if (angle < previousAngle || angle == 359) {
-    previousAngle = 0;
-    return true;
+  if (angle >= 0 && angle < 360) {
+    calcObjectAndUpdateMap_overwrite(angle, distance);
+    angleProcessed[angle] = true;
   }
 
-  calcObjectAndUpdateMap_stationary(angle, distance);
-
-  previousAngle = angle;
+  for (int i = 0; i <= 358; i += 2) {
+    if (!angleProcessed[i] && !angleProcessed[i + 1]) {
+      break;
+    }
+    if (i == 358) {
+      // alle Winkel bearbeitet (Genauigkeit von 2)
+      for (int k = 0; k < 360; k++){
+        angleProcessed[k] = false;
+      }
+      return true;
+    }
+  }
 
   return false;
 }

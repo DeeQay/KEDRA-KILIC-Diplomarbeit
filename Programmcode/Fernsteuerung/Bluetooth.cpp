@@ -59,6 +59,10 @@ bool Bluetooth::HandleIncomingMessage(int* outMessage, int sizeofOutMessage) {
       int digit = receivedValue - '0';
       // Ziffer `digit` an das Ende der aktuellen Zahl in der Nachricht anhängen
       incomingMessage[messagePos] = incomingMessage[messagePos] * 10 + digit;
+    } else {
+      Serial.println(F("ERROR: Bit-Fehler beim Senden! Die Nachricht wird übersprungen."));
+      ClearIncomingMessage();
+      return false;
     }
   }
   return false;

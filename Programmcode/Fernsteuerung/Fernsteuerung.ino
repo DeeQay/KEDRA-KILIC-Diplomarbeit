@@ -22,7 +22,7 @@ unsigned long sendInterval = 10;  // Intervall zwischen den Bluetooth Sendungen 
 
 vector<vector<PositionState>> mapBeforeSelect;
 
-int mapperMode = 0;  // 0 = Speichern; 1 = Überschreiben; 2 = ganze Umdrehung
+int mapperMode = 0;  // 0 = Speichern; 1 = Überschreiben; 2 = ganze Umdrehung; 3 = Automatisch
 
 unsigned long showingTextTimeStart = 0;
 bool showingText = true;
@@ -33,8 +33,8 @@ void setup() {
   pinMode(Pin::BUTTON, INPUT);
 
   tft.Setup(mapper.getMap());  // TFT-Display Setup
-  bt.Setup();       // Bluetooth Setup
-  joystick.init();  // Joystick Setup
+  bt.Setup();                  // Bluetooth Setup
+  joystick.init();             // Joystick Setup
 }
 
 bool previousConnected = false;
@@ -74,7 +74,7 @@ void loop() {
 
     if (hold == false) {
       // Taster drücken
-      if (mapperMode < 2) {
+      if (mapperMode < 3) {
         mapperMode++;
       } else {
         mapperMode = 0;
@@ -95,6 +95,10 @@ void loop() {
         mapper.resetMap();
         tft.PrintMap(mapper.getMap(), false);
         tft.ShowText(true, "Modus: ganze Umdrehung");
+      } else if (mapperMode == 3) {
+        mapper.resetMap();
+        tft.PrintMap(mapper.getMap(), false);
+        tft.ShowText(true, "Modus: Automatisch (Stationaer = Speichern) (Fahren = Ueberschreiben)");
       }
     } else {
       // Taster gehalten
@@ -207,20 +211,13 @@ void ReceivedLidarValues() {  // David Kedra
   int angle = receivedMessage[1];
   int distance = receivedMessage[2];
 
-  if (angle < 0 || angle > 359 || distance < 5 || distance > 12000) {
+  if (angle < 0 || angle > 359 || distance < 10 || distance > 12000) {
     return;
   }
 
   Serial.print(angle);
   Serial.print(',');
   Serial.println(distance);
-
-
-  /*if (joystick.xAxis() > 1700 && joystick.xAxis() < 1820 || joystick.yAxis() > 1740 && joystick.xAxis() < 1860) {
-    mapper.calcObjectAndUpdateMap_stationary(angle, distance);
-  } else {
-    mapper.calcObjectAndUpdateMap_moving(angle, distance);
-  }*/
 
   if (mapperMode == 0) {
     // Speichern
@@ -236,6 +233,14 @@ void ReceivedLidarValues() {  // David Kedra
       tft.PrintMap(mapper.getMap(), false);
       mapper.resetMap();
     }
+  } else if (mapperMode == 3) {
+    // Automatisch
+    if (joystick.xAxis() > 1700 && joystick.xAxis() < 1820 && joystick.yAxis() > 1740 && joystick.xAxis() < 1860) {
+      mapper.calcObjectAndUpdateMap_stationary(angle, distance);
+    } else {
+      mapper.calcObjectAndUpdateMap_overwrite(angle, distance);
+    }
+    tft.PrintMap(mapper.getMap(), false);
   }
 }
 
