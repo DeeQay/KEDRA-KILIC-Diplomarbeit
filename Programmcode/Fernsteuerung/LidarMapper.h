@@ -8,8 +8,8 @@
 using namespace std;
 
 // Die Größe für die Speicherung der Map und die Anzahl der Zellen am Display
-const int MAP_SIZE_X = 60;
-const int MAP_SIZE_Y = 40;
+const int MAP_SIZE_X = 48;
+const int MAP_SIZE_Y = 32;
 
 struct Position {
   int x, y;

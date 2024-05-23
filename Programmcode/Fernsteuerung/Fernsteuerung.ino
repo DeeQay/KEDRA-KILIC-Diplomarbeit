@@ -20,7 +20,7 @@ int receivedMessage[bt.MAX_MESSAGE_LENGTH];
 unsigned long lastSendTime = 0;   // Variable zur Speicherung der Zeit des letzten Bluetooth sendens
 unsigned long sendInterval = 10;  // Intervall zwischen den Bluetooth Sendungen in Millisekunden
 
-vector<vector<PositionState>> mapBeforeSelect;
+//vector<vector<PositionState>> mapBeforeSelect;
 
 int mapperMode = 0;  // 0 = Speichern; 1 = Überschreiben; 2 = ganze Umdrehung; 3 = Automatisch
 
@@ -98,7 +98,7 @@ void loop() {
       } else if (mapperMode == 3) {
         mapper.resetMap();
         tft.PrintMap(mapper.getMap(), false);
-        tft.ShowText(true, "Modus: Automatisch (Stationaer = Speichern) (Fahren = Ueberschreiben)");
+        tft.ShowText(true, "Modus: Automatisch");
       }
     } else {
       // Taster gehalten
@@ -129,7 +129,7 @@ void loop() {
     if (hold == false) {
       // Joystick drücken
       tft.ShowText(true, "Auswahl mit Joystick");
-      mapBeforeSelect = mapper.getMap();
+      //mapBeforeSelect = mapper.getMap();
 
       delay(500);
 
@@ -146,7 +146,8 @@ void loop() {
       }
 
       tft.ShowText(false, "");
-      mapper.SetMap(mapBeforeSelect);
+      //mapper.SetMap(mapBeforeSelect);
+      mapper.resetMap();
       tft.PrintMap(mapper.getMap(), true);
 
       delay(600);
@@ -211,9 +212,9 @@ void ReceivedLidarValues() {  // David Kedra
   int angle = receivedMessage[1];
   int distance = receivedMessage[2];
 
-  if (angle < 0 || angle > 359 || distance < 10 || distance > 12000) {
-    return;
-  }
+  //if (angle < 0 || angle > 359 || distance < 10 || distance > 12000) {
+    //return;
+  //}
 
   Serial.print(angle);
   Serial.print(',');
@@ -229,10 +230,10 @@ void ReceivedLidarValues() {  // David Kedra
     tft.PrintMap(mapper.getMap(), false);
   } else if (mapperMode == 2) {
     // ganze Umdrehung
-    if (mapper.calcObjectAndUpdateMap_moving(angle, distance)) {
+    //if (mapper.calcObjectAndUpdateMap_moving(angle, distance)) {
       tft.PrintMap(mapper.getMap(), false);
       mapper.resetMap();
-    }
+    //}
   } else if (mapperMode == 3) {
     // Automatisch
     if (joystick.xAxis() > 1700 && joystick.xAxis() < 1820 && joystick.yAxis() > 1740 && joystick.xAxis() < 1860) {
@@ -248,6 +249,13 @@ void SendJoystick(int x, int y) {  // David Kedra
   message[0] = bt.JOYSTICK;
   message[1] = x;
   message[2] = y;
+
+  if (x <= 0) {
+    x = 1;
+  } 
+  if (y <= 0) {
+    y = 1;
+  }
 
   bt.SendMessage(message);
 
