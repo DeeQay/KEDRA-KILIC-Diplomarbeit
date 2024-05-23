@@ -52,9 +52,9 @@ void L298::backward() {
   digitalWrite(driver_2_in3, LOW);
   digitalWrite(driver_2_in4, HIGH);
 }
-// Function to turn left
-// left 2 motors spin backward & right 2 motors spin forward
-void L298::left() {
+// Function to turn right
+// left 2 motors spin forward & right 2 motors spin backward
+void L298::right() {
   digitalWrite(driver_1_in1, LOW);
   digitalWrite(driver_1_in2, HIGH);
   digitalWrite(driver_1_in3, LOW);
@@ -65,9 +65,9 @@ void L298::left() {
   digitalWrite(driver_2_in3, LOW);
   digitalWrite(driver_2_in4, HIGH);
 }
-// Function to turn right
-// left 2 motors spin forward & right 2 motors spin backward
-void L298::right() {
+// Function to turn left
+// left 2 motors spin backward & right 2 motors spin forward
+void L298::left() {
   digitalWrite(driver_1_in1, HIGH);
   digitalWrite(driver_1_in2, LOW);
   digitalWrite(driver_1_in3, HIGH);
