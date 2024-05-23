@@ -89,13 +89,37 @@ bool LidarMapper::calcObjectAndUpdateMap_moving(int angle, int distance) {
     angleProcessed[angle] = true;
   }
 
+  for (int i = 0; i <= 350; i += 5) {
+    if (!angleProcessed[i] && !angleProcessed[i + 1] && !angleProcessed[i + 2] && !angleProcessed[i + 3] && !angleProcessed[i + 4]) {
+      return false;
+    }
+    if (i == 350) {
+      // alle Winkel bearbeitet (Genauigkeit von 3)
+      for (int k = 0; k < 360; k++) {
+        angleProcessed[k] = false;
+      }
+      return true;
+    }
+  }
+
+  return false;
+}
+
+bool LidarMapper::calcObjectAndUpdateMap_moving2(int angle, int distance) {
+  static bool angleProcessed[360];
+
+  if (angle >= 0 && angle < 360) {
+    calcObjectAndUpdateMap_overwrite(angle, distance);
+    angleProcessed[angle] = true;
+  }
+
   for (int i = 0; i <= 358; i += 2) {
     if (!angleProcessed[i] && !angleProcessed[i + 1]) {
-      break;
+      return false;
     }
     if (i == 358) {
-      // alle Winkel bearbeitet (Genauigkeit von 2)
-      for (int k = 0; k < 360; k++){
+      // alle Winkel bearbeitet (Genauigkeit von 3)
+      for (int k = 0; k < 360; k++) {
         angleProcessed[k] = false;
       }
       return true;
@@ -117,6 +141,10 @@ void LidarMapper::calcObjectAndUpdateMap_overwrite(int angle, int distance) {
     distanceToEdge += stepSize;
     pos = calcPosition(angle, distanceToEdge);
 
+    if (pos.x < 0 || pos.x >= MAP_SIZE_X || pos.y < 0 || pos.y >= MAP_SIZE_Y) {
+      break;
+    }
+
     if (pos.x >= objPos.x - 1 && pos.x <= objPos.x + 1 && pos.y >= objPos.y - 1 && pos.y <= objPos.y + 1) {
       continue;
     }
@@ -127,7 +155,6 @@ void LidarMapper::calcObjectAndUpdateMap_overwrite(int angle, int distance) {
       map[pos.x][pos.y] = UNKNOWN;
     }
   }
-
   calcObjectAndUpdateMap_stationary(angle, distance);
 }
 

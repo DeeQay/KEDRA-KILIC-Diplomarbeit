@@ -28,7 +28,7 @@ unsigned long showingTextTimeStart = 0;
 bool showingText = true;
 
 void setup() {
-  //Serial.begin(115200); // Weg machen für mehr Geschwindigkeit und weniger Energieverbrauch
+  Serial.begin(115200); // Weg machen für mehr Geschwindigkeit und weniger Energieverbrauch
 
   pinMode(Pin::BUTTON, INPUT);
 
@@ -74,7 +74,7 @@ void loop() {
 
     if (hold == false) {
       // Taster drücken
-      if (mapperMode < 3) {
+      if (mapperMode < 4) {
         mapperMode++;
       } else {
         mapperMode = 0;
@@ -98,7 +98,11 @@ void loop() {
       } else if (mapperMode == 3) {
         mapper.resetMap();
         tft.PrintMap(mapper.getMap(), false);
-        tft.ShowText(true, "Modus: Automatisch");
+        tft.ShowText(true, "Modus: Automatisch\nstationaer = Speichern/n(fahren = Ueberschreiben)");
+      }  else if (mapperMode == 4) {
+        mapper.resetMap();
+        tft.PrintMap(mapper.getMap(), false);
+        tft.ShowText(true, "Modus: ganze Umdrehung langsam");
       }
     } else {
       // Taster gehalten
@@ -208,13 +212,34 @@ void HandleBluetoothReceive() {  // David Kedra
 }
 
 void ReceivedLidarValues() {  // David Kedra
+  static int previousAngle = 0;
+  static int previousDistance = 0;
+
   Serial.print("Lidar: ");
   int angle = receivedMessage[1];
   int distance = receivedMessage[2];
 
-  //if (angle < 0 || angle > 359 || distance < 10 || distance > 12000) {
-    //return;
-  //}
+  if (angle < 0 || angle > 359 || distance < 10 || distance > 12000) {
+    return;
+  }
+  if (angle >= previousAngle - 2 && angle <= previousAngle + 2) {
+    if (!(distance >= previousDistance - 100 && distance <= previousDistance + 100)) {
+      // Falscher Wert
+      return;
+    }
+  }
+  if (distance >= previousDistance - 100 && distance <= previousDistance + 100) {
+    if (!(angle >= previousAngle - 10 && angle <= previousAngle + 10)) {
+      // Falscher Wert
+      return;
+    }
+  }
+  if (distance < 100 && previousDistance > 100) {
+    return;
+  }
+
+  previousAngle = angle;
+  previousDistance = distance;
 
   Serial.print(angle);
   Serial.print(',');
@@ -230,18 +255,23 @@ void ReceivedLidarValues() {  // David Kedra
     tft.PrintMap(mapper.getMap(), false);
   } else if (mapperMode == 2) {
     // ganze Umdrehung
-    //if (mapper.calcObjectAndUpdateMap_moving(angle, distance)) {
+    if (mapper.calcObjectAndUpdateMap_moving(angle, distance)) {
       tft.PrintMap(mapper.getMap(), false);
       mapper.resetMap();
-    //}
+    }
   } else if (mapperMode == 3) {
     // Automatisch
-    if (joystick.xAxis() > 1700 && joystick.xAxis() < 1820 && joystick.yAxis() > 1740 && joystick.xAxis() < 1860) {
+    if (joystick.xAxis() > 1700 && joystick.xAxis() < 1820 && joystick.yAxis() > 1740 && joystick.yAxis() < 1860) {
       mapper.calcObjectAndUpdateMap_stationary(angle, distance);
     } else {
       mapper.calcObjectAndUpdateMap_overwrite(angle, distance);
     }
     tft.PrintMap(mapper.getMap(), false);
+  } else if (mapperMode == 4) {
+    if (mapper.calcObjectAndUpdateMap_moving2(angle, distance)) {
+      tft.PrintMap(mapper.getMap(), false);
+      mapper.resetMap();
+    }
   }
 }
 

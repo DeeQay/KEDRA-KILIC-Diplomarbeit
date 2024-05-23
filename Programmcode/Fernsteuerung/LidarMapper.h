@@ -8,8 +8,8 @@
 using namespace std;
 
 // Die Größe für die Speicherung der Map und die Anzahl der Zellen am Display
-const int MAP_SIZE_X = 48;
-const int MAP_SIZE_Y = 32;
+const int MAP_SIZE_X = 30;
+const int MAP_SIZE_Y = 20;
 
 struct Position {
   int x, y;
@@ -38,6 +38,7 @@ public:
   void calcObjectAndUpdateMap_stationary(int angle, int distance);  // Modus Speichern // Berechnet die Position eines erkannten Objekts und aktualisiert die Kartenansicht entsprechend
   bool calcObjectAndUpdateMap_moving(int angle, int distance);      // Modus Löschen und Neu // alle 360° werden angezeigt
   void calcObjectAndUpdateMap_overwrite(int angle, int distance);   // Modus Überschreiben // Jeden alten Wert mit dem neuen überschreiben
+  bool calcObjectAndUpdateMap_moving2(int angle, int distance);
   vector<vector<PositionState>> getMap();                           // Gibt die aktuelle Kartenansicht zurück
   void resetMap();
   void Select(int dir, Position* currentPos);
