@@ -51,14 +51,16 @@ A remote-controlled vehicle is only really usable while the operator can see it.
 ## System architecture
 
 ```mermaid
-flowchart LR
+flowchart TB
     subgraph Vehicle["Vehicle · ESP32"]
+        direction LR
         L[LD19 LiDAR<br/>360°, UART] --> P[Packet parser<br/>+ CRC-8]
         P --> T[Timer interrupt<br/>send scheduling]
         M[Motor control<br/>2× L298, 4 DC motors]
     end
 
     subgraph Controller["Controller · ESP32"]
+        direction LR
         F[Noise filter] --> MAP[Occupancy grid<br/>30 × 20]
         MAP --> D[TFT display<br/>480 × 320, SPI]
         MAP --> LEE[Lee algorithm<br/>path planning]
