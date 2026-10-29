@@ -7,11 +7,11 @@
 Diploma thesis (Diplomarbeit) · HTL Donaustadt, Vienna · 2023/24
 **David Kedra** and **Berdan Kilic**
 
-![ESP32](https://img.shields.io/badge/ESP32-x2-E7352C?logo=espressif&logoColor=white)
-![C++](https://img.shields.io/badge/C++-Arduino-00599C?logo=cplusplus&logoColor=white)
-![Bluetooth](https://img.shields.io/badge/Bluetooth-Classic%20SPP-0082FC?logo=bluetooth&logoColor=white)
-![LiDAR](https://img.shields.io/badge/LiDAR-LD19%20360°-555555)
-![PCB](https://img.shields.io/badge/PCB-Autodesk%20EAGLE-F0A30A)
+[![ESP32](https://img.shields.io/badge/ESP32-x2-E7352C?logo=espressif&logoColor=white)](Programmcode)
+[![C++](https://img.shields.io/badge/C++-Arduino-00599C?logo=cplusplus&logoColor=white)](#build-and-flash)
+[![Bluetooth](https://img.shields.io/badge/Bluetooth-Classic%20SPP-0082FC?logo=bluetooth&logoColor=white)](#bluetooth-protocol)
+[![LiDAR](https://img.shields.io/badge/LiDAR-LD19%20360°-555555)](Lidar%20doku/FHL-LD19_Datasheet_v2.5.pdf)
+[![PCB](https://img.shields.io/badge/PCB-Autodesk%20EAGLE-F0A30A)](Platinen)
 
 <img src="docs/images/demo.gif" width="480" alt="Live map on the controller while the vehicle scans its surroundings">
 
