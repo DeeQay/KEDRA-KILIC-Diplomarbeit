@@ -196,7 +196,7 @@ Supervisors: Ahmet Kilic, Heinrich Haager
 
 ## Documents
 
-<!-- - [Diploma thesis (PDF, German)](docs/Diplomarbeit.pdf) -->
+- [**Diploma thesis** (PDF, German)](docs/Diplomarbeit.pdf)
 - [Final presentation (PDF, German)](docs/Diplomarbeit_Praesentation.pdf)
 - [Project pitch, October 2023 (PDF, German)](docs/Projektvorstellung_2023-10.pdf)
 - [Project description (German)](Diplomarbeit%20Projektbeschreibung.docx)
